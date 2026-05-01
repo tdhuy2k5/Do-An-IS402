@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: esapp
+data:
+  APP_ENV: production
+  APP_DEBUG: "false"
+  CACHE_DRIVER: database
+  QUEUE_CONNECTION: database
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: esapp
+data:
+  API_BASE_URL: https://api.example.com
