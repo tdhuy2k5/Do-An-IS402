@@ -51,10 +51,16 @@ variable "aks_kubernetes_version" {
   default     = "1.27"
 }
 
-variable "aks_node_count" {
-  description = "Number of AKS nodes"
+variable "aks_min_node_count" {
+  description = "Minimum number of AKS nodes for cluster autoscaler"
   type        = number
-  default     = 3
+  default     = 2
+}
+
+variable "aks_max_node_count" {
+  description = "Maximum number of AKS nodes for cluster autoscaler"
+  type        = number
+  default     = 8
 }
 
 variable "aks_vm_size" {
@@ -101,30 +107,6 @@ variable "acr_sku" {
   default     = "Basic"
 }
 
-# Redis
-variable "redis_sku_name" {
-  description = "Redis SKU name (Basic, Standard, Premium)"
-  type        = string
-  default     = "Basic"
-}
-
-variable "redis_family" {
-  description = "Redis family (C for Basic/Standard, P for Premium)"
-  type        = string
-  default     = "C"
-}
-
-variable "redis_capacity" {
-  description = "Redis capacity (0 for C0 on Basic tier)"
-  type        = number
-  default     = 0
-}
-
-variable "redis_enable_non_ssl_port" {
-  description = "Whether to enable non-SSL port 6379"
-  type        = bool
-  default     = false
-}
 
 # Key Vault
 variable "keyvault_sku" {
