@@ -15,7 +15,8 @@ db_subnet_cidr  = "10.0.2.0/24"
 
 # AKS
 aks_kubernetes_version = "1.27"
-aks_node_count         = 3
+aks_min_node_count     = 2
+aks_max_node_count     = 8
 aks_vm_size            = "Standard_B2s_v2"  # Supported in many SEA subscriptions
 
 # Database
@@ -28,11 +29,6 @@ mysql_allocated_storage  = 20
 # Container Registry
 acr_sku = "Basic"
 
-# Redis Cache
-redis_sku_name            = "Basic"
-redis_family              = "C"
-redis_capacity            = 0
-redis_enable_non_ssl_port = false
 
 # Key Vault
 keyvault_sku = "standard"

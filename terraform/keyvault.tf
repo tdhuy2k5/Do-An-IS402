@@ -30,9 +30,3 @@ resource "azurerm_key_vault_secret" "db_password" {
   value        = var.mysql_admin_password
   key_vault_id = azurerm_key_vault.main.id
 }
-
-resource "azurerm_key_vault_secret" "redis_password" {
-  name         = "REDIS-PASSWORD"
-  value        = azurerm_redis_cache.main.primary_access_key
-  key_vault_id = azurerm_key_vault.main.id
-}
