@@ -51,10 +51,16 @@ variable "aks_kubernetes_version" {
   default     = "1.27"
 }
 
-variable "aks_node_count" {
-  description = "Number of AKS nodes"
+variable "aks_min_node_count" {
+  description = "Minimum number of AKS nodes for cluster autoscaler"
   type        = number
-  default     = 3
+  default     = 2
+}
+
+variable "aks_max_node_count" {
+  description = "Maximum number of AKS nodes for cluster autoscaler"
+  type        = number
+  default     = 8
 }
 
 variable "aks_vm_size" {

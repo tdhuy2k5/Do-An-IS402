@@ -25,7 +25,7 @@ Update these values:
 - `mysql_admin_password` - secure, random password
 - `environment` - "dev" or "staging"
 - `location` - prefer "southeastasia" or your choice
-- Sizing if needed (aks_vm_size, mysql_sku_name)
+- Sizing if needed (aks_vm_size, aks_min_node_count, aks_max_node_count, mysql_sku_name)
 
 ### 3. Plan and apply
 
@@ -125,7 +125,7 @@ terraform destroy
 
 **Error: Insufficient quota**
 - Check subscription quotas for vCPU, IPs, etc.
-- Reduce `aks_node_count` or use smaller `aks_vm_size`
+- Reduce `aks_max_node_count` or use smaller `aks_vm_size`
 
 **AKS creation very slow**
 - Normal. First AKS cluster can take 15+ minutes.
