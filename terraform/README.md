@@ -1,6 +1,6 @@
 # Terraform: Day 2 Infrastructure
 
-Provisions Azure resources for demo: ACR, AKS, MySQL database, Redis cache, Key Vault, Log Analytics.
+Provisions Azure resources for demo: ACR, AKS, MySQL database, Key Vault, Log Analytics.
 
 All resources go into a single resource group (`rg-esapp`) with minimal security for demo purposes.
 
@@ -9,7 +9,7 @@ All resources go into a single resource group (`rg-esapp`) with minimal security
 - Terraform >= 1.0
 - Azure CLI (`az`) logged in
 - An existing Azure resource group named `rg-esapp`
-- Subscription with quota for AKS + MySQL + Redis
+- Subscription with quota for AKS + MySQL
 
 ## Quick start
 
@@ -25,7 +25,7 @@ Update these values:
 - `mysql_admin_password` - secure, random password
 - `environment` - "dev" or "staging"
 - `location` - prefer "southeastasia" or your choice
-- Sizing if needed (aks_vm_size, mysql_sku_name)
+- Sizing if needed (aks_vm_size, aks_min_node_count, aks_max_node_count, mysql_sku_name)
 
 ### 3. Plan and apply
 
@@ -59,7 +59,6 @@ Or individual values:
 terraform output acr_login_server
 terraform output aks_cluster_name
 terraform output mysql_fqdn
-terraform output redis_hostname
 terraform output keyvault_name
 ```
 
@@ -82,7 +81,6 @@ These Terraform outputs are needed for GitHub Actions pipelines:
 - `acr_login_server` - push/pull container images
 - `aks_cluster_name` - deploy to this cluster
 - `mysql_fqdn` - database host for connection strings
-- `redis_hostname` - cache host for session/cache queue usage
 - `keyvault_name` - retrieve app secrets at runtime
 
 ## Environment-specific states
@@ -127,7 +125,7 @@ terraform destroy
 
 **Error: Insufficient quota**
 - Check subscription quotas for vCPU, IPs, etc.
-- Reduce `aks_node_count` or use smaller `aks_vm_size`
+- Reduce `aks_max_node_count` or use smaller `aks_vm_size`
 
 **AKS creation very slow**
 - Normal. First AKS cluster can take 15+ minutes.
@@ -135,7 +133,3 @@ terraform destroy
 **MySQL connection timeout**
 - Firewall rule is very permissive (`0.0.0.0/0`) for demo
 - If still failing, check Key Vault has correct values stored
-
-**Redis connection error**
-- Use TLS port (`6380`) with password auth
-- Check Key Vault secret `REDIS-PASSWORD` and runtime vars `REDIS_HOST` / `REDIS_PORT`

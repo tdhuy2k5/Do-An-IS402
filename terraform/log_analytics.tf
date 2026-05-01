@@ -22,7 +22,7 @@ resource "azurerm_monitor_diagnostic_setting" "aks" {
     category = "kube-audit"
   }
 
-  metric {
+  enabled_metric {
     category = "AllMetrics"
   }
 }
