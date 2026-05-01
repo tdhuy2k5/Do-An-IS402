@@ -1,0 +1,67 @@
+name: ci-cd
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
+  BACKEND_IMAGE: is-web-project
+  FRONTEND_IMAGE: electronic-e-commerce
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR login
+        run: az acr login --name "${{ secrets.ACR_NAME }}"
+
+      - name: Build and push backend image
+        run: |
+          docker build -t "$ACR_LOGIN_SERVER/$BACKEND_IMAGE:${{ github.sha }}" is-web-project
+          docker push "$ACR_LOGIN_SERVER/$BACKEND_IMAGE:${{ github.sha }}"
+
+      - name: Build and push frontend image
+        run: |
+          docker build -t "$ACR_LOGIN_SERVER/$FRONTEND_IMAGE:${{ github.sha }}" electronic-e-commerce
+          docker push "$ACR_LOGIN_SERVER/$FRONTEND_IMAGE:${{ github.sha }}"
+
+      - name: Update manifests with immutable tags
+        run: |
+          sed -i "s|$ACR_LOGIN_SERVER/$BACKEND_IMAGE:latest|$ACR_LOGIN_SERVER/$BACKEND_IMAGE:${{ github.sha }}|g" k8s/base/backend.yaml
+          sed -i "s|$ACR_LOGIN_SERVER/$FRONTEND_IMAGE:latest|$ACR_LOGIN_SERVER/$FRONTEND_IMAGE:${{ github.sha }}|g" k8s/base/frontend.yaml
+
+      - name: Commit manifest updates
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add k8s/base/backend.yaml k8s/base/frontend.yaml
+          git commit -m "chore: update image tags ${{ github.sha }}" || true
+          git push
+
+  argocd-sync:
+    if: github.ref == 'refs/heads/main'
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger ArgoCD refresh
+        run: |
+          curl -sS -X POST "${{ secrets.ARGOCD_SERVER }}/api/v1/applications/esapp/sync" \
+            -H "Authorization: Bearer ${{ secrets.ARGOCD_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"prune":true,"dryRun":false,"strategy":{"hook":{"force":true}}}'
