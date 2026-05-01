@@ -28,11 +28,6 @@ mysql_allocated_storage  = 20
 # Container Registry
 acr_sku = "Basic"
 
-# Redis Cache
-redis_sku_name            = "Basic"
-redis_family              = "C"
-redis_capacity            = 0
-redis_enable_non_ssl_port = false
 
 # Key Vault
 keyvault_sku = "standard"

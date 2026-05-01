@@ -49,16 +49,6 @@ output "mysql_admin_username" {
   description = "MySQL admin username"
 }
 
-# Redis
-output "redis_hostname" {
-  value       = azurerm_redis_cache.main.hostname
-  description = "Redis host name"
-}
-
-output "redis_ssl_port" {
-  value       = azurerm_redis_cache.main.ssl_port
-  description = "Redis SSL port"
-}
 
 # Key Vault
 output "keyvault_name" {
@@ -87,8 +77,6 @@ output "deployment_summary" {
     aks_cluster_name     = azurerm_kubernetes_cluster.main.name
     mysql_fqdn           = azurerm_mysql_flexible_server.main.fqdn
     mysql_database_name  = azurerm_mysql_flexible_database.app.name
-    redis_hostname       = azurerm_redis_cache.main.hostname
-    redis_ssl_port       = azurerm_redis_cache.main.ssl_port
     keyvault_name        = azurerm_key_vault.main.name
   }
 }

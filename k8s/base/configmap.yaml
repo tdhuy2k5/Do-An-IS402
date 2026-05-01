@@ -6,9 +6,8 @@ metadata:
 data:
   APP_ENV: production
   APP_DEBUG: "false"
-  CACHE_DRIVER: redis
-  QUEUE_CONNECTION: redis
-  REDIS_HOST: redis
+  CACHE_DRIVER: database
+  QUEUE_CONNECTION: database
 ---
 apiVersion: v1
 kind: ConfigMap

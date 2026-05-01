@@ -7,7 +7,6 @@ resources:
   - network-policy.yaml
   - configmap.yaml
   - secret-provider-class.yaml
-  - statefulset.yaml
   - backend.yaml
   - frontend.yaml
   - ingress.yaml

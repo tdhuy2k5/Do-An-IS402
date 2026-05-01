@@ -101,30 +101,6 @@ variable "acr_sku" {
   default     = "Basic"
 }
 
-# Redis
-variable "redis_sku_name" {
-  description = "Redis SKU name (Basic, Standard, Premium)"
-  type        = string
-  default     = "Basic"
-}
-
-variable "redis_family" {
-  description = "Redis family (C for Basic/Standard, P for Premium)"
-  type        = string
-  default     = "C"
-}
-
-variable "redis_capacity" {
-  description = "Redis capacity (0 for C0 on Basic tier)"
-  type        = number
-  default     = 0
-}
-
-variable "redis_enable_non_ssl_port" {
-  description = "Whether to enable non-SSL port 6379"
-  type        = bool
-  default     = false
-}
 
 # Key Vault
 variable "keyvault_sku" {
