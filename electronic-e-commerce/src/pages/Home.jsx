@@ -14,7 +14,6 @@ function Home() {
     const [loading, setLoading] = useState(true);
 
     const IMAGE_PATH = `/images/products`;
-
     useEffect(() => {
         const fetchHomeProducts = async () => {
             try {

@@ -22,7 +22,22 @@ resource "azurerm_monitor_diagnostic_setting" "aks" {
     category = "kube-audit"
   }
 
-  enabled_metric {
+  metric {
+    category = "AllMetrics"
+  }
+}
+
+# Diagnostics for MySQL - Send audit logs to Log Analytics
+resource "azurerm_monitor_diagnostic_setting" "mysql" {
+  name                       = "${var.project_name}-mysql-diag"
+  target_resource_id         = azurerm_mysql_flexible_server.main.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  enabled_log {
+    category = "MySqlAuditLogs"
+  }
+
+  metric {
     category = "AllMetrics"
   }
 }

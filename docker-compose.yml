@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   # ========================================
   # FRONTEND - React + Vite
@@ -7,75 +9,68 @@ services:
     build:
       context: ./electronic-e-commerce
       dockerfile: Dockerfile
-      target: development
+      target: production
+      args:
+        VITE_BACKEND_API_URL: http://localhost:8000/api
+        VITE_GOOGLE_CLIENT_ID: 518525301067-6vci81s4s8eo4klif1rmj18rl8o216po.apps.googleusercontent.com
+        VITE_GOOGLE_REDIRECT_URI: http://localhost:5173/auth/callback
     ports:
       - "5173:5173"
-    volumes:
-      - ./electronic-e-commerce:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - VITE_BACKEND_API_URL=http://localhost:8000/api
-    command: npm run dev -- --host 0.0.0.0
+    restart: unless-stopped
     depends_on:
       - backend
     networks:
       - ecommerce-network
 
   # ========================================
-  # BACKEND - Laravel PHP Application
+  # BACKEND - Laravel (FrankenPHP)
   # ========================================
   backend:
     container_name: ecommerce-backend
     build:
       context: ./is-web-project
-      dockerfile: docker/php/Dockerfile
+      dockerfile: ./docker/php/Dockerfile
     restart: unless-stopped
-    working_dir: /var/www
+    working_dir: /app
+    ports:
+      - "8000:8080"
     volumes:
-      - ./is-web-project:/var/www
+      - ./is-web-project:/app
+      - /app/vendor
     env_file:
-      - ./.secrets.local.env
+      - ./.env
     environment:
       APP_NAME: esapp
       APP_ENV: local
       APP_KEY: ${APP_KEY}
       APP_DEBUG: "true"
       APP_URL: http://localhost:8000
+
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
       DB_DATABASE: esapp
       DB_USERNAME: root
       DB_PASSWORD: ${DB_PASSWORD}
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+
       JWT_SECRET: ${JWT_SECRET}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI}
+
+      LOG_CHANNEL: stderr
     depends_on:
       - db
+      - redis
     networks:
       - ecommerce-network
 
   # ========================================
-  # NGINX - Web Server for Laravel
-  # ========================================
-  nginx:
-    container_name: ecommerce-nginx
-    image: nginx:alpine
-    restart: unless-stopped
-    ports:
-      - "8000:80"
-    volumes:
-      - ./is-web-project:/var/www
-      - ./is-web-project/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - backend
-    networks:
-      - ecommerce-network
-
-  # ========================================
-  # DATABASE - MySQL 8.0
+  # DATABASE - MySQL 8
   # ========================================
   db:
     container_name: ecommerce-db
@@ -83,13 +78,25 @@ services:
     restart: unless-stopped
     ports:
       - "3307:3306"
-    env_file:
-      - ./.secrets.local.env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: esapp
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - dbdata:/var/lib/mysql
+      - ./is-web-project/database/esapp.sql:/docker-entrypoint-initdb.d/esapp.sql
+    networks:
+      - ecommerce-network
+
+  # ========================================
+  # REDIS - Metrics / Cache / Queue
+  # ========================================
+  redis:
+    container_name: ecommerce-redis
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
     networks:
       - ecommerce-network
 

@@ -1,82 +1,37 @@
-# Container Registry
+# Azure Container Registry
+
+output "acr_name" {
+  description = "Azure Container Registry name"
+  value       = azurerm_container_registry.main.name
+}
+
+output "acr_id" {
+  description = "Azure Container Registry resource ID"
+  value       = azurerm_container_registry.main.id
+}
+
 output "acr_login_server" {
+  description = "Azure Container Registry login server"
   value       = azurerm_container_registry.main.login_server
-  description = "ACR login server URL"
 }
 
-output "acr_admin_username" {
-  value       = azurerm_container_registry.main.admin_username
-  description = "ACR admin username"
-  sensitive   = true
+output "mysql_password" {
+  value     = azurerm_mysql_flexible_server.main.administrator_password
+  sensitive = true
+}
+output "redis_host" {
+  value = azurerm_redis_cache.metrics.hostname
 }
 
-output "acr_admin_password" {
-  value       = azurerm_container_registry.main.admin_password
-  description = "ACR admin password"
-  sensitive   = true
+output "redis_port" {
+  value = azurerm_redis_cache.metrics.ssl_port
 }
 
-# AKS
-output "aks_cluster_name" {
-  value       = azurerm_kubernetes_cluster.main.name
-  description = "AKS cluster name"
+output "redis_primary_key" {
+  value     = azurerm_redis_cache.metrics.primary_access_key
+  sensitive = true
 }
-
-output "aks_resource_group_name" {
-  value       = azurerm_kubernetes_cluster.main.resource_group_name
-  description = "AKS resource group"
-}
-
-output "aks_kube_config" {
-  value       = azurerm_kubernetes_cluster.main.kube_config_raw
-  description = "Kubernetes config"
-  sensitive   = true
-}
-
-# Database
-output "mysql_fqdn" {
+output "mysql_host" {
+  description = "Tên miền nội bộ (FQDN) để kết nối tới MySQL Flexible Server"
   value       = azurerm_mysql_flexible_server.main.fqdn
-  description = "MySQL FQDN"
-}
-
-output "mysql_database_name" {
-  value       = azurerm_mysql_flexible_database.app.name
-  description = "Database name"
-}
-
-output "mysql_admin_username" {
-  value       = var.mysql_admin_username
-  description = "MySQL admin username"
-}
-
-
-# Key Vault
-output "keyvault_name" {
-  value       = azurerm_key_vault.main.name
-  description = "Key Vault name"
-}
-
-output "keyvault_id" {
-  value       = azurerm_key_vault.main.id
-  description = "Key Vault resource ID"
-}
-
-# Log Analytics
-output "log_analytics_workspace_id" {
-  value       = azurerm_log_analytics_workspace.main.id
-  description = "Log Analytics workspace ID"
-}
-
-# Summary
-output "deployment_summary" {
-  value = {
-    environment          = var.environment
-    region               = data.azurerm_resource_group.main.location
-    resource_group       = data.azurerm_resource_group.main.name
-    acr_login_server     = azurerm_container_registry.main.login_server
-    aks_cluster_name     = azurerm_kubernetes_cluster.main.name
-    mysql_fqdn           = azurerm_mysql_flexible_server.main.fqdn
-    mysql_database_name  = azurerm_mysql_flexible_database.app.name
-    keyvault_name        = azurerm_key_vault.main.name
-  }
 }

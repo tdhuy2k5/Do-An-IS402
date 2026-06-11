@@ -1,0 +1,21 @@
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "esapp.fullname" . }}-ingress
+
+spec:
+  ingressClassName: haproxy
+
+  rules:
+  - host: be.20.123.45.67.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "esapp.fullname" . }}
+            port:
+              number: 8080

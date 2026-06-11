@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: esapp-frontend
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: esapp-frontend
+
+  template:
+    metadata:
+      labels:
+        app: esapp-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: esappsacr.azurecr.io/esapp-frontend:latest
+          ports:
+            - containerPort: 80
+
+  strategy:
+    canary:
+      steps:
+        - setWeight: 20
+        - pause: { duration: 30s }
+        - setWeight: 50
+        - pause: { duration: 30s }
+        - setWeight: 100

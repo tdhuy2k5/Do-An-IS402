@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: dev
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+    color: green           # ← This is very important
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http

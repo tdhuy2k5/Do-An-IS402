@@ -2,20 +2,26 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckRefreshToken;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\MetricsController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 // Health check endpoint (public, no auth required)
 Route::get('/health', [HealthController::class, 'check']);
 
-Route::middleware('check.refresh.token')->group(function () {
-    Route::post('/register', [AuthController::class, 'post_register']);
-    Route::get('/register', [AuthController::class, 'get_register']);
-    Route::post('/login', [AuthController::class, 'post_login']);
-    Route::get('/login', [AuthController::class, 'login']);
-});
+// Prometheus metrics endpoint (public, no auth required)
+Route::get('/metrics', [MetricsController::class, 'index']);
+
+// Token refresh endpoint (public, no auth required)
+Route::post('/refresh', [CheckRefreshToken::class, 'handle']);
+
+Route::post('/register', [AuthController::class, 'post_register']);
+Route::get('/register', [AuthController::class, 'get_register']);
+Route::post('/login', [AuthController::class, 'post_login']);
+Route::get('/login', [AuthController::class, 'login']);
 Route::post('/send-code', [AuthController::class, 'sendCode']);
 Route::post('/verify-code', [AuthController::class, 'verifyCode']);
 

@@ -23,7 +23,6 @@ class GoogleController extends Controller
             $validated = $request->validate([
                 'code' => 'required|string',
             ]);
-
             $provider = new Google([
                 'clientId' => env('GOOGLE_CLIENT_ID'),
                 'clientSecret' => env('GOOGLE_CLIENT_SECRET', ''),

@@ -1,0 +1,16 @@
+# Prometheus Configuration for Laravel E-commerce App
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: "laravel-app"
+
+scrape_configs:
+  # Laravel Backend - Metrics endpoint
+  - job_name: "laravel-backend"
+    static_configs:
+      - targets: ["backend:8080"]
+    metrics_path: "/api/metrics"
+    scrape_interval: 15s
+    scrape_timeout: 10s

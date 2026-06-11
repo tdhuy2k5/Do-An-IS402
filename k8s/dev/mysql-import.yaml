@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-import
+spec:
+  ttlSecondsAfterFinished: 600 # keep Job 10 min after finish
+  backoffLimit: 3
+
+  template:
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: mysql
+          image: mysql:8
+
+          command: ["sh", "-c"]
+          args:
+            - |
+              set -eux
+
+              echo "==== CHECK /sql ===="
+              ls -l /sql
+              head -n 20 /sql/esapp.sql
+
+              echo "==== START IMPORT ===="
+              mysql -h esapp-mysql-staging.mysql.database.azure.com \
+                -u azureuser \
+                -p"$MYSQL_PASSWORD" \
+                --ssl-mode=REQUIRED \
+                esapp < /sql/esapp.sql
+
+              echo "==== IMPORT DONE ===="
+
+              echo "==== KEEP POD ALIVE FOR 5 MIN ===="
+              sleep 300
+
+              echo "DONE"
+
+          env:
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+
+          volumeMounts:
+            - name: sql
+              mountPath: /sql
+
+      volumes:
+        - name: sql
+          configMap:
+            name: mysql-init

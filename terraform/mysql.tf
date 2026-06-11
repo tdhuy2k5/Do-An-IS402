@@ -7,7 +7,13 @@ resource "azurerm_mysql_flexible_server" "main" {
   sku_name               = var.mysql_sku_name
   version                = var.mysql_version
 
-  # Zone can be auto-selected by Azure and is immutable afterward.
+  
+  delegated_subnet_id = azurerm_subnet.database.id
+  private_dns_zone_id = azurerm_private_dns_zone.mysql.id
+
+  # Ensure the DNS zone link is fully created before deploying the server
+  depends_on = [azurerm_private_dns_zone_virtual_network_link.mysql]
+
   lifecycle {
     ignore_changes = [zone]
   }
@@ -28,20 +34,10 @@ resource "azurerm_mysql_flexible_database" "app" {
   collation           = "utf8mb4_unicode_ci"
 }
 
-# Firewall rule to allow connections from AKS
-resource "azurerm_mysql_flexible_server_firewall_rule" "allow_aks" {
-  name                = "allow-aks"
+# Enable Audit Log for security and compliance
+resource "azurerm_mysql_flexible_server_configuration" "audit_log" {
+  name                = "audit_log_events"
   resource_group_name = data.azurerm_resource_group.main.name
   server_name         = azurerm_mysql_flexible_server.main.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "255.255.255.255"
-}
-
-# Allow all Azure services (simple, non-production)
-resource "azurerm_mysql_flexible_server_firewall_rule" "allow_azure" {
-  name                = "allow-azure-services"
-  resource_group_name = data.azurerm_resource_group.main.name
-  server_name         = azurerm_mysql_flexible_server.main.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
+  value               = "CONNECTION,DDL,DML_NONSELECT,DML_SELECT" # ✅ đúng enum Azure
 }

@@ -2,13 +2,13 @@
 
 Provisions Azure resources for demo: ACR, AKS, MySQL database, Key Vault, Log Analytics.
 
-All resources go into a single resource group (`rg-esapp`) with minimal security for demo purposes.
+All resources go into a single resource group (`esapp-rg`) with minimal security for demo purposes.
 
 ## Prerequisites
 
 - Terraform >= 1.0
 - Azure CLI (`az`) logged in
-- An existing Azure resource group named `rg-esapp`
+- An existing Azure resource group named `esapp-rg`
 - Subscription with quota for AKS + MySQL
 
 ## Quick start
@@ -22,10 +22,11 @@ cp terraform/terraform.tfvars.example terraform/terraform.tfvars
 ### 2. Edit terraform.tfvars
 
 Update these values:
+
 - `mysql_admin_password` - secure, random password
 - `environment` - "dev" or "staging"
 - `location` - prefer "southeastasia" or your choice
-- Sizing if needed (aks_vm_size, aks_min_node_count, aks_max_node_count, mysql_sku_name)
+- Sizing if needed (aks_vm_size, mysql_sku_name)
 
 ### 3. Plan and apply
 
@@ -67,7 +68,7 @@ terraform output keyvault_name
 ```powershell
 # Get AKS credentials
 az aks get-credentials `
-  --resource-group rg-esapp `
+  --resource-group esapp-rg `
   --name esapp-aks-dev
 
 # Verify K8s connection
@@ -120,16 +121,20 @@ terraform destroy
 ## Troubleshooting
 
 **Error: Resource group not found**
-- Ensure `rg-esapp` exists in your subscription
+
+- Ensure `esapp-rg` exists in your subscription
 - Update `terraform.tfvars` if group name is different
 
 **Error: Insufficient quota**
+
 - Check subscription quotas for vCPU, IPs, etc.
-- Reduce `aks_max_node_count` or use smaller `aks_vm_size`
+- Reduce `aks_node_count` or use smaller `aks_vm_size`
 
 **AKS creation very slow**
+
 - Normal. First AKS cluster can take 15+ minutes.
 
 **MySQL connection timeout**
+
 - Firewall rule is very permissive (`0.0.0.0/0`) for demo
 - If still failing, check Key Vault has correct values stored

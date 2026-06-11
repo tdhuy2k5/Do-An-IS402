@@ -114,28 +114,165 @@ Notes:
 
 ## Session Update Template (copy for Day 2+)
 
-## Day X - <Title>
+## Day 2 - Kubernetes Runtime Manifests (Dev)
 
-Date: YYYY-MM-DD
+Date: 2026-04-01
 
 ### Goal
-- 
+- Prepare Kubernetes runtime manifests so AKS can run backend/frontend with clean config and secret injection.
 
 ### Completed
-- 
+- Created dev manifest set in k8s/dev:
+  - namespace
+  - backend ConfigMap
+  - backend secret template
+  - backend nginx config ConfigMap
+  - backend Deployment + Service
+  - frontend Deployment + Service
+  - ingress
+  - migration Job template (suspended)
+- Added usage notes and apply order in k8s/dev/README.md.
+- Applied manifests to AKS successfully (`kubectl apply -f k8s/dev/`).
+- Verified resources exist in namespace `dev` (deployments, services, ingress, configmaps, secret, migration job).
 
-### Decisions
-- 
+### Notes
+- Backend probe path is /api/health.
+- Migration is a separate pipeline concern via Job template, not app startup.
+- Current `kubectl` context is `esapp-aks-dev`.
+- Workloads are not ready yet because image tags are placeholders (`IMAGE_TAG`) and AKS has no pull auth to ACR (ImagePullBackOff / 401 Unauthorized).
 
-### Issues and fixes
-- Issue:
-- Fix:
+### Day 2 exit criteria
+- [x] `k8s/dev` manifests created for namespace, backend, frontend, ingress, and migration job
+- [x] Runtime config model defined (ConfigMap for non-secret, Secret for sensitive)
+- [x] Manifests applied to dev AKS namespace
+- [ ] Backend and frontend pods running successfully
+- [ ] Health probe passing on backend `/api/health`
+
+### Next
+1. Wire pipeline substitutions:
+   - IMAGE_TAG
+   - backend secret values from Key Vault
+2. Grant AKS pull access to ACR (or use imagePullSecret) before rollout.
+3. Build and push backend/frontend images with real tags.
+4. Update ingress hosts and URL env values after DNS/Ingress task.
+
+---
+
+## Day 3 - Dev GitHub Actions Pipeline
+
+Date: 2026-04-02
+
+### Goal
+- Build a branch-triggered dev deployment workflow that runs quality gate, build/push, deploy, migration, and smoke checks.
+
+### Completed
+- Created `.github/workflows/deploy-dev.yml` with triggers:
+  - push on `dev`
+  - optional `workflow_dispatch`
+- Implemented `quality_gate` job:
+  - checkout
+  - Node 22 setup
+  - PHP 8.3 + Composer setup
+  - dependency installation
+  - `npm run predeploy:gate`
+- Implemented `build_push_images` job:
+  - Azure OIDC login
+  - ACR login
+  - backend/frontend Docker build and push
+  - commit SHA image tag outputs
+- Implemented `deploy_dev` job:
+  - AKS context setup
+  - Key Vault secret fetch and `backend-secrets` upsert
+  - manifest render with SHA tag and namespace replacement
+  - rollout wait for backend/frontend
+- Implemented `migrate_dev` job:
+  - controlled migration Job execution from template
+- Implemented `smoke_dev` job:
+  - in-cluster backend and frontend smoke checks
+  - optional external URL checks when URL vars are available
+- Fixed frontend CI build failure on Linux runner:
+  - corrected case-sensitive import in frontend app (`Career` -> `career.jsx`)
+- Fixed Azure OIDC bootstrap:
+  - added federated credential for GitHub Environment subject `repo:piracyiskey/Do-An-IS402:environment:dev`
+  - granted required RBAC/policies for pipeline service principal (subscription read, ACR push, AKS access, Key Vault secret read)
+- Fixed deployment workflow issues discovered in first pipeline runs:
+  - made ACR attach step best-effort to avoid hard failure when owner-level permission is unavailable
+  - excluded migration Job from `deploy_dev` apply set (immutable Job template conflict)
+  - added richer rollout diagnostics (describe/logs on timeout)
+  - changed backend readiness/liveness probes to `/up` for rollout stability
+- Milestone reached:
+  - `Deploy to AKS (dev)` job now passes in GitHub Actions.
+- Recovery validation completed (manual in-cluster):
+  - `backend-secrets` resynced from Key Vault (placeholder overwrite removed)
+  - migration Job completed successfully
+  - backend `/api/health` and frontend `/` smoke checks returned HTTP 200
+- DNS/Ingress progress (dev):
+  - installed `ingress-nginx` controller in AKS
+  - assigned public load balancer IP `20.247.224.41`
+  - updated ingress hosts to temporary public `nip.io` domains
+  - validated external routing: frontend `/` = 200, backend `/api/health` = 200
+- Fixed frontend/backend public API mismatch:
+  - frontend build now injects `VITE_BACKEND_API_URL=${BACKEND_PUBLIC_URL}/api`
+- Fixed `/verified_email` blank screen:
+  - reordered `handleSendCode` declaration before `useEffect` dependencies in frontend component
+- Added runtime injection path for Google OAuth + SMTP config in deploy workflow.
+- Seeded dev database from snapshot:
+  - executed `DB_SEED_MODE=snapshot php artisan db:seed --force`
+  - verified populated counts (products, categories, users, orders)
+- Fixed Google OAuth runtime issues:
+  - aligned frontend/backend redirect URI config
+  - resolved `redirect_uri_mismatch` after OAuth client configuration alignment
+- Fixed email verification runtime issues:
+  - corrected mail scheme handling (`smtp`/`smtps`)
+  - verification flow now sends successfully with configured SMTP credentials
+- Fixed cart/runtime Redis issues:
+  - installed PHP Redis extension in backend image
+  - enabled TLS Redis connection settings for Azure Redis (`REDIS_SCHEME=tls`)
+  - cart add/update flow now works as expected
+
+### Session result
+- Dev environment is now fully functional end-to-end (frontend, backend, DB, Redis, OAuth, email verification, cart).
+
+### Current risks / watch items
+- Temporary `nip.io` domains are tied to current load balancer IP; if ingress IP changes, URLs must be updated.
+- Google OAuth on temporary HTTP `nip.io` is acceptable for dev testing but should move to real HTTPS domain for staging/prod.
 
 ### Exit criteria
-- [ ] 
-- [ ] 
+- [x] Workflow skeleton created with correct trigger
+- [x] Job chain implemented for quality, build, deploy, migrate, smoke
+- [x] Build and push images succeed in pipeline
+- [x] Deploy to AKS (dev) succeeds in pipeline
+- [x] Migration succeeds with repaired secret + TLS config (manually validated in-cluster)
+- [x] Migration job succeeds in GitHub Actions after workflow fix merge
+- [x] Internal in-cluster smoke checks pass (manual validation)
+- [x] Smoke checks pass in GitHub Actions (`smoke_dev`) and optional external checks
+- [x] First push to `dev` completes full end-to-end successfully
 
 ### Carry-over
-1. 
-2. 
-3. 
+1. Keep deployment scope dev-only for demo period (no staging workflow for now).
+2. Replace temporary `nip.io` hosts with real HTTPS domain planning when budget allows.
+3. Optional hardening pass: alerts, backup checks, and periodic smoke schedule.
+
+---
+
+## Day 4 - Dev Workflow Enhancements (Planned)
+
+Date: 2026-04-03
+
+### Goal
+- Improve reliability and demo readiness in dev-only mode while controlling infrastructure cost.
+
+### Planned scope
+- Strengthen `deploy-dev` diagnostics and post-deploy validations.
+- Add/refresh runbook for stopping and starting AKS + dependent services safely.
+- Verify restart checklist:
+  - ingress public IP consistency
+  - `nip.io` URL validity
+  - OAuth redirect URL consistency
+  - smoke checks after restart
+- Prioritize additional feature polish required by project rubric.
+
+### Day 4 exit criteria (planned)
+- [ ] Dev-only runbook documented and validated once.
+- [ ] Restart + redeploy + smoke cycle passes after stop/start.
+- [ ] Remaining required feature gaps are listed and prioritized.

@@ -1,5 +1,7 @@
-.git
 node_modules
+npm-debug.log
 vendor
-.env
 storage/logs
+.git
+.gitignore
+.env

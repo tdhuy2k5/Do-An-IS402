@@ -1,7 +1,7 @@
 variable "resource_group_name" {
   description = "Name of the resource group (must already exist)"
   type        = string
-  default     = "rg-esapp"
+  default     = "esapp-rg"
 }
 
 variable "location" {
@@ -51,22 +51,27 @@ variable "aks_kubernetes_version" {
   default     = "1.27"
 }
 
-variable "aks_min_node_count" {
-  description = "Minimum number of AKS nodes for cluster autoscaler"
+variable "aks_node_count" {
+  description = "Number of AKS nodes"
   type        = number
-  default     = 2
-}
-
-variable "aks_max_node_count" {
-  description = "Maximum number of AKS nodes for cluster autoscaler"
-  type        = number
-  default     = 8
+  default     = 3
 }
 
 variable "aks_vm_size" {
   description = "VM size for AKS nodes"
   type        = string
   default     = "Standard_B2s_v2"
+}
+variable "jwt_secret" {
+  sensitive = true
+}
+
+variable "app_key" {
+  sensitive = true
+}
+
+variable "google_client_secret" {
+  sensitive = true
 }
 
 # Database
@@ -107,10 +112,14 @@ variable "acr_sku" {
   default     = "Basic"
 }
 
-
 # Key Vault
 variable "keyvault_sku" {
   description = "Key Vault SKU"
   type        = string
   default     = "standard"
+}
+variable "redis_password" {
+  description = "Password for Redis cache"
+  type        = string
+  sensitive   = true
 }

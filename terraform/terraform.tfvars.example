@@ -1,7 +1,7 @@
 # Copy this to terraform.tfvars and fill in your values
 
 # Resource Group (must already exist)
-resource_group_name = "rg-esapp"
+resource_group_name = "esapp-rg"
 
 # Basic config
 location     = "southeastasia"
@@ -15,8 +15,7 @@ db_subnet_cidr  = "10.0.2.0/24"
 
 # AKS
 aks_kubernetes_version = "1.27"
-aks_min_node_count     = 2
-aks_max_node_count     = 8
+aks_node_count         = 3
 aks_vm_size            = "Standard_B2s_v2"  # Supported in many SEA subscriptions
 
 # Database
@@ -28,7 +27,6 @@ mysql_allocated_storage  = 20
 
 # Container Registry
 acr_sku = "Basic"
-
 
 # Key Vault
 keyvault_sku = "standard"

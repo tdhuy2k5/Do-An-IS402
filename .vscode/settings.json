@@ -1,2 +1,10 @@
 {
+  "yaml.validate": false,
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.associations": {
+    "**/*.yaml": "yaml",
+    "**/gitops/**/*.yaml": "yaml"
+  }
 }

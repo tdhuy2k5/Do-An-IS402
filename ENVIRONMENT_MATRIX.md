@@ -4,13 +4,12 @@ This file is the source of truth for Day 1 pipeline wiring.
 
 ## Current rollout strategy
 
-- Configure dev completely first.
-- Keep staging created but optional to leave unfilled until dev is stable.
+- Configure and maintain dev only for the current demo scope.
+- Staging is deferred due to cost constraints.
 
 ## 1) GitHub Environments
 
 - dev (active now)
-- staging (create now, populate later)
 
 ## 2) GitHub Environment Variables (non-secret)
 
@@ -33,14 +32,22 @@ Add these in dev now.
 | MYSQL_USER | azureuser | Terraform output |
 | REDIS_HOST | esapp-redis-dev.redis.cache.windows.net | Terraform output |
 | REDIS_PORT | 6380 | Terraform output |
-| BACKEND_PUBLIC_URL | https://dev-api.<your-domain> | DNS/Ingress |
-| FRONTEND_PUBLIC_URL | https://dev.<your-domain> | DNS/Ingress |
-| CORS_ALLOWED_ORIGINS | https://dev.<your-domain> | DNS/Ingress |
+| GOOGLE_CLIENT_ID | 940152986387-hmnurcj182oerad7tik3d6pn26ib8ej9.apps.googleusercontent.com | Google OAuth app |
+| GOOGLE_REDIRECT_URI | http://dev.20.247.224.41.nip.io/auth/callback | Frontend URL |
+| MAIL_MAILER | smtp | Runtime decision |
+| MAIL_SCHEME | smtp | Runtime decision |
+| MAIL_HOST | smtp.gmail.com | Mail provider |
+| MAIL_PORT | 587 | Mail provider |
+| MAIL_FROM_ADDRESS | 22520283@gm.uit.edu.vn | Mail sender |
+| BACKEND_PUBLIC_URL | http://dev-api.20.247.224.41.nip.io | DNS/Ingress (temporary) |
+| FRONTEND_PUBLIC_URL | http://dev.20.247.224.41.nip.io | DNS/Ingress (temporary) |
+| CORS_ALLOWED_ORIGINS | http://dev.20.247.224.41.nip.io | DNS/Ingress (temporary) |
 
 Notes:
 
-- Use one namespace per environment. For this plan, use dev and later staging.
+- Use one namespace for current scope: dev.
 - Repository names are the ACR repository paths used by container pushes.
+- Temporary public hosts use `nip.io` mapped to the ingress public IP. Replace these with your real domain records later.
 
 ## 3) Laravel runtime decisions for dev
 
@@ -81,7 +88,7 @@ Only add GitHub secrets if your workflow explicitly requires them, such as:
 2. Confirm all required secrets exist in Key Vault section 4.
 3. Wire workflow to read dev environment variables and pull runtime secrets from Key Vault.
 4. Run first dev pipeline deployment and verify app, DB, and Redis connectivity.
-5. After stable dev, copy same contract to staging values.
+5. Add stop/start runbook checks for cost control and post-restart validation.
 
 ## 7) Exit criteria (Day 1)
 
@@ -89,4 +96,3 @@ Only add GitHub secrets if your workflow explicitly requires them, such as:
 - [ ] dev variables populated using this contract
 - [ ] required runtime secrets present in Key Vault
 - [ ] first dev deployment succeeds
-- [ ] staging created (values can remain pending)

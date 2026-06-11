@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "esappfe.fullname" . }}
+  labels:
+    {{- include "esappfe.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+  selector:
+    {{- include "esappfe.selectorLabels" . | nindent 4 }}

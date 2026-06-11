@@ -1,0 +1,153 @@
+{
+  "dashboard": {
+    "title": "Laravel E-Commerce Metrics",
+    "description": "Prometheus metrics dashboard for the Laravel e-commerce application",
+    "tags": ["laravel", "prometheus", "e-commerce"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "Requests Per Second",
+        "targets": [
+          {
+            "expr": "rate(app_http_requests_total[5m])",
+            "refId": "A",
+            "legendFormat": "{{method}} {{endpoint}}"
+          }
+        ],
+        "type": "graph",
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "title": "Request Duration (p95)",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(app_http_request_duration_seconds_bucket[5m]))",
+            "refId": "A",
+            "legendFormat": "{{method}} {{endpoint}}"
+          }
+        ],
+        "type": "graph",
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "title": "HTTP Error Rate",
+        "targets": [
+          {
+            "expr": "rate(app_http_requests_errors_total[5m])",
+            "refId": "A",
+            "legendFormat": "{{method}} {{endpoint}} - {{status}}"
+          }
+        ],
+        "type": "graph",
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "title": "Total Requests by Status",
+        "targets": [
+          {
+            "expr": "sum(rate(app_http_requests_total[5m])) by (status)",
+            "refId": "A",
+            "legendFormat": "{{status}}"
+          }
+        ],
+        "type": "piechart",
+        "gridPos": {
+          "x": 12,
+          "y": 8,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "title": "Database Queries Per Second",
+        "targets": [
+          {
+            "expr": "rate(app_database_queries_total[5m])",
+            "refId": "A",
+            "legendFormat": "{{connection}} - {{operation}}"
+          }
+        ],
+        "type": "graph",
+        "gridPos": {
+          "x": 0,
+          "y": 16,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "title": "Database Query Duration (p99)",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.99, rate(app_database_query_duration_seconds_bucket[5m]))",
+            "refId": "A",
+            "legendFormat": "{{connection}} - {{operation}}"
+          }
+        ],
+        "type": "graph",
+        "gridPos": {
+          "x": 12,
+          "y": 16,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "title": "Active Database Connections",
+        "targets": [
+          {
+            "expr": "app_database_active_connections",
+            "refId": "A",
+            "legendFormat": "{{connection}}"
+          }
+        ],
+        "type": "stat",
+        "gridPos": {
+          "x": 0,
+          "y": 24,
+          "w": 12,
+          "h": 4
+        }
+      },
+      {
+        "title": "Application Info",
+        "targets": [
+          {
+            "expr": "app_info",
+            "refId": "A",
+            "legendFormat": "{{app_name}} ({{environment}})"
+          }
+        ],
+        "type": "stat",
+        "gridPos": {
+          "x": 12,
+          "y": 24,
+          "w": 12,
+          "h": 4
+        }
+      }
+    ],
+    "refresh": "10s",
+    "schemaVersion": 27,
+    "version": 1,
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    }
+  }
+}
