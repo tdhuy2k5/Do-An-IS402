@@ -118,12 +118,3 @@ volumeMounts: []
 # ==============================================================================
 # 6. SECURITY ACCOUNTS
 # ==============================================================================
-serviceAccount:
-  create: true
-  automount: true
-  annotations: {}
-  name: ""
-backend:
-  image:
-    repository: esappsacr.azurecr.io/esapp-backend
-    tag: 2142cd87c6422e0455fe978ec1e760c75298eb62
