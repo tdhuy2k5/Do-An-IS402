@@ -1,6 +1,7 @@
 .secrets.local.env
 .secrets.*.env
-
+.env
+gitops/esapp/config.env
 # Local runtime env files
 is-web-project/.env
 electronic-e-commerce/.env
