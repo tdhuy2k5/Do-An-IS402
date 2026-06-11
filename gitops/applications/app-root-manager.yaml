@@ -8,9 +8,9 @@ spec:
 
   # 1. POINT TO YOUR APPLICATIONS FOLDER
   source:
-    repoURL: 'https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git'
+    repoURL: 'https://github.com/ZeusOfDev/Do-An-IS402.git'
     targetRevision: main
-    path: gitops/application # This folder contains your frontend-app.yaml, backend-app.yaml, etc.
+    path: gitops/applications # This folder contains your frontend-app.yaml, backend-app.yaml, etc.
 
   # 2. DESTINATION IS THE SAME CLUSTER
   destination:
