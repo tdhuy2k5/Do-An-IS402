@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'is-web-project/**' # Triggers only when changes are made inside this folder
+      - "is-web-project/**" # Triggers only when changes are made inside this folder
 
 permissions:
   contents: write
@@ -77,11 +77,12 @@ jobs:
           sudo chmod +x /usr/bin/yq
 
       - name: Update Helm values.yaml
+        env:
+          # 🔑 Fix: Inject variables directly into the step environment so 'yq' can see them
+          IMAGE_TAG: ${{ github.sha }}
+          ACR_NAME: ${{ env.ACR_NAME }}
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
         run: |
-          IMAGE_TAG=${{ github.sha }}
-          ACR_NAME=${{ env.ACR_NAME }}
-          IMAGE_NAME=${{ env.IMAGE_NAME }}
-          
           # Updates the backend image blocks inside your GitOps configuration folder
           yq -i '.backend.image.repository = env(ACR_NAME) + ".azurecr.io/" + env(IMAGE_NAME)' \
             gitops/esapp/values.yaml

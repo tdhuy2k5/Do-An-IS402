@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'electronic-e-commerce/**'
+      - "electronic-e-commerce/**" # Triggers only when changes are made inside this folder
 
 permissions:
   contents: write
@@ -77,16 +77,18 @@ jobs:
           sudo chmod +x /usr/bin/yq
 
       - name: Update Helm values.yaml
+        env:
+          # 🔑 Fix: Inject values into the step environment context for yq tool visibility
+          IMAGE_TAG: ${{ github.sha }}
+          ACR_NAME: ${{ env.ACR_NAME }}
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
         run: |
-          # Use proper GITHUB_SHA syntax inside raw scripts
-          IMAGE_TAG=${{ github.sha }}
-          ACR_NAME=${{ env.ACR_NAME }}
-          IMAGE_NAME=${{ env.IMAGE_NAME }}
-          
-          yq -i '.image.repository = env(ACR_NAME) + ".azurecr.io/" + env(IMAGE_NAME)' \
+          # Note: Changed from '.image' to '.frontend.image' to match GitOps conventions 
+          # and prevent collisions with your backend architecture keys.
+          yq -i '.frontend.image.repository = env(ACR_NAME) + ".azurecr.io/" + env(IMAGE_NAME)' \
             gitops/esapp/values.yaml
 
-          yq -i '.image.tag = env(IMAGE_TAG)' \
+          yq -i '.frontend.image.tag = env(IMAGE_TAG)' \
             gitops/esapp/values.yaml
 
       - name: Commit and push Helm update
@@ -96,6 +98,6 @@ jobs:
 
           git add gitops/esapp/values.yaml
 
-          git commit -m "chore: update image ${{ github.sha }} [skip ci]" || echo "No changes to commit"
+          git commit -m "chore(frontend): update image ${{ github.sha }} [skip ci]" || echo "No changes to commit"
 
           git push
