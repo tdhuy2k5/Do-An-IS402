@@ -78,16 +78,15 @@ jobs:
 
       - name: Update Helm values.yaml
         env:
-          # 🔑 Fix: Inject variables directly into the step environment so 'yq' can see them
           IMAGE_TAG: ${{ github.sha }}
           ACR_NAME: ${{ env.ACR_NAME }}
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
         run: |
           # Updates the backend image blocks inside your GitOps configuration folder
-          yq -i '.backend.image.repository = env(ACR_NAME) + ".azurecr.io/" + env(IMAGE_NAME)' \
+          yq -i '.backend.image.repository = strenv(ACR_NAME) + ".azurecr.io/" + strenv(IMAGE_NAME)' \
             gitops/esapp/values.yaml
 
-          yq -i '.backend.image.tag = env(IMAGE_TAG)' \
+          yq -i '.backend.image.tag = strenv(IMAGE_TAG)' \
             gitops/esapp/values.yaml
 
       - name: Commit and push Helm update
