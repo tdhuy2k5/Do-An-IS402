@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'is-web-project/**'
+      - "is-web-project/**"
 
 permissions:
   contents: write
