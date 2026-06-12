@@ -46,7 +46,7 @@ spec:
 
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: 5173
               protocol: TCP
           envFrom:
             - configMapRef:
