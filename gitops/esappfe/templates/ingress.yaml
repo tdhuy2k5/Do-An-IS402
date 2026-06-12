@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: fe.135.171.243.189.nip.io
+    - host: fe.57.155.223.9.nip.io
       http:
         paths:
           - path: /
