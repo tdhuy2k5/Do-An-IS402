@@ -4,7 +4,7 @@
 # Tổng số lượng bản sao (Pods) chạy đồng thời cho ứng dụng của bạn
 replicaCount: 6
 image:
-  repository: esappsacr.azurecr.io/esapp-frontend
+  repository: esappsacr.azurecr.io/esapp-backend
   tag: e22926fe824ee0b6e4d9cf6a94d960d600092097
   pullPolicy: IfNotPresent
 imagePullSecrets: []
