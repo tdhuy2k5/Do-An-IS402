@@ -44,10 +44,6 @@ jobs:
           context: ./electronic-e-commerce
           file: ./electronic-e-commerce/Dockerfile
           target: tester
-          cache-from: |
-            type=registry,ref=${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:buildcache
-          cache-to: |
-            type=registry,ref=${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
       - name: Build and Push Image
         uses: docker/build-push-action@v6
@@ -57,15 +53,10 @@ jobs:
           target: production
           push: true
           tags: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          cache-from: |
-            type=registry,ref=${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:buildcache
-          cache-to: |
-            type=registry,ref=${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
-      - name: Update GitOps values
+      - name: Update GitOps values (SAME STYLE AS BE)
         run: |
-          # Matches line starting with '  frontendTag:' or 'frontend.tag:' inside values.yaml
-          sed -i "s/^  frontendTag:.*/  frontendTag: ${{ github.sha }}/" gitops/esapp/values.yaml
+          sed -i "s/^  tag:.*/  tag: ${{ github.sha }}/" gitops/esappfe/values.yaml
 
           echo "Updated values.yaml:"
           cat gitops/esappfe/values.yaml
