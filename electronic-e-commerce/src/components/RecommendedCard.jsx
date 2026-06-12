@@ -1,40 +1,228 @@
-import React from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Loader2 } from "lucide-react";
+import api from "../lib/api";
 
-// Đặt tên file là RecommendedCard.jsx
-export function RecommendedCard({ 
-    imageSrc = "https://via.placeholder.com/300x300", 
-    description, 
-    saveAmount
+// ===================== CARD =====================
+export function RecommendedCard({
+  productId,
+  imageSrc = "https://via.placeholder.com/300x300",
+  description,
 }) {
-     return (
-        <div className="group min-w-[300px] flex flex-col cursor-pointer">
-            
-            {/* Image Area - Khung bo tròn ở trên */}
-            <div className="w-full h-64 flex justify-center items-center bg-gray-50 rounded-lg mb-4 
-                            group-hover:bg-gray-100 transition-colors overflow-hidden">
-                <img 
-                    src={imageSrc} 
-                    alt={description} 
-                    className="max-w-[85%] max-h-[85%] object-contain hover:scale-105 transition-transform duration-200" 
-                />
-            </div>
-            
-            {/* Content Area - Text đơn giản không có khung */}
-            <div className="flex flex-col flex-grow">
-                {/* Product Description */}
-                <h3 className="text-lg font-bold text-black leading-tight mb-4 flex-grow">
-                    {description}
-                </h3>
-                
-                {/* Price Area */}
-                <div className="mt-auto">
-                    <div className="flex items-center gap-2 mb-1">
-                        <span className="text-base font-semibold text-red-600">
-                            Save ${saveAmount}
-                        </span>
-                    </div>
-                </div>
-            </div>
+  return (
+    <Link
+      to={`/product/${productId}`}
+      className="group flex-shrink-0 w-[295px] flex flex-col cursor-pointer"
+    >
+      <div className="w-[295px] h-[350px] flex justify-center items-center bg-gray-50 rounded-lg mb-4 
+        group-hover:bg-white transition-all overflow-hidden shadow-md border border-gray-100 relative"
+      >
+        <img
+          src={imageSrc}
+          alt={description}
+          className="max-w-[85%] max-h-[85%] object-contain relative z-10 transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <h3
+          className="text-base font-bold leading-snug mb-3 line-clamp-2"
+          style={{ fontFamily: "Inter, sans-serif", color: "#000" }}
+        >
+          {description}
+        </h3>
+      </div>
+    </Link>
+  );
+}
+
+// ===================== SECTION =====================
+export default function RecommendedCardSection() {
+  const scrollContainerRef = useRef(null);
+
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // ===================== FETCH + NORMALIZE API =====================
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get("/products/recommended?limit=12");
+        const raw = response.data;
+
+        const variants = raw?.product_variants || [];
+        const images = raw?.images || [];
+
+        // 🔥 MERGE API DATA (FIX IMPORTANT)
+        const merged = variants.map((v, index) => {
+          const img = images[index] || {};
+
+          return {
+            product_id: v.product_id,
+            product_name: v.product_name,
+            image_url: img.image_url || "https://via.placeholder.com/300x300",
+            alt_text: img.alt_text || v.product_name,
+          };
+        });
+
+        setProducts(merged);
+      } catch (error) {
+        console.error("Error fetching recommended products:", error);
+        setProducts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // ===================== SCROLL HANDLER =====================
+  const handleScroll = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const scrollLeft = container.scrollLeft;
+    const scrollWidth = container.scrollWidth;
+    const clientWidth = container.clientWidth;
+
+    const maxScroll = scrollWidth - clientWidth;
+    const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
+
+    setScrollProgress(Math.min(progress, 100));
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft < maxScroll - 1);
+  }, []);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    container.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [handleScroll, products]);
+
+  // ===================== SCROLL BUTTONS =====================
+  const scrollAmount = 400;
+
+  const scrollLeftFn = useCallback(() => {
+    scrollContainerRef.current?.scrollBy({
+      left: -scrollAmount,
+      behavior: "smooth",
+    });
+  }, []);
+
+  const scrollRightFn = useCallback(() => {
+    scrollContainerRef.current?.scrollBy({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  }, []);
+
+  // ===================== LOADING =====================
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-7xl mx-auto py-10 px-4">
+        <h2 className="text-2xl font-bold text-black mb-6">
+          Recommended for you
+        </h2>
+
+        <div className="flex justify-center items-center h-[350px]">
+          <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
         </div>
+      </div>
     );
+  }
+
+  if (!Array.isArray(products) || products.length === 0) return null;
+
+  // ===================== UI =====================
+  return (
+    <div className="w-full max-w-7xl mx-auto py-10 px-4">
+      <h2 className="text-2xl font-bold text-black mb-6">
+        Recommended for you
+      </h2>
+
+      <div className="relative">
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+        >
+          {products.map((product) => (
+            <RecommendedCard
+              key={product.product_id}
+              productId={product.product_id}
+              imageSrc={product.image_url}
+              description={product.product_name}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Progress + Buttons */}
+      <div className="flex items-center justify-center gap-8 mt-8">
+        <div className="w-96 h-1 relative bg-gray-200 rounded-full">
+          <div
+            className="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+            style={{
+              width: `${Math.max(scrollProgress, 10)}%`,
+              backgroundColor: "#000",
+            }}
+          />
+        </div>
+
+        <div className="flex gap-3">
+          <button
+            onClick={scrollLeftFn}
+            disabled={!canScrollLeft}
+            className="flex items-center justify-center bg-white"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              border: canScrollLeft
+                ? "1px solid #000"
+                : "1px solid #d1d5db",
+              cursor: canScrollLeft ? "pointer" : "not-allowed",
+              fontSize: 20,
+              color: canScrollLeft ? "#000" : "#d1d5db",
+            }}
+          >
+            ‹
+          </button>
+
+          <button
+            onClick={scrollRightFn}
+            disabled={!canScrollRight}
+            className="flex items-center justify-center bg-white"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              border: canScrollRight
+                ? "1px solid #000"
+                : "1px solid #d1d5db",
+              cursor: canScrollRight ? "pointer" : "not-allowed",
+              fontSize: 20,
+              color: canScrollRight ? "#000" : "#d1d5db",
+            }}
+          >
+            ›
+          </button>
+        </div>
+      </div>
+
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
+    </div>
+  );
 }
