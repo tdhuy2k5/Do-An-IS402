@@ -36,5 +36,9 @@ resource "azurerm_kubernetes_cluster" "main" {
   tags                = local.common_tags
   oidc_issuer_enabled = true
 }
-
+resource "azurerm_user_assigned_identity" "kv_csi" {
+  name                = "${var.project_name}-kv-csi-${var.environment}"
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+}
 data "azurerm_client_config" "current" {}

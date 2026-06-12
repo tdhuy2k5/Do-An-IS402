@@ -35,3 +35,6 @@ output "mysql_host" {
   description = "Tên miền nội bộ (FQDN) để kết nối tới MySQL Flexible Server"
   value       = azurerm_mysql_flexible_server.main.fqdn
 }
+output "kv_csi_client_id" {
+  value = azurerm_user_assigned_identity.kv_csi.client_id
+}

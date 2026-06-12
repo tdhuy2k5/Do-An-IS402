@@ -9,7 +9,14 @@ resource "azurerm_key_vault" "main" {
   sku_name                    = var.keyvault_sku
   tags                        = local.common_tags
 }
+resource "azurerm_key_vault_access_policy" "csi" {
+  key_vault_id = azurerm_key_vault.main.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
 
+  object_id = azurerm_user_assigned_identity.kv_csi.principal_id
+
+  secret_permissions = ["Get", "List"]
+}
 # ✅ Cấp quyền cho identity đang chạy Terraform
 resource "azurerm_key_vault_access_policy" "terraform" {
   key_vault_id = azurerm_key_vault.main.id
