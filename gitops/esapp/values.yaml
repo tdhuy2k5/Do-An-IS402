@@ -25,7 +25,8 @@ resources: {}
 # requests:
 #   cpu: 100m
 #   memory: 128Mi
-
+metrics:
+  enabled: false
 # Bộ kiểm tra trạng thái hoạt động của ứng dụng (đang trỏ vào cổng HTTP chính)
 livenessProbe:
   httpGet:
