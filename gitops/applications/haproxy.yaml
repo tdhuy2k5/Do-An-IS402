@@ -1,3 +1,4 @@
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -10,7 +11,10 @@ spec:
     repoURL: https://haproxytech.github.io/helm-charts
     chart: haproxy
     targetRevision: 1.29.0
-
+    helm:
+      values: |
+        service:
+          type: LoadBalancer
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress
