@@ -2,18 +2,32 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "esappfe.fullname" . }}-ingress
-
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: haproxy
-
   rules:
     - host: fe.135.171.243.189.nip.io
       http:
         paths:
+          # =========================
+          # FRONTEND ROUTE
+          # =========================
           - path: /
             pathType: Prefix
             backend:
               service:
                 name: {{ include "esappfe.fullname" . }}
                 port:
-                  number: 5173
+                  number: 80
+
+          # =========================
+          # BACKEND API ROUTE
+          # =========================
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: esapp
+                port:
+                  number: 8080
