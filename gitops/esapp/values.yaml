@@ -1,6 +1,8 @@
 # ==============================================================================
 # 1. GLOBAL & APPLICATION IMAGE CONFIGURATION
 # ==============================================================================
+httpRoute:
+  enabled: false
 # Tổng số lượng bản sao (Pods) chạy đồng thời cho ứng dụng của bạn
 replicaCount: 6
 image:
