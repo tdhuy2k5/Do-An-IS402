@@ -19,8 +19,8 @@ WORKDIR /app
 COPY . .
 
 # 🔥 CI QUALITY GATE (THIS IS WHAT YOU WANTED)
-RUN npm run predeploy:gate
-
+RUN npm run lint
+RUN npm run test
 
 # =========================
 # 2. BUILD STAGE
