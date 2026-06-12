@@ -61,7 +61,7 @@ data:
   AUTH_GUARD: "api"
 
   GOOGLE_CLIENT_ID: "518525301067-6vci81s4s8eo4klif1rmj18rl8o216po.apps.googleusercontent.com"
-  GOOGLE_REDIRECT_URI: "http://fe.135.171.243.189.nip.io:5173/auth/callback"
+  GOOGLE_REDIRECT_URI: "http://fe.135.171.243.189.nip.io/auth/callback"
 
   DB_CONNECTION: "mysql"
   DB_HOST: "esapp-mysql-staging.mysql.database.azure.com"
