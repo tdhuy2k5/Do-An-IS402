@@ -14,7 +14,7 @@ fullnameOverride: ""
 # 2. DEPLOYMENT CONFIGURATION (Pods, Probes, Resources)
 # ==============================================================================
 podAnnotations: {}
-podLabels: {app: esapp}
+podLabels: { app: esapp }
 podSecurityContext: {}
 securityContext: {}
 # Cấu hình lượng tài nguyên CPU/RAM cấp phát cho mỗi Pod
@@ -97,7 +97,7 @@ metrics:
 keyvault:
   name: "esapp-kv-staging"
   tenantId: "2dff09ac-2b3b-4182-9953-2b548e0d0b39"
-  identityClientId: "f6774f8e-acb6-4cf7-a915-8dc0e9b8a892"
+  identityClientId: "2cb43717-5cf8-4fd0-9dcb-08f24e02fa4c"
 # Bản đồ ánh xạ: Tên Secret trên Azure KV --> Tên biến môi trường lưu vào file .env
 secretsMapping:
   - azureName: "APP-KEY"
