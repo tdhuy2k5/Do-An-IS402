@@ -13,7 +13,7 @@ spec:
     matchNames:
       - {{ .Release.Namespace }}
   endpoints:
-    - port: 8080
+    - port: http
       path: /metrics
       interval: 15s
 {{- end }}
