@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: esappfe-ingress
   namespace: frontend-ns
+  annotations:
+    kubernetes.io/ingress.class: haproxy
 spec:
   ingressClassName: haproxy
   rules:

@@ -7,10 +7,11 @@ spec:
   podSelector:
     matchLabels:
       app: esapp
-  policyTypes:
-    - Ingress
   ingress:
     - from:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: ingress
+      ports:
+        - protocol: TCP
+          port: 8080
