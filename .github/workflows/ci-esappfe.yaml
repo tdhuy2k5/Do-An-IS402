@@ -28,6 +28,12 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Install yq (IMPORTANT FIX)
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+          yq --version
+
       - name: Azure Login
         uses: azure/login@v2
         with:
@@ -38,12 +44,13 @@ jobs:
       - name: Login to ACR
         run: az acr login --name ${{ env.ACR_NAME }}
 
-      - name: Run Quality Gate
+      - name: Run Quality Gate (Build only tester stage)
         uses: docker/build-push-action@v6
         with:
           context: ./electronic-e-commerce
           file: ./electronic-e-commerce/Dockerfile
           target: tester
+          push: false
 
       - name: Build and Push Image
         uses: docker/build-push-action@v6
@@ -54,20 +61,27 @@ jobs:
           push: true
           tags: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-      - name: Update GitOps values (SAME STYLE AS BE)
+      # ✅ FIXED: update GitOps using yq (NO sed issues)
+      - name: Update GitOps values.yaml
         run: |
-          sed -i "s/^  tag:.*/  tag: ${{ github.sha }}/" gitops/esappfe/values.yaml
-
-          echo "Updated values.yaml:"
+          echo "Before update:"
           cat gitops/esappfe/values.yaml
 
-      - name: Commit and Push
+          yq -i '.image.tag = "${{ github.sha }}"' gitops/esappfe/values.yaml
+
+          echo "After update:"
+          cat gitops/esappfe/values.yaml
+
+      - name: Commit and Push GitOps change
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
           git add gitops/esappfe/values.yaml
 
-          git diff --cached --quiet || git commit -m "chore: update frontend image ${{ github.sha }} [skip ci]"
-
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update frontend image ${{ github.sha }}"
+            git push
+          fi
