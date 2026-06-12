@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://haproxytech.github.io/helm-charts
     chart: haproxy
-    targetRevision: 1.52.0
+    targetRevision: 1.29.0
 
   destination:
     server: https://kubernetes.default.svc
