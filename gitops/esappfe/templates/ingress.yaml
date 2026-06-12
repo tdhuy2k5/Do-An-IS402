@@ -1,21 +1,19 @@
-
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .esappfe.fullname }}-ingress
+  name: {{ include "esappfe.fullname" . }}-ingress
 
 spec:
   ingressClassName: haproxy
 
   rules:
-  - host: fe.20.123.45.67.nip.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 80
+    - host: fe.20.123.45.67.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "esappfe.fullname" . }}
+                port:
+                  number: 80
