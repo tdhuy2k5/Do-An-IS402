@@ -15,9 +15,5 @@ spec:
       targetPort: http
       protocol: TCP
 
-    - name: metrics
-      port: {{ .Values.metricsService.port }}
-      targetPort: http
-
   selector:
     {{- include "esapp.selectorLabels" . | nindent 4 }}
