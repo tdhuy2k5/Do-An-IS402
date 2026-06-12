@@ -3,9 +3,11 @@ kind: Application
 metadata:
   name: esapp
   namespace: argocd
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   project: default
-
+  
   source:
     repoURL: https://github.com/ZeusOfDev/Do-An-IS402.git
     targetRevision: main

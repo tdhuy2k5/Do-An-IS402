@@ -4,6 +4,8 @@ metadata:
   name: {{ include "esappfe.fullname" . }}
   labels:
     {{- include "esappfe.labels" . | nindent 4 }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
