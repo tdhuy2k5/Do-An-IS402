@@ -2,11 +2,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "esapp.fullname" . }}-config
+
 data:
+  # ===================== APP =====================
   APP_NAME: "esapp"
-  APP_ENV: "local"
-  APP_DEBUG: "true"
-  APP_URL: "http://localhost:8080"
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  APP_URL: "http://fe.135.171.243.189.nip.io/api"
 
   APP_LOCALE: "en"
   APP_FALLBACK_LOCALE: "en"
@@ -15,54 +17,59 @@ data:
   APP_MAINTENANCE_DRIVER: "file"
 
   PHP_CLI_SERVER_WORKERS: "4"
-
   BCRYPT_ROUNDS: "12"
 
+  # ===================== LOG =====================
   LOG_CHANNEL: "stdout"
   LOG_STACK: "single"
   LOG_DEPRECATIONS_CHANNEL: "null"
-  LOG_LEVEL: "debug"
+  LOG_LEVEL: "info"
 
-  SESSION_DRIVER: "array"
+  # ===================== SESSION / CACHE / QUEUE =====================
+  SESSION_DRIVER: "redis"
+  CACHE_STORE: "redis"
+  QUEUE_CONNECTION: "redis"
 
-  BROADCAST_CONNECTION: "log"
-  FILESYSTEM_DISK: "local"
-  QUEUE_CONNECTION: "sync"
-
-  CACHE_STORE: "array"
-
-  MEMCACHED_HOST: "127.0.0.1"
-  REDIS_SCHEME: "tls"
+  # ===================== REDIS (AZURE KEY VAULT URL) =====================
   REDIS_CLIENT: "phpredis"
+  REDIS_URL: "rediss://:FROM_KEYVAULT@esapp-redis-metrics-staging.redis.cache.windows.net:6380"
+
+  # (optional fallback if not using REDIS_URL)
   REDIS_HOST: "esapp-redis-metrics-staging.redis.cache.windows.net"
   REDIS_PORT: "6380"
+  REDIS_SCHEME: "tls"
 
+  # ===================== MAIL =====================
   MAIL_MAILER: "smtp"
   MAIL_SCHEME: "smtp"
   MAIL_HOST: "smtp.sendgrid.net"
   MAIL_PORT: "587"
   MAIL_USERNAME: "apikey"
-  MAIL_FROM_ADDRESS: "duchuy28042005@gmail.com"
   MAIL_ENCRYPTION: "tls"
-  MAIL_FROM_NAME: "${APP_NAME}"
+  MAIL_FROM_ADDRESS: "duchuy28042005@gmail.com"
+  MAIL_FROM_NAME: "esapp"
 
+  # ===================== AUTH =====================
   REAL_CHECK_TOKEN_TIME: "60"
+  JWT_ALGO: "HS256"
+  AUTH_GUARD: "api"
 
+  # ===================== GOOGLE OAUTH =====================
+  GOOGLE_CLIENT_ID: "518525301067-6vci81s4s8eo4klif1rmj18rl8o216po.apps.googleusercontent.com"
+  GOOGLE_REDIRECT_URI: "http://fe.135.171.243.189.nip.io/auth/callback"
+
+  # ===================== DB =====================
+  DB_CONNECTION: "mysql"
+  DB_HOST: "esapp-mysql-staging.mysql.database.azure.com"
+  DB_PORT: "3306"
+  DB_DATABASE: "esapp"
+
+  # ===================== AWS (unused placeholders) =====================
   AWS_ACCESS_KEY_ID: ""
   AWS_SECRET_ACCESS_KEY: ""
   AWS_DEFAULT_REGION: "us-east-1"
   AWS_BUCKET: ""
   AWS_USE_PATH_STYLE_ENDPOINT: "false"
 
-  VITE_APP_NAME: "${APP_NAME}"
-
-  JWT_ALGO: "HS256"
-  AUTH_GUARD: "api"
-
-  GOOGLE_CLIENT_ID: "518525301067-6vci81s4s8eo4klif1rmj18rl8o216po.apps.googleusercontent.com"
-  GOOGLE_REDIRECT_URI: "http://fe.135.171.243.189.nip.io/auth/callback"
-
-  DB_CONNECTION: "mysql"
-  DB_HOST: "esapp-mysql-staging.mysql.database.azure.com"
-  DB_PORT: "3306"
-  DB_DATABASE: "esapp"
+  # ===================== VITE =====================
+  VITE_APP_NAME: "esapp"
