@@ -55,42 +55,6 @@ affinity: {}
 service:
   type: ClusterIP
   port: 8080 # Cổng mà Service nội bộ lắng nghe cho App chính
-metricsService:
-  type: ClusterIP
-  port: 8080
-ingress:
-  enabled: true
-  className: haproxy
-  hosts:
-    - host: esapp.company.com
-      paths:
-        - path: /
-          pathType: Prefix
-# --- KUBERNETES GATEWAY API (Tùy chọn nâng cao thế hệ mới) ---
-httpRoute:
-  enabled: false
-  annotations: {}
-  parentRefs:
-    - name: gateway
-      sectionName: http
-  hostnames:
-    - chart-example.local
-  rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /headers
-# ==============================================================================
-# 4. MONITORING & METRICS CONFIGURATION
-# ==============================================================================
-# Cấu hình cụ thể nơi ứng dụng xuất metrics nội bộ bên trong Container
-metrics:
-  enabled: true
-  port: 8080 # Trả về đúng bản chất: app chạy metrics ở cổng 9090 độc lập
-  path: /metrics # Đường dẫn tiêu chuẩn để Prometheus hoặc hệ thống giám sát vào đọc dữ liệu
-# ==============================================================================
-# 5. STORAGE & AZURE INTEGRATION (Key Vault, Secrets, Volumes)
-# ==============================================================================
 
 # Cấu hình kết nối tới Azure Key Vault thông qua Secret Provider Class (CSI)
 keyvault:
