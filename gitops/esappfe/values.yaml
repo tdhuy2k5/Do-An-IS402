@@ -4,7 +4,12 @@
 
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 6
-
+autoscaling:
+  enabled: true
+  minReplicas: 6
+  maxReplicas: 31
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
   repository: esappsacr.azurecr.io/esapp-frontend
@@ -133,12 +138,6 @@ readinessProbe:
     port: http
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
-autoscaling:
-  enabled: false
-  minReplicas: 6
-  maxReplicas: 31
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
 volumes: []

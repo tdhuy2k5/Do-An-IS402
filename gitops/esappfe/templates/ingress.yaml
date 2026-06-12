@@ -7,7 +7,7 @@ spec:
   ingressClassName: haproxy
 
   rules:
-    - host: fe.20.123.45.67.nip.io
+    - host: fe.135.171.243.189.nip.io
       http:
         paths:
           - path: /
