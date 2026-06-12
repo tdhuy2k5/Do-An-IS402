@@ -57,8 +57,7 @@ service:
   port: 8080 # Cổng mà Service nội bộ lắng nghe cho App chính
 metricsService:
   type: ClusterIP
-  port: 9090 # Cổng Service nội bộ chuyên phục vụ việc cào dữ liệu Prometheus
-# --- INGRESS (Lộ tuyến bên ngoài đi vào App chính) ---
+  port: 8080
 ingress:
   enabled: true
   className: haproxy
