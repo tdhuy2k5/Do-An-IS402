@@ -3,10 +3,8 @@ kind: Ingress
 metadata:
   name: esapp-ingress
   namespace: backend-ns
-  annotations:
-    kubernetes.io/ingress.class: haproxy
 spec:
-  ingressClassName: haproxy
+  ingressClassName: nginx
   rules:
     - host: fe.135.171.243.189.nip.io
       http:
