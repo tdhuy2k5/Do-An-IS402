@@ -5,3 +5,5 @@ storage/logs
 .git
 .gitignore
 .env
+!storage/app/certs/
+!storage/app/certs/DigiCertGlobalRootG2.crt.pem
