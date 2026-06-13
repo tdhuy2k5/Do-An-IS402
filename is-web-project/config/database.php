@@ -37,11 +37,15 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
 
-            // ✅ REQUIRED FOR AZURE MYSQL SECURE TRANSPORT
+            // You can keep this
             'sslmode' => 'required',
 
+            // ✅ UPDATE THIS OPTIONS ARRAY
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA')
+                    ? base_path(env('MYSQL_ATTR_SSL_CA'))
+                    : null,
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true,
             ]) : [],
         ],
 

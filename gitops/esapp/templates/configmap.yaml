@@ -4,6 +4,7 @@ metadata:
   name: {{ include "esapp.fullname" . }}-config
 
 data:
+  MYSQL_ATTR_SSL_CA: "storage/app/certs/DigiCertGlobalRootG2.crt.pem"
   # ===================== APP =====================
   APP_NAME: "esapp"
   APP_ENV: "production"
