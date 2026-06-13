@@ -61,3 +61,4 @@ RUN composer install --no-dev --prefer-dist \
     && composer clear-cache
 
 EXPOSE 8080
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
