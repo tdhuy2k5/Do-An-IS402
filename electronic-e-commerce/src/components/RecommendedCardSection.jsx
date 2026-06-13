@@ -59,7 +59,7 @@ export default function RecommendedCardSection() {
         const data = response.data || [];
         
 
-        setProducts(Array.isArray(data) ? data : []);
+        setProducts(data);
       } catch (error) {
         console.error("Error fetching recommended products:", error);
         setProducts([]);

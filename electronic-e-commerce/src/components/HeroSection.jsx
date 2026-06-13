@@ -6,10 +6,26 @@ const LOOP_AT_SECONDS = 60;
 const HeroSection = () => {
   const playerRef = useRef(null);
   const intervalRef = useRef(null);
-  const timeoutRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
+
+    const loadYouTubeAPI = () => {
+      if (window.YT && window.YT.Player) {
+        initPlayer();
+        return;
+      }
+
+      // Load script ONLY ONCE
+      if (!document.getElementById("youtube-iframe-api")) {
+        const tag = document.createElement("script");
+        tag.id = "youtube-iframe-api";
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+      }
+
+      window.onYouTubeIframeAPIReady = initPlayer;
+    };
 
     const initPlayer = () => {
       if (cancelled || playerRef.current) return;
@@ -23,54 +39,29 @@ const HeroSection = () => {
           modestbranding: 1,
           rel: 0,
           playsinline: 1,
-          enablejsapi: 1,
-          origin: window.location.origin,
         },
         events: {
           onReady: (event) => {
-            const player = event.target;
+            event.target.playVideo();
 
-            player.mute();
-
-            // force autoplay (reduce play icon flicker)
-            player.playVideo();
-            setTimeout(() => player.playVideo(), 200);
-
-            // loop logic (clean + stable)
+            // Loop logic (start AFTER ready)
             intervalRef.current = setInterval(() => {
-              const time = player.getCurrentTime();
+              const time = event.target.getCurrentTime();
               if (time >= LOOP_AT_SECONDS) {
-                player.seekTo(0, true);
+                event.target.seekTo(0, true);
               }
-            }, 500);
+            }, 1000);
           },
         },
       });
     };
 
-    const loadYouTubeAPI = () => {
-      if (window.YT && window.YT.Player) {
-        initPlayer();
-        return;
-      }
-
-      if (!document.getElementById("youtube-iframe-api")) {
-        const tag = document.createElement("script");
-        tag.id = "youtube-iframe-api";
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.body.appendChild(tag);
-      }
-
-      window.onYouTubeIframeAPIReady = initPlayer;
-    };
-
-    // delay load to avoid layout flicker
-    timeoutRef.current = setTimeout(loadYouTubeAPI, 300);
+    // ⏱ Delay loading so page can render first (IMPORTANT)
+    const timeout = setTimeout(loadYouTubeAPI, 300);
 
     return () => {
       cancelled = true;
-
-      clearTimeout(timeoutRef.current);
+      clearTimeout(timeout);
       clearInterval(intervalRef.current);
 
       if (playerRef.current) {
@@ -90,11 +81,8 @@ const HeroSection = () => {
         />
       </div>
 
-      {/* 🔥 Overlay to hide loading flash */}
-      <div className="absolute inset-0 bg-black z-10 pointer-events-none opacity-0" />
-
       {/* Overlay Content */}
-      <div className="relative z-20 flex flex-col items-center justify-center h-full text-white text-center">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
         <div className="mb-40 space-y-4">
           <h1 className="text-6xl md:text-8xl font-black tracking-tighter">
             Galaxy Event
@@ -112,12 +100,12 @@ const HeroSection = () => {
       </div>
 
       {/* Footer */}
-      <div className="absolute bottom-5 left-5 text-white/50 z-30">
+      <div className="absolute bottom-5 left-5 text-white/50 z-20">
         <span className="text-2xl">&copy;</span>
       </div>
 
       {/* Feedback */}
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 -rotate-90 origin-bottom-right p-2 bg-gray-700/80 text-white text-xs font-medium z-30">
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 -rotate-90 origin-bottom-right p-2 bg-gray-700/80 text-white text-xs font-medium z-20">
         FEEDBACK
       </div>
     </div>

@@ -1,8 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL =
-  import.meta.env.VITE_BACKEND_API_URL ||
-  "http://localhost:8000/api";
+const API_BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 // Tạo axios instance với config mặc định
 const api = axios.create({
@@ -14,7 +12,7 @@ const api = axios.create({
 });
 
 export const tryRefreshToken = async () => {
-  const response = await axios.post(`${API_BASE_URL}/refresh`, {
+  const response = await axios.get(`${API_BASE_URL}/refresh`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       "refresh-token": localStorage.getItem("refresh_token"),
