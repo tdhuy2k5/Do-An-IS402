@@ -7,7 +7,7 @@ httpRoute:
 replicaCount: 6
 image:
   repository: esappsacr.azurecr.io/esapp-backend
-  tag: e96d5278ea49e217c9e0fb02759dea2ec0034c99
+  tag: d1459b73193d274ee5a4f3e36151f202ec939801
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 nameOverride: ""
