@@ -8,7 +8,7 @@ data:
   APP_NAME: "esapp"
   APP_ENV: "production"
   APP_DEBUG: "false"
-  APP_URL: "http://fe.135.171.243.189.nip.io/api"
+  APP_URL: "http://fe.135.171.243.189.nip.io"
 
   APP_LOCALE: "en"
   APP_FALLBACK_LOCALE: "en"
