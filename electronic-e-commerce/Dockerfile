@@ -8,44 +8,34 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-
 # =========================
-# 1. CI / TEST STAGE (QUALITY GATE)
+# 1. TEST STAGE
 # =========================
 FROM base AS tester
 
 WORKDIR /app
-
 COPY . .
 
-# 🔥 CI QUALITY GATE (THIS IS WHAT YOU WANTED)
 RUN npm run lint
 RUN npm run test
 
 # =========================
-# 2. BUILD STAGE
+# 2. BUILD STAGE (HARD CODED ENV)
 # =========================
 FROM base AS build
 
 WORKDIR /app
-
 COPY . .
 
-ARG VITE_BACKEND_API_URL
-ARG VITE_GOOGLE_CLIENT_ID
-ARG VITE_GOOGLE_REDIRECT_URI
-
-
-
-ENV VITE_BACKEND_API_URL=$VITE_BACKEND_API_URL
-ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
-ENV VITE_GOOGLE_REDIRECT_URI=$VITE_GOOGLE_REDIRECT_URI
+# 🔥 HARD-CODED VALUES (NO Kubernetes needed)
+ENV VITE_BACKEND_API_URL="http://fe.135.171.243.189.nip.io/api"
+ENV VITE_GOOGLE_CLIENT_ID="518525301067-6vci81s4s8eo4klif1rmj18rl8o216po.apps.googleusercontent.com"
+ENV VITE_GOOGLE_REDIRECT_URI="/auth/callback"
 
 RUN npm run build
 
-
 # =========================
-# 3. PRODUCTION STAGE
+# 3. PRODUCTION
 # =========================
 FROM pierrezemb/gostatic AS production
 
