@@ -17,28 +17,21 @@ class MetricsService
     {
         $this->registry = new CollectorRegistry(
             new PrometheusRedis([
-                // IMPORTANT: Azure Redis requires TLS
-                'scheme' => 'tls', // 👈 KEY FIX
+                'scheme' => 'tls',
                 'host' => env('REDIS_HOST'),
-                'port' => env('REDIS_PORT', 6380),
-
-                // Azure Redis access key
+                'port' => 6380,
                 'password' => env('REDIS_PASSWORD'),
-
                 'database' => (int) env('REDIS_DB', 0),
 
-                'timeout' => 1.5,
-                'read_timeout' => 10,
+                'timeout' => 5,
+                'read_timeout' => 5,
 
-                'persistent_connections' => true,
-
-                // optional safety for Azure certs
-                'context' => [
+                'context' => stream_context_create([
                     'ssl' => [
                         'verify_peer' => false,
                         'verify_peer_name' => false,
                     ],
-                ],
+                ]),
             ])
         );
 
