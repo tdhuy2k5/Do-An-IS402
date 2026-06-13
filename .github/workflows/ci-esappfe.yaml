@@ -39,12 +39,21 @@ jobs:
       - name: Login to ACR
         run: az acr login --name ${{ env.ACR_NAME }}
 
+      # 🔥 IMPORTANT FIX: FORCE CLEAN BUILD + PASS VITE ARGS
       - name: Build and Push Frontend Image
         uses: docker/build-push-action@v6
         with:
           context: ./electronic-e-commerce
           file: ./electronic-e-commerce/Dockerfile
           push: true
+
+          no-cache: true # 🔥 fixes stale localhost issue
+
+          build-args: |
+            VITE_BACKEND_API_URL=http://fe.135.171.243.189.nip.io/api
+            VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+            VITE_GOOGLE_REDIRECT_URI=/auth/callback
+
           tags: |
             ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
             ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
@@ -60,10 +69,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Debug Git Remote
-        run: |
-          git remote -v
 
       - name: Commit and Push
         run: |
