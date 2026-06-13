@@ -43,7 +43,7 @@ function Home() {
             <main className="flex-grow overflow-x-hidden">
                 {/* Ảnh Hero - Kiểm tra xem file này tên là hero-main.jpg hay hero-main.webp */}
                 <HeroSection 
-                    bgImage={`${IMAGE_PATH}/hero-main.jpg`} 
+                    bgImage={`https://images.samsung.com/vn/smartphones/galaxy-s26-ultra/images/galaxy-s26-ultra-features-kv.jpg?imbypass=true`} 
                     title="Galaxy Z Fold7" 
                     subTitle="Galaxy AI ✨"
                 />
@@ -56,7 +56,7 @@ function Home() {
                 ) : (
                     <>
                         <Home_Phone
-                          bgImage={`${IMAGE_PATH}/galaxy-z-fold7-features-kv.jpg`} // Đúng link bạn đưa
+                          bgImage={`${IMAGE_PATH}/tab-s9/main.jpg`} // Đúng link bạn đưa
                           title=""
                           subTitle=""
                         />
