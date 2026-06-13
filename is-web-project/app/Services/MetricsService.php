@@ -3,99 +3,81 @@
 namespace App\Services;
 
 use Prometheus\CollectorRegistry;
-use Prometheus\RenderTextFormat;
 use Prometheus\Storage\Redis as PrometheusRedis;
-use Throwable;
+use Prometheus\Counter;
+use Prometheus\Gauge;
+use Prometheus\Histogram;
+use Prometheus\RenderTextFormat;
 
 class MetricsService
 {
-    private ?CollectorRegistry $registry = null;
-
-    private bool $enabled = true;
+    private CollectorRegistry $registry;
 
     public function __construct()
     {
-        try {
-            // 🔥 IMPORTANT: fail safely, do NOT crash app
-            $this->registry = new CollectorRegistry(
-                new PrometheusRedis([
-                    'host' => env('REDIS_HOST', '127.0.0.1'),
-                    'port' => env('REDIS_PORT', 6379),
-                    'password' => env('REDIS_PASSWORD', null),
-                    'database' => (int) env('REDIS_DB', 0),
-                    'timeout' => 0.2,
-                    'read_timeout' => 1,
-                    'persistent_connections' => false,
-                ])
-            );
-        } catch (Throwable $e) {
-            // ❌ NEVER crash app because of metrics
-            $this->enabled = false;
-            $this->registry = null;
-        }
+        $this->registry = new CollectorRegistry(
+            new PrometheusRedis([
+                // IMPORTANT: Azure Redis requires TLS
+                'scheme' => 'tls', // 👈 KEY FIX
+                'host' => env('REDIS_HOST'),
+                'port' => env('REDIS_PORT', 6380),
+
+                // Azure Redis access key
+                'password' => env('REDIS_PASSWORD'),
+
+                'database' => (int) env('REDIS_DB', 0),
+
+                'timeout' => 1.5,
+                'read_timeout' => 10,
+
+                'persistent_connections' => true,
+
+                // optional safety for Azure certs
+                'context' => [
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                    ],
+                ],
+            ])
+        );
+
+        $this->initializeMetrics();
     }
 
-    private function safe(callable $fn): void
+    private function initializeMetrics(): void
     {
-        if (!$this->enabled || !$this->registry) {
-            return;
-        }
+        $this->registry->registerCounter(
+            'app',
+            'http_requests_total',
+            'Total HTTP requests',
+            ['method', 'endpoint', 'status']
+        );
 
-        try {
-            $fn();
-        } catch (Throwable $e) {
-            // swallow metrics errors
-        }
-    }
+        $this->registry->registerHistogram(
+            'app',
+            'http_request_duration_seconds',
+            'HTTP request duration',
+            ['method', 'endpoint', 'status'],
+            [0.001, 0.01, 0.1, 1, 5]
+        );
 
-    public function recordHttpRequest(
-        string $method,
-        string $endpoint,
-        int $status,
-        float $duration
-    ): void {
-        $this->safe(function () use ($method, $endpoint, $status, $duration) {
-            $labels = [$method, $endpoint, (string)$status];
-
-            $counter = $this->registry->getOrRegisterCounter(
-                'app',
-                'http_requests_total',
-                'Total HTTP requests',
-                ['method', 'endpoint', 'status']
-            );
-
-            $counter->inc($labels);
-        });
-    }
-
-    public function recordDatabaseQuery(
-        string $connection,
-        string $operation,
-        float $duration
-    ): void {
-        $this->safe(function () use ($connection, $operation) {
-            $counter = $this->registry->getOrRegisterCounter(
-                'app',
-                'database_queries_total',
-                'Database queries',
-                ['connection', 'operation']
-            );
-
-            $counter->inc([$connection, $operation]);
-        });
+        $this->registry->registerGauge(
+            'app',
+            'info',
+            'Application info',
+            ['app_name', 'app_version', 'environment']
+        )->set(1, [
+            config('app.name'),
+            config('app.version', '1.0.0'),
+            config('app.env')
+        ]);
     }
 
     public function render(): string
     {
-        if (!$this->registry) {
-            return '';
-        }
-
-        try {
-            $renderer = new RenderTextFormat();
-            return $renderer->render($this->registry->getMetricFamilySamples());
-        } catch (Throwable $e) {
-            return '';
-        }
+        return (new RenderTextFormat())->render(
+            $this->registry->getMetricFamilySamples()
+        );
     }
 }

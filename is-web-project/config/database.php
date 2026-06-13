@@ -28,29 +28,46 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('DB_HOST'),
+            'port' => env('DB_PORT', 3306),
+            'database' => env('DB_DATABASE'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
+
             'prefix' => '',
             'strict' => true,
+            'engine' => null,
 
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            /*
+            |--------------------------------------------------------------
+            | Azure MySQL TLS (require_secure_transport=ON)
+            |--------------------------------------------------------------
+            | Do NOT wrap this in array_filter(). array_filter() strips
+            | both null and false values — that previously deleted
+            | MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false entirely and
+            | left `options` as []. With no SSL attrs, PDO connected
+            | over plain TCP and Azure rejected it:
+            | SQLSTATE[HY000] [3159] Connections using insecure
+            | transport are prohibited while --require_secure_transport=ON.
+            |--------------------------------------------------------------
+            */
+            'options' => extension_loaded('pdo_mysql') ? [
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA', '/etc/ssl/certs/ca-certificates.crt'),
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+            ] : [],
         ],
 
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST'),
-            'port' => env('DB_PORT', '5432'),
+            'port' => env('DB_PORT', 5432),
             'database' => env('DB_DATABASE'),
             'username' => env('DB_USERNAME'),
             'password' => env('DB_PASSWORD'),
+
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
@@ -60,16 +77,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Migrations
+    | Migration Table
     |--------------------------------------------------------------------------
     */
     'migrations' => [
         'table' => 'migrations',
+        'update_date_on_publish' => true,
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Redis Configuration (FIXED FOR AZURE REDIS + PHPREDIS)
+    | Redis Configuration
     |--------------------------------------------------------------------------
     */
     'redis' => [
@@ -82,35 +100,29 @@ return [
             'prefix' => Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_',
         ],
 
-        /*
-        |-------------------------
-        | DEFAULT REDIS (CACHE + SESSION + QUEUE)
-        |-------------------------
-        */
         'default' => [
             'host' => env('REDIS_HOST'),
             'port' => env('REDIS_PORT', 6380),
             'password' => env('REDIS_PASSWORD'),
             'database' => env('REDIS_DB', 0),
 
-            // IMPORTANT: Azure Redis TLS support for phpredis
+            // Azure Cache for Redis: port 6380 is TLS-only.
+            // `scheme` must be set explicitly — the `ssl` array alone
+            // does not make phpredis upgrade the connection.
+            'scheme' => 'tls',
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false,
             ],
         ],
 
-        /*
-        |-------------------------
-        | CACHE REDIS DB
-        |-------------------------
-        */
         'cache' => [
             'host' => env('REDIS_HOST'),
             'port' => env('REDIS_PORT', 6380),
             'password' => env('REDIS_PASSWORD'),
             'database' => env('REDIS_CACHE_DB', 1),
 
+            'scheme' => 'tls',
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false,
