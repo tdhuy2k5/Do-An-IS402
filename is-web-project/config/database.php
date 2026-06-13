@@ -148,31 +148,58 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '-') . '_database_'),
+            'prefix' => env(
+                'REDIS_PREFIX',
+                Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'
+            ),
         ],
 
-        // DEFAULT CONNECTION
         'default' => [
-            'url' => env('REDIS_URL'),
+            'scheme' => 'tls',
 
-            // fallback only (not used if REDIS_URL exists)
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
+            'host' => env('REDIS_HOST'),
 
-            'database' => 0,
+            'username' => env('REDIS_USERNAME'),
+
+            'password' => env('REDIS_PASSWORD'),
+
+            'port' => env('REDIS_PORT', 6380),
+
+            'database' => env('REDIS_DB', 0),
+
+            'read_timeout' => 60,
+
+            'context' => [
+                'stream' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
         ],
 
-        // CACHE CONNECTION
         'cache' => [
-            'url' => env('REDIS_URL'),
+            'scheme' => 'tls',
 
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
+            'host' => env('REDIS_HOST'),
 
-            'database' => 1,
+            'username' => env('REDIS_USERNAME'),
+
+            'password' => env('REDIS_PASSWORD'),
+
+            'port' => env('REDIS_PORT', 6380),
+
+            'database' => env('REDIS_CACHE_DB', 1),
+
+            'read_timeout' => 60,
+
+            'context' => [
+                'stream' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
         ],
+
     ],
 
 ];

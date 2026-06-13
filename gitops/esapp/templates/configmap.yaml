@@ -26,18 +26,19 @@ data:
   LOG_LEVEL: "info"
 
   # ===================== SESSION / CACHE / QUEUE =====================
-  SESSION_DRIVER: "redis"
-  CACHE_STORE: "redis"
-  QUEUE_CONNECTION: "redis"
-
-  # ===================== REDIS (AZURE KEY VAULT URL) =====================
   REDIS_CLIENT: "phpredis"
-  REDIS_URL: "rediss://:FROM_KEYVAULT@esapp-redis-metrics-staging.redis.cache.windows.net:6380"
 
-  # (optional fallback if not using REDIS_URL)
   REDIS_HOST: "esapp-redis-metrics-staging.redis.cache.windows.net"
   REDIS_PORT: "6380"
-  REDIS_SCHEME: "tls"
+
+  REDIS_USERNAME: ""
+
+  REDIS_DB: "0"
+  REDIS_CACHE_DB: "1"
+
+  CACHE_STORE: "redis"
+  SESSION_DRIVER: "redis"
+  QUEUE_CONNECTION: "redis"
 
   # ===================== MAIL =====================
   MAIL_MAILER: "smtp"

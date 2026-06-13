@@ -62,10 +62,10 @@ resource "azurerm_key_vault_secret" "mysql_password" {
   depends_on   = [azurerm_key_vault_access_policy.terraform]
 }
 
-resource "azurerm_key_vault_secret" "redis_url" {
-  name         = "REDIS-URL"
+resource "azurerm_key_vault_secret" "redis_password" {
+  name = "REDIS-PASSWORD"
 
-  value = "rediss://${azurerm_redis_cache.metrics.primary_access_key}@${azurerm_redis_cache.metrics.hostname}:6380"
+  value = azurerm_redis_cache.metrics.primary_access_key
 
   key_vault_id = azurerm_key_vault.main.id
 

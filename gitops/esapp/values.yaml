@@ -81,8 +81,8 @@ secretsMapping:
   - azureName: "MYSQL-ADMIN-USERNAME"
     envKey: "DB_USERNAME"
 
-  - azureName: "REDIS-URL"
-    envKey: "REDIS_URL"
+  - azureName: "REDIS-PASSWORD"
+    envKey: "REDIS_PASSWORD"
 # Khai báo các Volume bổ sung nếu có ngoài luồng CSI mặc định
 volumes: []
 volumeMounts: []

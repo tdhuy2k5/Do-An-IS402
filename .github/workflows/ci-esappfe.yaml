@@ -1,4 +1,4 @@
-name: Frontend CI
+name: FE CI
 
 on:
   push:
@@ -16,7 +16,7 @@ env:
   IMAGE_NAME: esapp-frontend
 
 jobs:
-  test-build-push:
+  build-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,15 +24,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
-
-      - name: Install yq (IMPORTANT FIX)
-        run: |
-          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
-          sudo chmod +x /usr/bin/yq
-          yq --version
 
       - name: Azure Login
         uses: azure/login@v2
@@ -44,44 +39,39 @@ jobs:
       - name: Login to ACR
         run: az acr login --name ${{ env.ACR_NAME }}
 
-      - name: Run Quality Gate (Build only tester stage)
+      - name: Build and Push Frontend Image
         uses: docker/build-push-action@v6
         with:
           context: ./electronic-e-commerce
           file: ./electronic-e-commerce/Dockerfile
-          target: tester
-          push: false
-
-      - name: Build and Push Image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./electronic-e-commerce
-          file: ./electronic-e-commerce/Dockerfile
-          target: production
           push: true
-          tags: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: |
+            ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
 
-      # ✅ FIXED: update GitOps using yq (NO sed issues)
-      - name: Update GitOps values.yaml
+      - name: Update GitOps values
         run: |
-          echo "Before update:"
+          sed -i "s/^  tag:.*/  tag: ${{ github.sha }}/" gitops/esappfe/values.yaml
+
+          echo "Updated values.yaml:"
           cat gitops/esappfe/values.yaml
 
-          yq -i '.image.tag = "${{ github.sha }}"' gitops/esappfe/values.yaml
-
-          echo "After update:"
-          cat gitops/esappfe/values.yaml
-
-      - name: Commit and Push GitOps change
+      - name: Configure Git
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Debug Git Remote
+        run: |
+          git remote -v
+
+      - name: Commit and Push
+        run: |
           git add gitops/esappfe/values.yaml
 
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update frontend image ${{ github.sha }} [skip ci]"
+            git push origin HEAD:main
           else
-            git commit -m "chore: update frontend image ${{ github.sha }}"
-            git push
+            echo "No changes detected"
           fi
