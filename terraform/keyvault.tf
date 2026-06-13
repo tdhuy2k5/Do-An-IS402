@@ -17,7 +17,6 @@ resource "azurerm_key_vault_access_policy" "csi" {
 
   secret_permissions = ["Get", "List"]
 }
-# ✅ Cấp quyền cho identity đang chạy Terraform
 resource "azurerm_key_vault_access_policy" "terraform" {
   key_vault_id = azurerm_key_vault.main.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
@@ -26,7 +25,6 @@ resource "azurerm_key_vault_access_policy" "terraform" {
   secret_permissions = ["Get", "Set", "Delete", "List", "Purge", "Recover"]
 }
 
-# ✅ Tất cả secrets depends_on access policy
 resource "azurerm_key_vault_secret" "jwt_secret" {
   name         = "JWT-SECRET"
   value        = var.jwt_secret
