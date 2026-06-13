@@ -6,6 +6,6 @@ metadata:
     {{- include "esappfe.labels" . | nindent 4 }}
 
 data:
-  VITE_GOOGLE_CLIENT_ID: "518525301067-6vci81s4s8eo4klif1rmj18rl8o216po.apps.googleusercontent.com"
+  VITE_GOOGLE_CLIENT_ID: "518525301067-7kgmj0eed159li21s558qu0je6bma301.apps.googleusercontent.com"
   VITE_GOOGLE_REDIRECT_URI: "/auth/callback"
   VITE_BACKEND_API_URL: "http://fe.57.155.223.9.nip.io/api"
