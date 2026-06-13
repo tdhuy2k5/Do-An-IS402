@@ -50,7 +50,7 @@ jobs:
           no-cache: true # 🔥 fixes stale localhost issue
 
           build-args: |
-            VITE_BACKEND_API_URL=http://fe.135.171.243.189.nip.io/api
+            VITE_BACKEND_API_URL=http://fe.57.155.223.9.nip.io/api
             VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
             VITE_GOOGLE_REDIRECT_URI=/auth/callback
 
