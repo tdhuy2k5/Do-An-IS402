@@ -3,11 +3,21 @@
 # ==========================================
 FROM dunglas/frankenphp:1.4-alpine AS base
 
+# Install necessary packages for CA certificates
+RUN apk add --no-cache ca-certificates
+
 # Install production extensions
 RUN install-php-extensions gd pdo_mysql zip bcmath opcache redis
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
+
+# --- SSL CERTIFICATE FIX ---
+# Copy the cert to the system-wide store BEFORE setting up the app.
+# This ensures it survives Kubernetes volume mounts on /app.
+COPY certs/DigiCertGlobalRootG2.crt.pem /usr/local/share/ca-certificates/DigiCertGlobalRootG2.crt.pem
+RUN update-ca-certificates
+# ---------------------------
 
 ENV FRANKENPHP_DOCUMENT_ROOT=/app/public
 ENV SERVER_NAME=:8080
@@ -61,3 +71,6 @@ RUN composer install --no-dev --prefer-dist \
     && composer clear-cache
 
 EXPOSE 8080
+
+# Start the FrankenPHP server
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
