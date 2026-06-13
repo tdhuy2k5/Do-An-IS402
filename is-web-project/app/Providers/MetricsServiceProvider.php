@@ -8,20 +8,23 @@ use Illuminate\Support\ServiceProvider;
 class MetricsServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
+     * Register services
      */
     public function register(): void
     {
-        $this->app->singleton(MetricsService::class, function ($app) {
+        // ✅ Singleton = one instance per container (per pod)
+        $this->app->singleton(MetricsService::class, function () {
             return new MetricsService();
         });
     }
 
     /**
-     * Bootstrap services.
+     * Bootstrap services
+     *
+     * Keep empty to avoid early initialization issues
      */
     public function boot(): void
     {
-        //
+        // nothing here
     }
 }

@@ -12,7 +12,7 @@ class MetricsService
 
     public function __construct()
     {
-        // ✅ IN MEMORY storage (NO Redis)
+        // ✅ IN-MEMORY (NO REDIS)
         $this->registry = new CollectorRegistry(new InMemory());
 
         $this->initializeMetrics();
@@ -37,7 +37,7 @@ class MetricsService
 
         $this->registry->registerGauge(
             'app',
-            'info',
+            'app_info',
             'Application info',
             ['app_name', 'app_version', 'environment']
         )->set(1, [
@@ -45,6 +45,29 @@ class MetricsService
             config('app.version', '1.0.0'),
             config('app.env')
         ]);
+    }
+
+    // ✅ FIX: ADD METHOD (your middleware requires it)
+    public function recordHttpRequest(string $method, string $endpoint, int $status, float $duration): void
+    {
+        $counter = $this->registry->getOrRegisterCounter(
+            'app',
+            'http_requests_total',
+            'Total HTTP requests',
+            ['method', 'endpoint', 'status']
+        );
+
+        $counter->inc([$method, $endpoint, (string)$status]);
+
+        $histogram = $this->registry->getOrRegisterHistogram(
+            'app',
+            'http_request_duration_seconds',
+            'HTTP request duration',
+            ['method', 'endpoint', 'status'],
+            [0.001, 0.01, 0.1, 1, 5]
+        );
+
+        $histogram->observe($duration, [$method, $endpoint, (string)$status]);
     }
 
     public function render(): string

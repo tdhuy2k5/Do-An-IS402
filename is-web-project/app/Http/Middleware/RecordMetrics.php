@@ -2,42 +2,30 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\MetricsService;
 use Closure;
+use App\Services\MetricsService;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class RecordMetrics
 {
-    public function __construct(
-        private MetricsService $metricsService
-    ) {}
+    private MetricsService $metrics;
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function __construct(MetricsService $metrics)
     {
-        // Skip metrics recording for the metrics endpoint itself
-        if ($request->is('metrics')) {
-            return $next($request);
-        }
+        $this->metrics = $metrics;
+    }
 
-        $startTime = microtime(true);
+    public function handle(Request $request, Closure $next)
+    {
+        $start = microtime(true);
 
         $response = $next($request);
 
-        $duration = microtime(true) - $startTime;
+        $duration = microtime(true) - $start;
 
-        // Get route name or path as endpoint identifier
-        $endpoint = $request->route()?->getName() ?? $request->path();
-
-        // Record the metrics
-        $this->metricsService->recordHttpRequest(
-            $request->getMethod(),
-            $endpoint,
+        $this->metrics->recordHttpRequest(
+            $request->method(),
+            $request->path(),
             $response->getStatusCode(),
             $duration
         );

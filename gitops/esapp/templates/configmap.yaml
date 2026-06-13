@@ -27,7 +27,7 @@ data:
 
   # ===================== SESSION / CACHE / QUEUE =====================
   REDIS_CLIENT: "phpredis"
-
+  MYSQL_ATTR_SSL_CA: ""
   REDIS_HOST: "esapp-redis-metrics-staging.redis.cache.windows.net"
   REDIS_PORT: "6380"
 
