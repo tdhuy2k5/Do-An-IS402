@@ -3,10 +3,7 @@
 namespace App\Services;
 
 use Prometheus\CollectorRegistry;
-use Prometheus\Storage\Redis as PrometheusRedis;
-use Prometheus\Counter;
-use Prometheus\Gauge;
-use Prometheus\Histogram;
+use Prometheus\Storage\InMemory;
 use Prometheus\RenderTextFormat;
 
 class MetricsService
@@ -15,25 +12,8 @@ class MetricsService
 
     public function __construct()
     {
-        $this->registry = new CollectorRegistry(
-            new PrometheusRedis([
-                'scheme' => 'tls',
-                'host' => env('REDIS_HOST'),
-                'port' => 6380,
-                'password' => env('REDIS_PASSWORD'),
-                'database' => (int) env('REDIS_DB', 0),
-
-                'timeout' => 5,
-                'read_timeout' => 5,
-
-                'context' => stream_context_create([
-                    'ssl' => [
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
-                    ],
-                ]),
-            ])
-        );
+        // ✅ IN MEMORY storage (NO Redis)
+        $this->registry = new CollectorRegistry(new InMemory());
 
         $this->initializeMetrics();
     }
