@@ -41,8 +41,8 @@ readinessProbe:
 # Tự động tăng giảm số lượng Pods dựa theo tải hệ thống
 autoscaling:
   enabled: true
-  minReplicas: 6
-  maxReplicas: 31
+  minReplicas: 1
+  maxReplicas: 1
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 # Hạ tầng điều phối Pod chạy trên Node nào
