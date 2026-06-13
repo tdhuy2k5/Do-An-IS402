@@ -20,7 +20,7 @@ data:
   BCRYPT_ROUNDS: "12"
 
   # ===================== LOG =====================
-  LOG_CHANNEL: "stdout"
+  LOG_CHANNEL: "stderr"
   LOG_STACK: "single"
   LOG_DEPRECATIONS_CHANNEL: "null"
   LOG_LEVEL: "info"
