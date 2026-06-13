@@ -269,7 +269,7 @@ export default function Navbar({ isTransparent = true }) {
       <nav className={`w-full ${shouldBeWhite ? "text-black" : "text-white"}`}> 
         <div className="flex items-center justify-between px-8 py-3 max-w-screen-2xl mx-auto">
           <div className="flex items-center space-x-8">
-            <Link to="/" style={{ color: shouldBeWhite ? "black" : "white", textDecoration: "none", transition: "color 0.3s ease", fontSize: "22px", fontWeight: "700" }}>SAMSUNG</Link>
+            <Link to="/" style={{ color: shouldBeWhite ? "black" : "white", textDecoration: "none", transition: "color 0.3s ease", fontSize: "22px", fontWeight: "700" }}>ESAPP</Link>
             <ul className="hidden md:flex space-x-6 font-medium text-sm">
               {/* LOẠI BỎ APPLIANCES KHỎI DANH SÁCH HIỂN THỊ */}
               {["Shop", "Mobile", "TV-AV", "Computing-Displays"].map((item) => (
