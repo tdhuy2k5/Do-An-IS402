@@ -36,28 +36,12 @@ return [
 
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-
-            'prefix' => '',
             'strict' => true,
-            'engine' => null,
 
-            /*
-            |--------------------------------------------------------------
-            | Azure MySQL TLS (require_secure_transport=ON)
-            |--------------------------------------------------------------
-            | Do NOT wrap this in array_filter(). array_filter() strips
-            | both null and false values — that previously deleted
-            | MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false entirely and
-            | left `options` as []. With no SSL attrs, PDO connected
-            | over plain TCP and Azure rejected it:
-            | SQLSTATE[HY000] [3159] Connections using insecure
-            | transport are prohibited while --require_secure_transport=ON.
-            |--------------------------------------------------------------
-            */
-            'options' => extension_loaded('pdo_mysql') ? [
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA', '/etc/ssl/certs/ca-certificates.crt'),
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
                 PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-            ] : [],
+            ]) : [],
         ],
 
         'pgsql' => [
