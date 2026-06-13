@@ -6,6 +6,7 @@ metadata:
     {{- include "esappfe.labels" . | nindent 4 }}
   annotations:
     reloader.stakater.com/auto: "true"
+
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -25,6 +26,7 @@ spec:
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
+        reloader.stakater.com/auto: "true"
       {{- end }}
 
     spec:
@@ -50,9 +52,12 @@ spec:
             - name: http
               containerPort: 5173
               protocol: TCP
+
+          # ✅ FIXED CONFIGMAP MAPPING (this is the important part)
           envFrom:
             - configMapRef:
                 name: {{ include "esappfe.fullname" . }}-config
+
           resources:
             requests:
               cpu: 200m
@@ -86,9 +91,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 
-  # =======================================================================
-  # PROGRESSIVE DELIVERY (CANARY STRATEGY)
-  # =======================================================================
   strategy:
     canary:
       steps:
