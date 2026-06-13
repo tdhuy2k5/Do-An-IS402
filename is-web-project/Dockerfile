@@ -1,76 +1,73 @@
 # ==========================================
-# STAGE 1: BASE INFRASTRUCTURE
+# STAGE 1: BASE
 # ==========================================
 FROM dunglas/frankenphp:1.4-alpine AS base
 
-# Install necessary packages for CA certificates
-RUN apk add --no-cache ca-certificates
+RUN install-php-extensions \
+    gd \
+    pdo_mysql \
+    zip \
+    bcmath \
+    opcache \
+    redis
 
-# Install production extensions
-RUN install-php-extensions gd pdo_mysql zip bcmath opcache redis
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# --- SSL CERTIFICATE FIX ---
-# Copy the cert to the system-wide store BEFORE setting up the app.
-# This ensures it survives Kubernetes volume mounts on /app.
-COPY certs/DigiCertGlobalRootG2.crt.pem /usr/local/share/ca-certificates/DigiCertGlobalRootG2.crt.pem
-RUN update-ca-certificates
-# ---------------------------
-
 ENV FRANKENPHP_DOCUMENT_ROOT=/app/public
 ENV SERVER_NAME=:8080
 
-# Create Caddy configuration directories
-RUN mkdir -p /data/caddy /config/caddy \
-    && chown -R www-data:www-data /data /config /app
+# Create required directories
+RUN mkdir -p /data/caddy /config/caddy
 
 # ==========================================
-# STAGE 2: QUALITY GATE (TESTING ENVIRONMENT)
+# STAGE 2: TEST
 # ==========================================
 FROM base AS tester
 
-# Copy all code including dev files
-COPY --chown=www-data:www-data . .
+COPY . .
+
+RUN chown -R www-data:www-data /app
 
 USER www-data
 
-# Install EVERYTHING (including dev dependencies for PHPUnit/Pest)
-RUN composer install --prefer-dist
+RUN composer install --prefer-dist --no-interaction
 
-# CI triggers this target to run your automated tests
-# Example command CI can execute: php artisan test
 CMD ["php", "artisan", "test"]
 
-
 # ==========================================
-# STAGE 3: FINAL PRODUCTION RUNTIME
+# STAGE 3: PRODUCTION
 # ==========================================
 FROM base AS production
 
-# Copy package files first for cache efficiency
-COPY --chown=www-data:www-data composer.json composer.lock* ./
+# Copy composer manifests first for better cache usage
+COPY composer.json composer.lock ./
+
+RUN chown -R www-data:www-data /app
 
 USER www-data
 
-# Fast pre-install without scripts
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist \
+# Install production dependencies ONCE
+RUN composer install \
+    --no-dev \
+    --prefer-dist \
+    --optimize-autoloader \
+    --no-interaction \
     && composer clear-cache
 
-# Copy the rest of the application files
+# Copy application source
 COPY --chown=www-data:www-data . .
 
-# CRUCIAL FIX: Ensure correct permissions for Laravel runtime directories
-RUN mkdir -p /app/storage/logs /app/storage/framework/sessions /app/storage/framework/views \
-    && chmod -R 775 /app/storage /app/bootstrap/cache
-
-# Re-run composer to execute optimization scripts and clean autoloader
-RUN composer install --no-dev --prefer-dist \
-    && composer dump-autoload --no-dev --optimize \
-    && composer clear-cache
+# Laravel runtime directories
+RUN mkdir -p \
+    storage/logs \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/framework/views \
+    bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 EXPOSE 8080
 
-# Start the FrankenPHP server
 CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
