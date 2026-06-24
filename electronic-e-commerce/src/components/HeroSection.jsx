@@ -16,7 +16,7 @@ const HeroSection = () => {
         return;
       }
 
-      // Load script ONLY ONCE
+
       if (!document.getElementById("youtube-iframe-api")) {
         const tag = document.createElement("script");
         tag.id = "youtube-iframe-api";
@@ -44,7 +44,7 @@ const HeroSection = () => {
           onReady: (event) => {
             event.target.playVideo();
 
-            // Loop logic (start AFTER ready)
+
             intervalRef.current = setInterval(() => {
               const time = event.target.getCurrentTime();
               if (time >= LOOP_AT_SECONDS) {
@@ -56,7 +56,7 @@ const HeroSection = () => {
       });
     };
 
-    // ⏱ Delay loading so page can render first (IMPORTANT)
+
     const timeout = setTimeout(loadYouTubeAPI, 300);
 
     return () => {
@@ -73,7 +73,7 @@ const HeroSection = () => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-black">
-      {/* YouTube Player */}
+      { }
       <div className="absolute inset-0">
         <div
           id="hero-youtube-player"

@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // Check if user is admin
+
     private function isAdmin($user)
     {
         return $user->hasAnyRole(['admin']);
     }
 
-    // Get all orders (admin only)
+
     public function getAllOrders(Request $request)
     {
         $user = $request->user();
@@ -33,7 +33,7 @@ class AdminController extends Controller
         ]);
     }
 
-    // Get order details (admin only)
+
     public function getOrderDetails(Request $request, $order_id)
     {
         $user = $request->user();
@@ -61,7 +61,7 @@ class AdminController extends Controller
         ]);
     }
 
-    // Verify payment (admin only)
+
     public function is_pay(Request $request)
     {
         $user = $request->user();

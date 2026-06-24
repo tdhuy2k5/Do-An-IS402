@@ -1,10 +1,10 @@
-// src/components/common/BuyNowButton.jsx (Ví dụ tên file)
 
-import React from 'react';      
+
+import React from 'react';
 
 const BuyNowButton = ({ text = "Buy now" }) => {
   return (
-    <button 
+    <button
       className="
         bg-black               /* Màu nền: Đen */
         text-white           /* Màu chữ: Trắng */

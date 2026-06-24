@@ -42,7 +42,7 @@ const ShopPage = () => {
             };
 
             const response = await axios.get(buildApiUrl('/products/search'), { params });
-            
+
             if (Array.isArray(response.data)) {
                 const data = response.data;
                 console.log("Fetched products:", data);
@@ -100,7 +100,7 @@ const ShopPage = () => {
             </div>
 
             <div className="flex-grow w-full max-w-[1440px] mx-auto px-4 md:px-8 py-10 flex flex-col lg:flex-row gap-8">
-                
+
                 <aside className="w-full lg:w-80 flex-shrink-0 space-y-6 lg:self-start relative lg:top-19 z-20">
                     <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 sticky top-24">
                         <h3 className="font-bold text-xl mb-6 flex items-center gap-2">
@@ -109,8 +109,8 @@ const ShopPage = () => {
 
                         <div className="mb-6">
                             <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Tìm tên sản phẩm</label>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 placeholder="Ví dụ: Galaxy S24..."
                                 value={filters.keyword}
                                 onChange={handleSearchChange}
@@ -123,8 +123,8 @@ const ShopPage = () => {
                             <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
                                 {categoryList.map(cat => (
                                     <label key={cat.slug} className="flex items-center gap-3 cursor-pointer group">
-                                        <input 
-                                            type="checkbox" 
+                                        <input
+                                            type="checkbox"
                                             className="w-5 h-5 rounded accent-black"
                                             checked={filters.child_slugs.includes(cat.slug)}
                                             onChange={() => handleCategoryToggle(cat.slug)}
@@ -138,14 +138,14 @@ const ShopPage = () => {
                         <div className="mb-8">
                             <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">Khoảng giá ($)</label>
                             <div className="flex items-center gap-2">
-                                <input 
+                                <input
                                     type="number" placeholder="Min"
                                     value={filters.min_price}
                                     onChange={(e) => setFilters(prev => ({...prev, min_price: e.target.value}))}
                                     className="w-1/2 bg-gray-50 border-none rounded-xl p-3 text-sm"
                                 />
                                 <span className="text-gray-300">-</span>
-                                <input 
+                                <input
                                     type="number" placeholder="Max"
                                     value={filters.max_price}
                                     onChange={(e) => setFilters(prev => ({...prev, max_price: e.target.value}))}
@@ -154,7 +154,7 @@ const ShopPage = () => {
                             </div>
                         </div>
 
-                        <button 
+                        <button
                             onClick={() => fetchProducts(true)}
                             className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-100"
                         >
@@ -171,7 +171,7 @@ const ShopPage = () => {
                         <div className="flex items-center gap-3 bg-white p-1 rounded-xl shadow-sm border border-gray-100">
                             <span className="text-xs font-bold text-gray-400 px-3 uppercase">Sắp xếp:</span>
                             {['none', 'asc', 'desc'].map(s => (
-                                <button 
+                                <button
                                     key={s}
                                     onClick={() => setFilters(prev => ({...prev, sort: s}))}
                                     className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${filters.sort === s ? 'bg-black text-white shadow-md' : 'text-gray-500 hover:bg-gray-100'}`}
@@ -187,19 +187,19 @@ const ShopPage = () => {
                     {products.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                             {products.map((product) => (
-                                <div 
-                                    key={product.product_id} 
+                                <div
+                                    key={product.product_id}
                                     onClick={() => navigate(`/product/${product.product_id}`)}
                                     className="cursor-pointer bg-white rounded-[32px] p-6 border border-gray-50 hover:shadow-2xl transition-all duration-500 group"
                                 >
                                     <div className="aspect-square w-full mb-6 relative rounded-2xl bg-gray-50 p-6 overflow-hidden">
-                                        <img 
-                                            src={buildImageUrl(product.image_url)} 
-                                            alt={product.product_name} 
-                                            className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" 
+                                        <img
+                                            src={buildImageUrl(product.image_url)}
+                                            alt={product.product_name}
+                                            className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700"
                                         />
                                     </div>
-                                    
+
                                     <h3 className="font-bold text-gray-900 text-lg mb-2 line-clamp-1 group-hover:text-orange-600 transition-colors">
                                         {product.product_name}
                                     </h3>
@@ -214,7 +214,7 @@ const ShopPage = () => {
                                         <button className="bg-black text-white py-3 rounded-2xl font-bold text-sm hover:opacity-80 transition-opacity">
                                             Mua ngay
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 navigate(`/product/${product.product_id}`);
@@ -251,8 +251,8 @@ const ShopPage = () => {
 
                     {hasMore && products.length > 0 && !loading && (
                         <div className="mt-16 text-center">
-                            <button 
-                                onClick={() => fetchProducts(false)} 
+                            <button
+                                onClick={() => fetchProducts(false)}
                                 className="bg-black text-white px-12 py-4 rounded-full font-bold hover:scale-105 transition-all shadow-xl active:scale-95"
                             >
                                 HIỂN THỊ THÊM SẢN PHẨM

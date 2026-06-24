@@ -16,7 +16,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
-  // 1. ĐỊNH NGHĨA HÀM ĐỊNH DẠNG TIỀN TỆ (Sửa lỗi image_6230e7.png)
+
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -30,10 +30,10 @@ const ProductDetail = () => {
       try {
         setLoading(true);
         const response = await ProductService.getById(id);
-        
-        // 2. XỬ LÝ DỮ LIỆU TỪ API (Sửa lỗi nhận mảng tại image_614bc9.png)
+
+
         if (response.data) {
-          // Nếu API trả về mảng [{...}], lấy phần tử đầu tiên
+
           const data = Array.isArray(response.data) ? response.data[0] : response.data;
 
           if (!data || Object.keys(data).length === 0) {
@@ -41,7 +41,7 @@ const ProductDetail = () => {
             return;
           }
 
-          // 3. XỬ LÝ JSON CHO THÔNG SỐ KỸ THUẬT
+
           try {
             data.parsedSpec = typeof data.specification === 'string' ? JSON.parse(data.specification) : data.specification;
             data.parsedAttr = typeof data.attributes === 'string' ? JSON.parse(data.attributes) : data.attributes;
@@ -50,10 +50,10 @@ const ProductDetail = () => {
             data.parsedSpec = {};
             data.parsedAttr = {};
           }
-          
+
           setProduct(data);
-          
-          // Set default variant if available
+
+
           if (data.variants && data.variants.length > 0) {
             setSelectedVariant(data.variants[0]);
           }
@@ -68,7 +68,7 @@ const ProductDetail = () => {
     if (id) fetchProduct();
   }, [id]);
 
-  // Handle Add to Cart
+
   const handleAddToCart = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -82,7 +82,7 @@ const ProductDetail = () => {
       await addToCart(product.product_id, selectedVariant?.variant_id || null, quantity);
       setAddedToCart(true);
       setTimeout(() => setAddedToCart(false), 2000);
-      // Dispatch event to update cart count in Navbar
+
       window.dispatchEvent(new Event("cartUpdated"));
     } catch (error) {
       console.error("Add to cart error:", error);
@@ -92,7 +92,7 @@ const ProductDetail = () => {
     }
   };
 
-  // Handle Buy Now
+
   const handleBuyNow = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -114,7 +114,7 @@ const ProductDetail = () => {
     }
   };
 
-  // HIỂN THỊ TRẠNG THÁI LOADING
+
   if (loading) return <div className="p-20 text-center font-bold">Đang tải sản phẩm...</div>;
 
   // HIỂN THỊ NẾU KHÔNG TÌM THẤY SẢN PHẨM (Sửa lỗi image_61c7eb.png)
@@ -128,18 +128,18 @@ const ProductDetail = () => {
   return (
     <div className="w-full min-h-screen bg-white">
       <Navbar isTransparent={false} />
-      
+
       <main className="w-full px-6 md:px-12 lg:px-20 py-10 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
-          {/* TRÁI: ẢNH SẢN PHẨM */}
+
+          { }
           <div className="bg-[#f7f7f7] rounded-[40px] p-10 flex items-center justify-center aspect-square shadow-sm">
-            <img 
-              // Kết hợp URL Backend và image_url từ database
-              src={product.image_url} 
+            <img
+
+              src={product.image_url}
               alt={product.product_name}
               className="max-w-full max-h-full object-contain mix-blend-multiply"
-              // CHẶN VÒNG LẶP VÔ TẬN (Sửa lỗi image_60ee2e.png
+
             />
           </div>
 
@@ -149,7 +149,7 @@ const ProductDetail = () => {
               {product.product_name}
             </h1>
 
-            {/* BOX GIÁ TIỀN & SKU */}
+            { }
             <div className="bg-[#f0f7ff] p-10 rounded-[32px] mb-10 border border-blue-50">
               <span className="text-5xl font-black text-[#006ce5] block mb-2">
                 {formatCurrency(product.sale_price || product.base_price)}
@@ -203,7 +203,7 @@ const ProductDetail = () => {
 
             {/* NÚT HÀNH ĐỘNG */}
             <div className="flex gap-4">
-              <button 
+              <button
                 onClick={handleBuyNow}
                 disabled={addingToCart}
                 className="flex-1 py-5 rounded-2xl font-bold text-lg transition-all active:scale-95 shadow-lg flex items-center justify-center gap-2"
@@ -218,14 +218,14 @@ const ProductDetail = () => {
                   </>
                 )}
               </button>
-              <button 
+              <button
                 onClick={handleAddToCart}
                 disabled={addingToCart || addedToCart}
                 className="flex-1 py-5 rounded-2xl font-bold text-lg transition-all active:scale-95 flex items-center justify-center gap-2"
-                style={{ 
-                  backgroundColor: addedToCart ? "#10b981" : "#ffffff", 
-                  color: addedToCart ? "#ffffff" : "#000000", 
-                  border: addedToCart ? "none" : "2px solid #000000" 
+                style={{
+                  backgroundColor: addedToCart ? "#10b981" : "#ffffff",
+                  color: addedToCart ? "#ffffff" : "#000000",
+                  border: addedToCart ? "none" : "2px solid #000000"
                 }}
               >
                 {addingToCart ? (

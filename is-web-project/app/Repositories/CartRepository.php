@@ -9,8 +9,8 @@ class CartRepository implements ICartRepository
     public function getCartInfo($userId)
     {
         $cart = DB::select('
-            select p.product_name, p.base_price, p.sale_price, ci.quantity, ci.*, pv.additional_price, pi.image_url, pi.alt_text 
-            from carts c 
+            select p.product_name, p.base_price, p.sale_price, ci.quantity, ci.*, pv.additional_price, pi.image_url, pi.alt_text
+            from carts c
             join cart_items ci on c.cart_id = ci.cart_id
             join products p on ci.product_id = p.product_id
             join product_variants pv on pv.variant_id = ci.variant_id

@@ -8,16 +8,16 @@ function Career() {
     <div className="flex flex-grow flex-col items-center justify-center">
       <Navbar isTransparent={false} />
       <main className="w-screen pt-16">
-        {/* Hero Section */}
+        { }
         <div className="relative h-[90vh] max-w-7xl mx-auto overflow-hidden flex items-center justify-center mt-20 px-4 md:px-8">
-          {/* Background Image */}
-          <img 
+          { }
+          <img
             src={career}
-            alt="Samsung Office" 
+            alt="Samsung Office"
             className="w-full h-full object-cover object-center"
           />
-          
-          {/* Overlay with text */}
+
+          { }
           <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col justify-center items-start px-16">
             <h1 className="text-white text-6xl md:text-7xl font-bold mb-4 leading-tight">
               The future is<br />never finished
@@ -28,10 +28,10 @@ function Career() {
           </div>
         </div>
 
-        {/* Who We Are Section */}
+        { }
         <section className="py-20 px-4 md:px-8 bg-white">
           <div className="max-w-7xl mx-auto">
-            {/* Section Header */}
+            { }
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-4 italic">Who we are</h2>
               <p className="text-base text-gray-600">
@@ -53,9 +53,9 @@ function Career() {
                   </a>
                 </div>
                 <div className="h-40">
-                  <img 
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop" 
-                    alt="Life at Samsung" 
+                  <img
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop"
+                    alt="Life at Samsung"
                     className="w-full h-full object-cover rounded-b-3xl"
                   />
                 </div>
@@ -73,15 +73,15 @@ function Career() {
                   </a>
                 </div>
                 <div className="h-40">
-                  <img 
-                    src="https://images.unsplash.com/photo-1506765515384-028b60a970df?w=800&auto=format&fit=crop" 
-                    alt="Benefits" 
+                  <img
+                    src="https:
+                    alt="Benefits"
                     className="w-full h-full object-cover rounded-b-3xl"
                   />
                 </div>
               </div>
 
-              {/* Card 3: Internships */}
+              { }
               <div className="bg-sky-50 rounded-3xl overflow-hidden flex flex-col h-full">
                 <div className="p-6 text-center flex-1 flex flex-col">
                   <h3 className="text-xl font-bold mb-4">Internships</h3>
@@ -93,15 +93,15 @@ function Career() {
                   </a>
                 </div>
                 <div className="h-40">
-                  <img 
-                    src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&auto=format&fit=crop" 
-                    alt="Internships" 
+                  <img
+                    src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&auto=format&fit=crop"
+                    alt="Internships"
                     className="w-full h-full object-cover rounded-b-3xl"
                   />
                 </div>
               </div>
 
-              {/* Card 4: Citizenship */}
+              { }
               <div className="bg-sky-50 rounded-3xl overflow-hidden flex flex-col h-full">
                 <div className="p-6 text-center flex-1 flex flex-col">
                   <h3 className="text-xl font-bold mb-4">Citizenship</h3>
@@ -113,9 +113,9 @@ function Career() {
                   </a>
                 </div>
                 <div className="h-40">
-                  <img 
-                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&auto=format&fit=crop" 
-                    alt="Citizenship" 
+                  <img
+                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&auto=format&fit=crop"
+                    alt="Citizenship"
                     className="w-full h-full object-cover rounded-b-3xl"
                   />
                 </div>
@@ -140,9 +140,9 @@ function Career() {
               {/* Team 1: Marketing */}
               <div className="text-center">
                 <div className="h-56 mb-6 rounded-2xl overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop" 
-                    alt="Marketing" 
+                  <img
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop"
+                    alt="Marketing"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -155,9 +155,9 @@ function Career() {
               {/* Team 2: Sales */}
               <div className="text-center">
                 <div className="h-56 mb-6 rounded-2xl overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&auto=format&fit=crop" 
-                    alt="Sales" 
+                  <img
+                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&auto=format&fit=crop"
+                    alt="Sales"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -170,9 +170,9 @@ function Career() {
               {/* Team 3: Corporate Support */}
               <div className="text-center">
                 <div className="h-56 mb-6 rounded-2xl overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&auto=format&fit=crop" 
-                    alt="Corporate Support" 
+                  <img
+                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&auto=format&fit=crop"
+                    alt="Corporate Support"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -185,9 +185,9 @@ function Career() {
               {/* Team 4: Technology */}
               <div className="text-center">
                 <div className="h-56 mb-6 rounded-2xl overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop" 
-                    alt="Technology" 
+                  <img
+                    src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop"
+                    alt="Technology"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -200,9 +200,9 @@ function Career() {
               {/* Team 5: Customer Solutions */}
               <div className="text-center">
                 <div className="h-56 mb-6 rounded-2xl overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&auto=format&fit=crop" 
-                    alt="Customer Solutions" 
+                  <img
+                    src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&auto=format&fit=crop"
+                    alt="Customer Solutions"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -215,9 +215,9 @@ function Career() {
               {/* Team 6: Public Affairs */}
               <div className="text-center">
                 <div className="h-56 mb-6 rounded-2xl overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&auto=format&fit=crop" 
-                    alt="Public Affairs" 
+                  <img
+                    src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&auto=format&fit=crop"
+                    alt="Public Affairs"
                     className="w-full h-full object-cover"
                   />
                 </div>

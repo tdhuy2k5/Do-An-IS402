@@ -5,7 +5,7 @@ metadata:
 
 data:
   MYSQL_ATTR_SSL_CA: "/usr/local/share/ca-certificates/DigiCertGlobalRootG2.crt.pem"
-  # ===================== APP =====================
+
   APP_NAME: "esapp"
   APP_ENV: "production"
   APP_DEBUG: "false"
@@ -20,16 +20,17 @@ data:
   PHP_CLI_SERVER_WORKERS: "4"
   BCRYPT_ROUNDS: "12"
 
-  # ===================== LOG =====================
+
   LOG_CHANNEL: "stderr"
   LOG_STACK: "single"
   LOG_DEPRECATIONS_CHANNEL: "null"
   LOG_LEVEL: "info"
 
-  # ===================== SESSION / CACHE / QUEUE =====================
+
   REDIS_CLIENT: "phpredis"
   REDIS_HOST: "esapp-redis-metrics-staging.redis.cache.windows.net"
   REDIS_PORT: "6380"
+  REDIS_SCHEME: "tls"
 
   REDIS_USERNAME: ""
 
@@ -40,7 +41,7 @@ data:
   SESSION_DRIVER: "redis"
   QUEUE_CONNECTION: "redis"
 
-  # ===================== MAIL =====================
+
   MAIL_MAILER: "smtp"
   MAIL_SCHEME: "smtp"
   MAIL_HOST: "smtp.sendgrid.net"
@@ -50,27 +51,27 @@ data:
   MAIL_FROM_ADDRESS: "duchuy28042005@gmail.com"
   MAIL_FROM_NAME: "esapp"
 
-  # ===================== AUTH =====================
+
   REAL_CHECK_TOKEN_TIME: "60"
   JWT_ALGO: "HS256"
   AUTH_GUARD: "api"
 
-  # ===================== GOOGLE OAUTH =====================
+
   GOOGLE_CLIENT_ID: "518525301067-6vci81s4s8eo4klif1rmj18rl8o216po.apps.googleusercontent.com"
   GOOGLE_REDIRECT_URI: "http://fe.135.171.243.189.nip.io/auth/callback"
 
-  # ===================== DB =====================
+
   DB_CONNECTION: "mysql"
   DB_HOST: "esapp-mysql-staging.mysql.database.azure.com"
   DB_PORT: "3306"
   DB_DATABASE: "esapp"
 
-  # ===================== AWS (unused placeholders) =====================
+
   AWS_ACCESS_KEY_ID: ""
   AWS_SECRET_ACCESS_KEY: ""
   AWS_DEFAULT_REGION: "us-east-1"
   AWS_BUCKET: ""
   AWS_USE_PATH_STYLE_ENDPOINT: "false"
 
-  # ===================== VITE =====================
+
   VITE_APP_NAME: "esapp"

@@ -22,7 +22,7 @@ class OrderItem extends Model
     ];
 
     protected $casts = [
-        'variant_attributes' => 'array', // JSON cast to array
+        'variant_attributes' => 'array',
     ];
 
     public $timestamps = false;

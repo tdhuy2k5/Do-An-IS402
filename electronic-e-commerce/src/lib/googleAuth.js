@@ -1,4 +1,4 @@
-// src/lib/googleAuth.js
+
 import api from "./api";
 
 const CONFIG = {
@@ -8,18 +8,18 @@ const CONFIG = {
   scope: 'openid email profile',
 };
 
-// Generate random state for CSRF protection
+
 const generateState = () => {
   const array = new Uint8Array(16);
   crypto.getRandomValues(array);
   return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 };
 
-// Start Google login
+
 export const loginWithGoogle = async () => {
   const state = generateState();
 
-  // Store state in sessionStorage for verification
+
   sessionStorage.setItem('oauth_state', state);
 
   const params = new URLSearchParams({
@@ -36,7 +36,7 @@ export const loginWithGoogle = async () => {
   window.location.href = authUrl;
 };
 
-// Handle Google callback
+
 export const handleGoogleCallback = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
@@ -57,7 +57,7 @@ export const handleGoogleCallback = async () => {
     throw new Error('State mismatch — possible CSRF attack');
   }
 
-  // Send to Laravel backend to exchange code for tokens
+
   const response = await api.post(`${CONFIG.backendUrl}/auth/google/exchange`, {
     code: code,
   });

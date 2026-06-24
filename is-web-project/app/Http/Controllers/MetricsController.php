@@ -11,9 +11,7 @@ class MetricsController extends Controller
         private MetricsService $metricsService
     ) {}
 
-    /**
-     * Expose metrics in Prometheus format
-     */
+
     public function index(): Response
     {
         return response(

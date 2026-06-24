@@ -6,5 +6,6 @@
   "files.associations": {
     "**/*.yaml": "yaml",
     "**/gitops/**/*.yaml": "yaml"
-  }
+  },
+  "CodeGPT.apiKey": "Google AI Studio"
 }

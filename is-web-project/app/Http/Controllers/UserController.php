@@ -11,7 +11,7 @@ class UserController extends Controller
     public function user(Request $request)
     {
         $user = $request->user();
-        $user->load('roles'); // Load roles relationship
+        $user->load('roles');
 
         return response()->json([
             'success' => true,
@@ -72,7 +72,7 @@ class UserController extends Controller
             'usage_limit' => 1,
         ]);
 
-        // Link promotion to user
+
         DB::table('user_promotions')->insert([
             'user_id' => $user->user_id,
             'promotion_id' => $promotion->promotion_id,

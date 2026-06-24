@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
-// Tạo axios instance với config mặc định
+
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -29,13 +29,13 @@ export const tryRefreshToken = async () => {
   }
 }
 
-// Request interceptor - thêm access token vào mỗi request
+
 api.interceptors.request.use(
   async (config) => {
 
     const user = JSON.parse(localStorage.getItem("user"));
     var accessToken = localStorage.getItem("access_token");
-    
+
     if (user && user.exp_unix && Math.floor(Date.now() / 1000) >= user.exp_unix) {
        try {
           await tryRefreshToken();
@@ -60,24 +60,24 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor - xử lý refresh token
+
 api.interceptors.response.use(
   (response) => {
     const user = response.data.user;
-    
-    // Save user data if provided
+
+
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
     }
-    
-    // Save tokens if provided
+
+
     if (response.status === 200 && response.data.access_token) {
       localStorage.setItem("access_token", response.data.access_token);
     }
     if (response.status === 200 && response.data.refresh_token) {
       localStorage.setItem("refresh_token", response.data.refresh_token);
     }
-    
+
     return response;
   },
   (error) => {
@@ -101,7 +101,7 @@ api.interceptors.response.use(
 );
 
 
-// Hàm logout - xóa tokens và redirect
+
 export const logout = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
@@ -111,24 +111,24 @@ export const logout = () => {
 
 
 export const ProductService = {
-  // Gọi hàm getRecommendedProducts
-  getRecommended: (limit = 10) => 
+
+  getRecommended: (limit = 10) =>
     api.get(`/products/recommended`, { params: { limit } }),
 
-  // Gọi hàm getProductDetails
-  getDetails: (id) => 
+
+  getDetails: (id) =>
     api.get(`/product/${id}`),
 
-  // Gọi hàm searchMobile (slug là 'galaxy-s24', 'galaxy-z',...)
-  searchMobile: (slug, filters = {}) => 
+
+  searchMobile: (slug, filters = {}) =>
     api.get(`/mobile/${slug}`, { params: filters }),
 
-  // Gọi hàm searchTVAV
-  searchTV: (slug, filters = {}) => 
+
+  searchTV: (slug, filters = {}) =>
     api.get(`/tv-av/${slug}`, { params: filters }),
 
-  // Gọi hàm searchAll (Dùng cho thanh tìm kiếm chung)
-  searchAll: (params) => 
+
+  searchAll: (params) =>
     api.get(`/products/search`, { params })
 };
 

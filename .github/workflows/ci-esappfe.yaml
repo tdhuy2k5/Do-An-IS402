@@ -39,7 +39,7 @@ jobs:
       - name: Login to ACR
         run: az acr login --name ${{ env.ACR_NAME }}
 
-      # 🔥 IMPORTANT FIX: FORCE CLEAN BUILD + PASS VITE ARGS
+
       - name: Build and Push Frontend Image
         uses: docker/build-push-action@v6
         with:
@@ -47,7 +47,7 @@ jobs:
           file: ./electronic-e-commerce/Dockerfile
           push: true
 
-          no-cache: true # 🔥 fixes stale localhost issue
+          no-cache: true
 
           build-args: |
             VITE_BACKEND_API_URL=http://fe.57.155.223.9.nip.io/api

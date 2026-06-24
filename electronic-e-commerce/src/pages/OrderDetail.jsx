@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import api from "../lib/api";
 
-// Status Badge
+
 const StatusBadge = ({ status, type = "order" }) => {
   const getStatusStyle = () => {
     if (type === "payment") {

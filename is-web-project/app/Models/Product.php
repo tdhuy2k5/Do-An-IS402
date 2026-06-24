@@ -35,8 +35,8 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'specification' => 'array', // JSON cast to array
-        'dimensions' => 'array', // JSON cast to array
+        'specification' => 'array',
+        'dimensions' => 'array',
         'is_featured' => 'boolean',
     ];
 

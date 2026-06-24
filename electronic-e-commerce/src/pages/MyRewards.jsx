@@ -35,7 +35,7 @@ export default function MyRewards() {
         };
         localStorage.setItem("user", JSON.stringify(updatedUser));
 
-        // Fetch promotion codes
+
         try {
           const promoResponse = await api.get("/auth/my-promotions");
           setPromotionCodes(promoResponse.data.data || promoResponse.data || []);
@@ -54,14 +54,14 @@ export default function MyRewards() {
     fetchUser();
   }, [navigate]);
 
-  // Copy promotion code
+
   const handleCopyCode = (code) => {
     navigator.clipboard.writeText(code);
     setCopiedCode(code);
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  // Redeem points
+
   const handleRedeemPoints = async () => {
     if (redeemAmount < 100) {
       setMessage({ type: "error", text: "Minimum 100 points required" });
@@ -87,7 +87,7 @@ export default function MyRewards() {
         type: "success",
         text: `Redeemed! Code: ${response.data.promotion_code} (-$${response.data.discount_value})`,
       });
-      // Refresh user data
+
       const userResponse = await api.get("/auth/user");
       setUser(userResponse.data.data || userResponse.data);
     } catch (error) {
@@ -100,7 +100,7 @@ export default function MyRewards() {
     }
   };
 
-  // Buy VIP
+
   const handleBuyVip = async () => {
     const vipCost = 14400;
     if (user.reward_points < vipCost) {
@@ -114,7 +114,7 @@ export default function MyRewards() {
     try {
       await api.get("/auth/buyvip");
       setMessage({ type: "success", text: "VIP purchased successfully!" });
-      // Refresh user data
+
       const userResponse = await api.get("/auth/user");
       setUser(userResponse.data.data || userResponse.data);
     } catch (error) {
@@ -130,7 +130,7 @@ export default function MyRewards() {
   const isVip = user?.membership_tier_id === "vip";
   const pointsValue = ((user?.reward_points || 0) / 100).toFixed(2);
 
-  // Button gradient matching tier card
+
   const buttonStyle = isVip
     ? { background: "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)", color: "#1f2937" }
     : { background: "linear-gradient(135deg, #374151 0%, #1f2937 100%)", color: "white" };
@@ -147,7 +147,7 @@ export default function MyRewards() {
     <div className="min-h-screen w-screen flex flex-col bg-gray-50">
       <Navbar isTransparent={false} />
 
-      {/* Hero Banner */}
+      { }
       <div
         className="w-full pt-20 pb-12 px-4"
         style={{
@@ -226,7 +226,7 @@ export default function MyRewards() {
           </div>
         </div>
 
-        {/* Message */}
+        { }
         {message.text && (
           <div
             className={`mb-6 p-4 rounded-lg ${
@@ -371,7 +371,7 @@ export default function MyRewards() {
                   <strong>14,400</strong> needed
                 </p>
 
-                {/* Progress bar */}
+                { }
                 <div className="w-full h-2 bg-gray-700 rounded-full mb-4">
                   <div
                     className="h-full bg-yellow-400 rounded-full transition-all"

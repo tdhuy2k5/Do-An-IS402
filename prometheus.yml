@@ -1,4 +1,4 @@
-# Prometheus Configuration for Laravel E-commerce App
+
 
 global:
   scrape_interval: 15s
@@ -7,7 +7,7 @@ global:
     monitor: "laravel-app"
 
 scrape_configs:
-  # Laravel Backend - Metrics endpoint
+
   - job_name: "laravel-backend"
     static_configs:
       - targets: ["backend:8080"]

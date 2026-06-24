@@ -30,8 +30,8 @@ class Promotion extends Model
     protected $casts = [
         'discount_type' => 'string',
         'is_active' => 'boolean',
-        'applicable_categories' => 'array', // JSON cast to array
-        'applicable_products' => 'array', // JSON cast to array
+        'applicable_categories' => 'array',
+        'applicable_products' => 'array',
     ];
 
     public $timestamps = false;

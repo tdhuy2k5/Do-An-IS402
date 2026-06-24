@@ -17,7 +17,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // ✅ FIXED: Load remembered email correctly
+
   useEffect(() => {
     const rememberedEmail = localStorage.getItem("remembered_email");
     if (rememberedEmail) {
@@ -54,7 +54,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (isLoading) return; // ✅ Prevent double click
+    if (isLoading) return;
 
     if (!password) {
       setError("Please enter your password");
@@ -71,26 +71,26 @@ export default function Login() {
       });
 
       if (response.data.success) {
-        // Check if user is already logged in
+
         if (response.data.redirect) {
-          // User is already authenticated, redirect them
+
           const returnUrl = localStorage.getItem("returnUrl") || response.data.redirect || "/";
           localStorage.removeItem("returnUrl");
           navigate(returnUrl);
           return;
         }
 
-        // Save remembered email
+
         if (rememberMe) {
           localStorage.setItem("remembered_email", email);
         } else {
           localStorage.removeItem("remembered_email");
         }
 
-        // Dispatch login event
+
         window.dispatchEvent(new Event("loginSuccess"));
 
-        // Get return URL safely
+
         const returnUrl = localStorage.getItem("returnUrl") || "/";
         localStorage.removeItem("returnUrl");
 
@@ -118,7 +118,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen w-screen bg-gray-100 flex flex-col">
-      {/* Header */}
+      { }
       <nav className="p-4 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <span className="text-xl font-semibold text-gray-800">
@@ -128,11 +128,11 @@ export default function Login() {
         </div>
       </nav>
 
-      {/* Content */}
+      { }
       <div className="flex justify-center pt-20 pb-10 flex-grow">
         <div className="w-full max-w-md p-10 bg-white rounded-xl shadow-lg">
 
-          {/* Title */}
+          { }
           <div className="text-center mb-10">
             <h2 className="text-2xl mb-2">One account. Any device.</h2>
             <p className="text-gray-600">Just for you.</p>
@@ -141,7 +141,7 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Error */}
+          { }
           {error && (
             <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
               {error}
@@ -180,7 +180,7 @@ export default function Login() {
             </form>
           )}
 
-          {/* Step 2 */}
+          { }
           {step === 2 && (
             <form onSubmit={handleLogin} className="space-y-6">
               <div className="text-sm text-gray-600">
@@ -230,7 +230,7 @@ export default function Login() {
             </form>
           )}
 
-          {/* Links */}
+          { }
           <div className="mt-8 space-y-2 text-sm">
             <Link to="/find-id" className="block hover:underline">
               Find ID

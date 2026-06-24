@@ -22,7 +22,7 @@ class ProductVariant extends Model
     ];
 
     protected $casts = [
-        'attributes' => 'array', // JSON cast to array
+        'attributes' => 'array',
     ];
 
     public function product()

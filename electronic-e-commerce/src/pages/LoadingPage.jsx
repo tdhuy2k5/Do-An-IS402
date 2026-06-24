@@ -4,7 +4,7 @@ export default function LoadingPage() {
 
       <div className="w-full max-w-md p-8 rounded-2xl bg-slate-800/60 backdrop-blur-xl shadow-2xl border border-slate-700">
 
-        {/* Title */}
+        { }
         <div className="text-center mb-6">
           <h1 className="text-2xl font-semibold text-white">
             Loading Your Experience

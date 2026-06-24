@@ -5,12 +5,12 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import api from "../lib/api";
 
-// Check if user has admin role
+
 const isUserAdmin = (userData) => {
   return userData?.roles?.some(role => role.role_id === 'admin');
 };
 
-// Status Badge
+
 const StatusBadge = ({ status, type = "order" }) => {
   const getStyle = () => {
     if (type === "payment") {
@@ -160,7 +160,7 @@ const AdminDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [filter, setFilter] = useState("all");
-  
+
   // Modal state
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -229,14 +229,14 @@ const AdminDashboard = () => {
       const response = await api.get(`/auth/verify-payment?order_id=${orderId}`);
       if (response.data.success) {
         alert(`Payment verified!\nUser: ${response.data.user_email}\nPoints awarded: ${response.data.received_points}`);
-        
+
         // Update orders list
-        setOrders(prev => prev.map(o => 
-          o.order_id === orderId 
+        setOrders(prev => prev.map(o =>
+          o.order_id === orderId
             ? { ...o, payment_status: "paid", status: "processing" }
             : o
         ));
-        
+
         // Update modal
         setSelectedOrder(prev => prev ? { ...prev, payment_status: "paid", status: "processing" } : null);
       }

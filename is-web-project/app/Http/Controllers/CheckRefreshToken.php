@@ -10,12 +10,10 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class CheckRefreshToken extends Controller
 {
-    /**
-     * Refresh access token using refresh token
-     */
+
     public function handle(Request $request)
     {
-        // Check if user has valid access token
+
         if ($request->header('Authorization')) {
             try {
                 $user = JWTAuth::parseToken()->authenticate(false);
@@ -32,11 +30,11 @@ class CheckRefreshToken extends Controller
                     ], 200);
                 }
             } catch (JWTException $e) {
-                // Token is invalid or expired, continue to refresh
+
             }
         }
 
-        // Try to refresh token
+
         $accessToken = $this->getRefreshToken($request);
 
         if ($accessToken !== null) {
@@ -58,9 +56,7 @@ class CheckRefreshToken extends Controller
         ], 401);
     }
 
-    /**
-     * Get new access token from refresh token
-     */
+
     private function getRefreshToken(Request $request)
     {
         $refreshToken = RefreshToken::with('user.roles')

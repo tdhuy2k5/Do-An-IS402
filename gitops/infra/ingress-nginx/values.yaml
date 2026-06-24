@@ -5,7 +5,7 @@ controller:
     annotations:
       service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 
-  # important for Azure LB + AKS stability
+
   externalTrafficPolicy: Cluster
 
   publishService:

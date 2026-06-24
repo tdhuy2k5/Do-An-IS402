@@ -4,16 +4,16 @@ import axios from 'axios';
 import { Loader2, SearchX, ChevronDown, ChevronUp, Filter, ShoppingCart, CreditCard } from 'lucide-react';
 import { buildApiUrl, buildImageUrl } from '../lib/url';
 
-// IMPORT NAVBAR VÀ FOOTER CỦA BẠN TẠI ĐÂY
-import Navbar from "./Navbar"; 
-import Footer from "./Footer"; // Giả định bạn đã có file Footer.jsx
+
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isMobileOpen, setIsMobileOpen] = useState(true);
   const navigate = useNavigate();
@@ -37,24 +37,24 @@ const SearchResults = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* 1. NAVBAR */}
-      <Navbar isTransparent={false} /> 
+      { }
+      <Navbar isTransparent={false} />
 
-      {/* 2. MAIN CONTENT AREA */}
-      {/* Thêm pt-24 để không bị Navbar fixed che khuất nội dung */}
+      { }
+      { }
       <main className="flex-grow w-full bg-white pt-24 pb-20 px-4 md:px-8 lg:px-12">
         <div className="w-full flex flex-col md:flex-row gap-8">
-          
-          {/* --- SIDEBAR FILTER --- */}
+
+          { }
           <aside className="w-full md:w-64 flex-shrink-0 border-r border-gray-100 pr-6">
-            <div className="sticky top-28"> {/* Chỉnh top để khớp với chiều cao Navbar */}
+            <div className="sticky top-28"> { }
               <div className="flex items-center gap-2 mb-6 border-b pb-4 border-gray-100">
                 <Filter size={18} className="text-black" />
                 <h2 className="text-lg font-bold uppercase tracking-tighter">Bộ lọc</h2>
               </div>
 
               <div className="space-y-2">
-                {/* ... (Phần logic Category giữ nguyên như cũ) ... */}
+                { }
                 <div className="border-b border-gray-50 pb-2">
                   <button onClick={() => setIsMobileOpen(!isMobileOpen)} className="flex items-center justify-between w-full py-2 text-left font-bold text-black">
                     <span className="text-[15px]">Danh mục chính</span>
@@ -72,7 +72,7 @@ const SearchResults = () => {
                   )}
                 </div>
 
-                <button 
+                <button
                   onClick={() => setSelectedCategory("All")}
                   className="w-full mt-6 py-2.5 text-[11px] font-black border border-black rounded-full hover:bg-black hover:text-white transition-all uppercase tracking-widest"
                 >
@@ -82,7 +82,7 @@ const SearchResults = () => {
             </div>
           </aside>
 
-          {/* --- PRODUCT GRID --- */}
+          { }
           <section className="flex-1">
             <div className="mb-10">
               <h1 className="text-4xl font-black text-black mb-2 uppercase tracking-tighter italic">

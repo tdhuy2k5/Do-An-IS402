@@ -9,13 +9,13 @@ use App\Http\Controllers\MetricsController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-// Health check endpoint (public, no auth required)
+
 Route::get('/health', [HealthController::class, 'check']);
 
-// Prometheus metrics endpoint (public, no auth required)
+
 Route::get('/metrics', [MetricsController::class, 'index']);
 
-// Token refresh endpoint (public, no auth required)
+
 Route::post('/refresh', [CheckRefreshToken::class, 'handle']);
 
 Route::post('/register', [AuthController::class, 'post_register']);
@@ -25,16 +25,16 @@ Route::get('/login', [AuthController::class, 'login']);
 Route::post('/send-code', [AuthController::class, 'sendCode']);
 Route::post('/verify-code', [AuthController::class, 'verifyCode']);
 
-// Google OAuth route (must be outside auth:api middleware)
+
 Route::post('/auth/google/exchange', [GoogleController::class, 'exchange']);
 
 Route::middleware('auth:api')->prefix('auth')->group(function () {
-    // Admin routes
+
     route::get('/admin/orders', [\App\Http\Controllers\AdminController::class, 'getAllOrders']);
     route::get('/admin/order/{order_id}', [\App\Http\Controllers\AdminController::class, 'getOrderDetails']);
     route::get('/verify-payment', [\App\Http\Controllers\AdminController::class, 'is_pay']);
 
-    // User routes
+
     route::get('/user', [\App\Http\Controllers\UserController::class, 'user']);
     route::get('/buyvip', [\App\Http\Controllers\UserController::class, 'buyVip']);
     route::get('/redeem-points', [\App\Http\Controllers\UserController::class, 'redeemPoints']);

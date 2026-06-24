@@ -2,23 +2,23 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: root-apps-manager
-  namespace: argocd # Deployed in the argo namespace
+  namespace: argocd
 spec:
   project: default
 
-  # 1. POINT TO YOUR APPLICATIONS FOLDER
+
   source:
     repoURL: 'https://github.com/ZeusOfDev/Do-An-IS402.git'
     targetRevision: main
-    path: gitops/applications # This folder contains your frontend-app.yaml, backend-app.yaml, etc.
+    path: gitops/applications
 
-  # 2. DESTINATION IS THE SAME CLUSTER
+
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
 
-  # 3. AUTO-SYNC THE INFRASTRUCTURE
+
   syncPolicy:
     automated:
-      prune: true     # If you delete an app file from Git, Argo deletes it from the cluster
+      prune: true
       selfHeal: true

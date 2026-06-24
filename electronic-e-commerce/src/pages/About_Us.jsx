@@ -9,7 +9,7 @@ function AboutUs() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show sub-nav after scrolling past hero section (500px)
+
       setShowSubNav(window.scrollY > 400);
     };
     window.addEventListener("scroll", handleScroll);
@@ -62,25 +62,25 @@ function AboutUs() {
   return (
     <div className="flex flex-col min-h-screen bg-white w-screen">
       <Navbar isTransparent={false} />
-      
-      {/* Sticky Sub Navigation */}
-      <div 
+
+      { }
+      <div
         className={`fixed top-16 left-0 w-full z-40 transition-all duration-300 ${
           showSubNav ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
         }`}
       >
         <div className="flex items-center justify-center">
-          {/* Left spacer - shows page content behind */}
+          { }
           <div className="hidden lg:block w-20 xl:w-32 h-14 bg-transparent" />
-          
-          {/* Main nav container */}
+
+          { }
           <div className="flex-1 max-w-7xl bg-white border-b border-gray-200 shadow-sm">
             <div className="flex items-center px-6 md:px-8">
-              {/* About Us Label */}
+              { }
               <span className="font-semibold text-black py-4 pr-8 border-r border-gray-200 text-base whitespace-nowrap">
                 About Us
               </span>
-              
+
               {/* Nav Items */}
               <div className="flex items-center overflow-x-auto hide-scrollbar">
                 {subNavItems.map((item, index) => (
@@ -97,20 +97,20 @@ function AboutUs() {
               </div>
             </div>
           </div>
-          
-          {/* Right spacer - shows page content behind */}
+
+          { }
           <div className="hidden lg:block w-20 xl:w-32 h-14 bg-transparent" />
         </div>
       </div>
 
-      {/* Hero Section */}
+      { }
       <section className="relative h-[450px] md:h-[550px] mt-16">
         <img
           src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1600&h=800&fit=crop"
           alt="Samsung Innovation"
           className="w-full h-full object-cover"
         />
-        {/* Gradient overlay for text readability */}
+        { }
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-center items-start px-8 md:px-16 lg:px-24">
           <span className="text-white/90 text-sm md:text-base font-medium mb-3">
@@ -122,13 +122,13 @@ function AboutUs() {
         </div>
       </section>
 
-      {/* Intro Text */}
+      { }
       <section className="py-16 px-4 md:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-gray-700 text-lg md:text-xl leading-relaxed">
-            Samsung Electronics is a global leader in technology, opening new possibilities for people everywhere. 
-            Through relentless innovation and discovery, we are transforming the worlds of TVs, smartphones, 
-            wearable devices, tablets, cameras, digital appliances, network systems, medical devices, 
+            Samsung Electronics is a global leader in technology, opening new possibilities for people everywhere.
+            Through relentless innovation and discovery, we are transforming the worlds of TVs, smartphones,
+            wearable devices, tablets, cameras, digital appliances, network systems, medical devices,
             semiconductors and LED solutions.
           </p>
         </div>
@@ -147,7 +147,7 @@ function AboutUs() {
           <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-3 leading-tight italic">
             Brilliant innovation you never expected
           </h2>
-          <button 
+          <button
             className="mt-8 px-6 py-3 text-sm font-medium rounded-full hover:opacity-90 transition-opacity"
             style={{ backgroundColor: 'white', color: 'black' }}
           >
@@ -167,7 +167,7 @@ function AboutUs() {
           {/* Mobile Communications Card */}
           <div className="relative rounded-3xl overflow-hidden h-[400px] md:h-[500px]">
             <img
-              src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1600&h=800&fit=crop"
+              src="https:
               alt="IT & Mobile Communications"
               className="w-full h-full object-cover"
             />
@@ -177,7 +177,7 @@ function AboutUs() {
               <h2 className="text-white text-2xl md:text-3xl font-bold mt-2 leading-tight">
                 We strive to maximize value and convenience for our customers
               </h2>
-              <button 
+              <button
                 className="mt-6 px-6 py-2.5 border text-sm font-medium rounded-full hover:opacity-90 transition-opacity"
                 style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white' }}
               >
@@ -196,7 +196,7 @@ function AboutUs() {
             We are expanding our highly differentiated mobile devices, as well as working hard to develop next-generation innovation.
           </p>
 
-          {/* Device Solutions Card */}
+          { }
           <div className="relative rounded-3xl overflow-hidden h-[400px] md:h-[500px]">
             <img
               src="https://images.unsplash.com/photo-1625961332771-3f40b0e2bdcf?w=1600&h=800&fit=crop"
@@ -209,7 +209,7 @@ function AboutUs() {
               <h2 className="text-black text-2xl md:text-3xl font-bold mt-2 leading-tight">
                 Developing next-generation products for a better tomorrow
               </h2>
-              <button 
+              <button
                 className="mt-6 px-6 py-2.5 text-sm font-medium rounded-full hover:opacity-90 transition-opacity"
                 style={{ backgroundColor: 'black', color: 'white' }}
               >

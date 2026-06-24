@@ -13,7 +13,7 @@ const ComputingPage = () => {
     const [hasMore, setHasMore] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
 
-    // Cấu hình URL Backend
+
     const [filters, setFilters] = useState({
         keyword: '',
         processor: [],
@@ -31,10 +31,10 @@ const ComputingPage = () => {
         if (!child_slug) return;
         setLoading(true);
         setErrorMsg(null);
-        
+
         try {
             const currentLastId = isRefresh ? 0 : filters.last_id;
-            
+
             const params = {
                 ...filters,
                 processor: filters.processor.join(','),
@@ -47,7 +47,7 @@ const ComputingPage = () => {
             };
 
             const response = await axios.get(`${BASE_URL}/computing-displays/${child_slug}`, { params });
-            
+
             if (Array.isArray(response.data)) {
                 const data = response.data;
                 if (isRefresh) setProducts(data);
@@ -68,7 +68,7 @@ const ComputingPage = () => {
     }, [child_slug, filters]);
 
     useEffect(() => {
-        // Mặc định hướng về dòng Galaxy Book nếu slug trống
+
         if (!child_slug) {
             navigate('/computing-displays/galaxy-book-laptop');
         } else {
@@ -88,17 +88,17 @@ const ComputingPage = () => {
             <Navbar isTransparent={false} />
 
             <div className="flex-grow w-full px-4 md:px-10 py-8 flex flex-col md:flex-row gap-8 mt-14">
-                
-                {/* SIDEBAR FILTERS */}
+
+                { }
                 <aside className="w-full md:w-72 flex-shrink-0 space-y-8 bg-gray-50 p-6 rounded-2xl h-fit relative top-26 shadow-sm border border-gray-100">
                     <h3 className="font-bold text-xl justify-center border-b pb-3 text-black flex items-center gap-2">
                         Bộ lọc Máy tính
                     </h3>
-                    
+
                     {/* Sắp xếp */}
                     <div>
                         <h4 className="text-black font-bold mb-3 text-[10px] uppercase tracking-widest text-gray-400">Thứ tự hiển thị</h4>
-                        <select 
+                        <select
                             value={filters.sort}
                             onChange={(e) => setFilters(prev => ({ ...prev, sort: e.target.value }))}
                             className="w-full border-none rounded-xl p-3 text-sm outline-none bg-white shadow-sm font-semibold"
@@ -108,15 +108,15 @@ const ComputingPage = () => {
                         </select>
                     </div>
 
-                    {/* Bộ vi xử lý */}
+                    { }
                     <div>
                         <h4 className="text-black font-bold mb-3 text-[10px] uppercase tracking-widest text-gray-400">Bộ vi xử lý (CPU)</h4>
                         <div className="space-y-2">
                             {['Intel Core i7', 'Intel Core i5', 'Snapdragon X Elite'].map(item => (
                                 <label key={item} className="flex items-center gap-3 cursor-pointer group">
-                                    <input type="checkbox" className="w-5 h-5 rounded accent-blue-600" 
-                                        checked={filters.processor.includes(item)} 
-                                        onChange={() => toggleArrayFilter('processor', item)} 
+                                    <input type="checkbox" className="w-5 h-5 rounded accent-blue-600"
+                                        checked={filters.processor.includes(item)}
+                                        onChange={() => toggleArrayFilter('processor', item)}
                                     />
                                     <span className="text-sm font-medium text-gray-600 group-hover:text-blue-600 transition-colors">{item}</span>
                                 </label>
@@ -124,7 +124,7 @@ const ComputingPage = () => {
                         </div>
                     </div>
 
-                    {/* RAM & Storage - Dạng Grid Button cho hiện đại */}
+                    { }
                     <div className="grid grid-cols-1 gap-4">
                         <div>
                             <h4 className="text-black font-bold mb-3 text-[10px] uppercase tracking-widest text-gray-400">Dung lượng RAM</h4>
@@ -150,8 +150,8 @@ const ComputingPage = () => {
                         </div>
                     </div>
 
-                    <button 
-                        onClick={() => fetchProducts(true)} 
+                    <button
+                        onClick={() => fetchProducts(true)}
                         className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-100 mt-4"
                     >
                         Áp dụng lọc
@@ -172,24 +172,24 @@ const ComputingPage = () => {
                     {Array.isArray(products) && products.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             {products.map((product) => (
-                                <div 
-                                    key={product.product_id} 
+                                <div
+                                    key={product.product_id}
                                     onClick={() => navigate(`/product/${product.product_id}`)}
                                     className="cursor-pointer bg-white rounded-[32px] p-6 border border-gray-100 hover:shadow-2xl transition-all duration-500 group flex flex-col"
                                 >
                                     <div className="aspect-[4/3] w-full mb-6 relative rounded-2xl bg-gray-50 flex items-center justify-center overflow-hidden">
-                                        <img 
-                                            src={`${product.image_url}`} 
-                                            alt={product.product_name} 
-                                            className="w-4/5 h-4/5 object-contain group-hover:scale-110 transition-transform duration-700" 
+                                        <img
+                                            src={`${product.image_url}`}
+                                            alt={product.product_name}
+                                            className="w-4/5 h-4/5 object-contain group-hover:scale-110 transition-transform duration-700"
                                         />
                                     </div>
-                                    
+
                                     <div className="flex-grow">
                                         <h3 className="font-bold text-gray-900 text-lg mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
                                             {product.product_name}
                                         </h3>
-                                        
+
                                         {/* Laptop Specs Badges */}
                                         <div className="flex flex-wrap gap-2 mb-4">
                                             {product.processor && (
@@ -215,7 +215,7 @@ const ComputingPage = () => {
                                         <button className="bg-black text-white py-3 rounded-2xl font-bold text-sm hover:opacity-80 transition-opacity">
                                             Mua ngay
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 navigate(`/product/${product.product_id}`);
@@ -236,7 +236,7 @@ const ComputingPage = () => {
                             </div>
                         )
                     )}
-                    
+
                     {loading && (
                         <div className="text-center py-20 flex flex-col items-center">
                             <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -246,8 +246,8 @@ const ComputingPage = () => {
 
                     {hasMore && products.length > 0 && !loading && (
                         <div className="mt-16 text-center pb-12">
-                            <button 
-                                onClick={() => fetchProducts(false)} 
+                            <button
+                                onClick={() => fetchProducts(false)}
                                 className="bg-white border-2 border-black text-black px-16 py-4 rounded-full font-black hover:bg-black hover:text-white transition-all transform active:scale-90 shadow-xl"
                             >
                                 XEM THÊM CÁC DÒNG GALAXY BOOK

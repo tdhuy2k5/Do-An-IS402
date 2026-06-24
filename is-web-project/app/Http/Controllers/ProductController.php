@@ -160,7 +160,7 @@ class ProductController extends Controller
             'resolution' => 'nullable|string',
             'technology' => 'nullable|string',
             'processor' => 'nullable|string',
-            'screenSize' => 'nullable|string',  // e.g. "55-inch,65-inch"
+            'screenSize' => 'nullable|string',
             'min_price' => 'nullable|numeric|min:0',
             'max_price' => 'nullable|numeric|min:0',
             'last_id' => 'integer|min:0',
@@ -188,7 +188,7 @@ class ProductController extends Controller
         $ctpc = CategoryMap::$childToParent;
         $childSlug = $request->route('child_slug');
 
-        // Parent category slug – adjust if needed (e.g. 'computing', 'laptops', etc.)
+
         if (! isset($ctpc[$childSlug]) || $ctpc[$childSlug] !== 'computing-displays') {
             return response()->json([
                 'message' => 'Category not found',
@@ -198,7 +198,7 @@ class ProductController extends Controller
         $request->validate([
             'keyword' => 'nullable|string',
             'battery' => 'nullable|string',
-            'graphics' => 'nullable|string',  // CHANGED: 'graphic' → 'graphics'
+            'graphics' => 'nullable|string',
             'ram' => 'nullable|string',
             'storage' => 'nullable|string',
             'processor' => 'nullable|string',
@@ -214,7 +214,7 @@ class ProductController extends Controller
             slug: $childSlug,
             keyword: $request->input('keyword'),
             battery: $this->parseCsv($request->input('battery')),
-            graphics: $this->parseCsv($request->input('graphics')),  // CHANGED: graphic → graphics
+            graphics: $this->parseCsv($request->input('graphics')),
             ram: $this->parseCsv($request->input('ram')),
             storage: $this->parseCsv($request->input('storage')),
             processor: $this->parseCsv($request->input('processor')),
@@ -226,11 +226,11 @@ class ProductController extends Controller
             sort: $request->input('sort', 'desc')
         );
     }
-    // app/Http/Controllers/ProductController.php
+
 
     public function show($id)
     {
-        // Phải viết hoa chữ P và đảm bảo đã import Model Product ở đầu file
+
         $product = Product::with('images')->where('product_id', $id)->first();
 
         return response()->json($product);

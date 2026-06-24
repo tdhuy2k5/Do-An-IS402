@@ -26,8 +26,8 @@ function ContactUs() {
   return (
     <div className="flex flex-col min-h-screen bg-white w-screen">
       <Navbar isTransparent={false} />
-      
-      {/* Hero Section */}
+
+      { }
       <section className="mt-16 min-h-[220px] flex items-center justify-center" style={{ backgroundColor: '#e8f4f8' }}>
         <div className="text-center px-4 py-12">
           <p className="text-gray-600 text-sm mb-3 font-medium">We're here to help</p>
@@ -39,7 +39,7 @@ function ContactUs() {
       <section className="py-16 px-4 md:px-16 lg:px-24 bg-white">
         <div className="w-full">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">How can we help you?</h2>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
             {/* Account */}
             <div className="bg-white border border-gray-200 rounded-2xl p-8 text-center hover:shadow-lg transition-shadow cursor-pointer min-h-[220px] flex flex-col items-center justify-center">
@@ -119,7 +119,7 @@ function ContactUs() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Get in Touch</h2>
           <p className="text-gray-600 text-center mb-12">Have a question? We'd love to hear from you.</p>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div className="bg-white rounded-2xl p-8 shadow-sm">
@@ -151,7 +151,7 @@ function ContactUs() {
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
@@ -207,7 +207,7 @@ function ContactUs() {
               </form>
             </div>
 
-            {/* Contact Info */}
+            { }
             <div className="space-y-6">
               <div className="bg-white rounded-2xl p-8 shadow-sm">
                 <h3 className="text-xl font-bold mb-6">Contact Information</h3>
@@ -222,7 +222,7 @@ function ContactUs() {
                       <p className="text-sm text-gray-500">Mon - Sat: 8AM - 9PM</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
                       <Mail className="w-5 h-5 text-gray-800" />
@@ -233,7 +233,7 @@ function ContactUs() {
                       <p className="text-sm text-gray-500">We reply within 24 hours</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
                       <MapPin className="w-5 h-5 text-gray-800" />
@@ -244,7 +244,7 @@ function ContactUs() {
                       <p className="text-sm text-gray-500">Ho Chi Minh City, Vietnam</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
                       <Clock className="w-5 h-5 text-gray-800" />
@@ -258,7 +258,7 @@ function ContactUs() {
                 </div>
               </div>
 
-              {/* Quick Links */}
+              { }
               <div className="bg-white rounded-2xl p-8 shadow-sm">
                 <h3 className="text-xl font-bold mb-4">Quick Links</h3>
                 <div className="space-y-3">
@@ -291,7 +291,7 @@ function ContactUs() {
             <p className="text-gray-300 mb-6">
               Get dedicated support for bulk orders and business solutions.
             </p>
-            <button 
+            <button
               className="px-8 py-3 rounded-full text-sm font-medium transition-opacity hover:opacity-90"
               style={{ backgroundColor: 'white', color: 'black' }}
             >

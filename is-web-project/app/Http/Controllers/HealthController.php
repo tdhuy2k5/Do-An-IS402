@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class HealthController extends Controller
 {
-    /**
-     * Health check endpoint
-     * Verifies app and database readiness
-     */
+
     public function check(): JsonResponse
     {
         $status = [
@@ -19,13 +16,13 @@ class HealthController extends Controller
             'checks' => [],
         ];
 
-        // Check app status
+
         $status['checks']['app'] = [
             'status' => 'ok',
             'message' => 'Application is running',
         ];
 
-        // Check database connectivity
+
         try {
             DB::connection()->getPdo();
             $status['checks']['database'] = [
@@ -38,7 +35,7 @@ class HealthController extends Controller
                 'message' => 'Database connection failed: '.$e->getMessage(),
             ];
 
-            return response()->json($status, 503); // Service Unavailable
+            return response()->json($status, 503);
         }
 
         return response()->json($status, 200);

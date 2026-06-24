@@ -27,7 +27,7 @@ class Address extends Model
 
     protected $casts = [
         'is_default' => 'boolean',
-        'address_type' => 'string', // ENUM cast to string
+        'address_type' => 'string',
     ];
 
     public function user()

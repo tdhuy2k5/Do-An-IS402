@@ -55,21 +55,21 @@ const OrderSuccess = () => {
         <>
 
       <main className="flex-grow w-full mt-16 pb-20">
-        {/* Success Banner */}
-        <div 
+        { }
+        <div
           className="w-full py-16"
-          style={{ 
+          style={{
             background: "linear-gradient(135deg, #10b981 0%, #059669 100%)"
           }}
         >
           <div className="max-w-4xl mx-auto px-4 text-center text-white">
-            {/* Animated Check Icon */}
+            { }
             <div className="mb-6 inline-block">
-              <div 
+              <div
                 className="w-24 h-24 rounded-full flex items-center justify-center mx-auto"
                 style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
               >
-                <div 
+                <div
                   className="w-20 h-20 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: "white" }}
                 >
@@ -87,13 +87,13 @@ const OrderSuccess = () => {
         </div>
 
         <div className="max-w-4xl mx-auto px-4 -mt-8">
-          {/* Order Status Timeline */}
+          { }
           <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
             <h2 className="font-bold text-lg mb-6">Order Status</h2>
             <div className="flex items-center justify-between">
               {/* Step 1 - Order Placed */}
               <div className="flex flex-col items-center flex-1">
-                <div 
+                <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mb-2"
                   style={{ backgroundColor: "#10b981" }}
                 >
@@ -103,14 +103,14 @@ const OrderSuccess = () => {
                 <p className="text-xs text-gray-500">Confirmed</p>
               </div>
 
-              {/* Line */}
+              { }
               <div className="flex-1 h-1 mx-2" style={{ backgroundColor: "#e5e7eb" }}>
                 <div className="h-full w-0" style={{ backgroundColor: "#10b981" }}></div>
               </div>
 
-              {/* Step 2 - Processing */}
+              { }
               <div className="flex flex-col items-center flex-1">
-                <div 
+                <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mb-2"
                   style={{ backgroundColor: "#fef3c7", border: "2px solid #f59e0b" }}
                 >
@@ -120,12 +120,12 @@ const OrderSuccess = () => {
                 <p className="text-xs text-gray-500">In Progress</p>
               </div>
 
-              {/* Line */}
+              { }
               <div className="flex-1 h-1 mx-2" style={{ backgroundColor: "#e5e7eb" }}></div>
 
               {/* Step 3 - Shipped */}
               <div className="flex flex-col items-center flex-1">
-                <div 
+                <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mb-2"
                   style={{ backgroundColor: "#f3f4f6" }}
                 >
@@ -135,12 +135,12 @@ const OrderSuccess = () => {
                 <p className="text-xs text-gray-400">Pending</p>
               </div>
 
-              {/* Line */}
+              { }
               <div className="flex-1 h-1 mx-2" style={{ backgroundColor: "#e5e7eb" }}></div>
 
               {/* Step 4 - Delivered */}
               <div className="flex flex-col items-center flex-1">
-                <div 
+                <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mb-2"
                   style={{ backgroundColor: "#f3f4f6" }}
                 >
@@ -153,7 +153,7 @@ const OrderSuccess = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Order Details */}
+            { }
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="font-bold text-lg mb-4 flex items-center gap-2">
                 <Package style={{ width: "20px", height: "20px" }} />
@@ -168,9 +168,9 @@ const OrderSuccess = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Payment Status</span>
-                    <span 
+                    <span
                       className="px-2 py-0.5 rounded text-xs font-medium"
-                      style={{ 
+                      style={{
                         backgroundColor: order.payment_status === "paid" ? "#dcfce7" : "#fef3c7",
                         color: order.payment_status === "paid" ? "#166534" : "#92400e"
                       }}
@@ -196,10 +196,10 @@ const OrderSuccess = () => {
               )}
             </div>
 
-            {/* Items Ordered */}
+            { }
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="font-bold text-lg mb-4">Items Ordered ({orderItems.length})</h2>
-              
+
               <div className="space-y-3">
                 {orderItems.map((item, index) => (
                   <div key={index} className="flex items-center gap-3 pb-3 border-b border-gray-100 last:border-0 last:pb-0">

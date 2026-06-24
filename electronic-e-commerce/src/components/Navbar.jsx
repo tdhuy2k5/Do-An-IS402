@@ -3,9 +3,9 @@ import { Search as SearchIcon, ShoppingCart, User, ChevronRight } from "lucide-r
 import { Link } from "react-router-dom";
 import Search from "./Search.jsx";
 
-// ============================================
-// DỮ LIỆU CHUNG
-// ============================================
+
+
+
 
 const menuData = {
   Shop: {
@@ -16,7 +16,7 @@ const menuData = {
   },
   Mobile: {
     discover: [
-      "5G Smartphones", "Galaxy AI Features", "Trade-In Program", "Mobile Accessories", "Samsung Care+",  
+      "5G Smartphones", "Galaxy AI Features", "Trade-In Program", "Mobile Accessories", "Samsung Care+",
     ],
   },
   TVAV: {
@@ -24,7 +24,7 @@ const menuData = {
       "Smart TV Features", "Gaming Hub", "Art Store", "SmartThings Integration", "TV Buying Guide",
     ],
   },
-  "Computing-Displays": { 
+  "Computing-Displays": {
     discover: [
       "Galaxy Ecosystem", "For Creators", "For Gamers", "Business Solutions", "Student Discounts",
     ],
@@ -49,15 +49,15 @@ const ACCOUNT_MENU = [
   "My Orders", "My Page & Products", "My Rewards", "Product Registration", "Samsung Account",
 ];
 
-// ============================================
-// COMPONENT: MegaMenuDropdown
-// ============================================
+
+
+
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 function MegaMenuDropdown({ menuKey, isVisible }) {
   const [apiProducts, setApiProducts] = useState([]);
-  
 
-  // Khai báo lại các biến logic để render mà không thêm biến vào prop
+
+
   const dataKey = menuKey === "TV-AV" ? "TVAV" : menuKey;
   const data = menuData[dataKey];
   const isSupportMenu = menuKey === "Support";
@@ -118,9 +118,9 @@ function MegaMenuDropdown({ menuKey, isVisible }) {
             </div>
             <div className="w-[450px] pl-10 border-l border-gray-200 grid grid-cols-3 gap-4">
               {data.tiles.map((tile, index) => (
-                <Link to={`/${tile.title.toLowerCase().replace(/\s+|&/g, '-')}`} key={index} 
+                <Link to={`/${tile.title.toLowerCase().replace(/\s+|&/g, '-')}`} key={index}
                       className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg text-center cursor-pointer hover:bg-gray-100 transition duration-150">
-                  <span className="text-3xl mb-2">{tile.icon}</span> 
+                  <span className="text-3xl mb-2">{tile.icon}</span>
                   <p className="text-sm font-semibold text-gray-800">{tile.title}</p>
                 </Link>
               ))}
@@ -132,12 +132,12 @@ function MegaMenuDropdown({ menuKey, isVisible }) {
               <div className="grid grid-cols-6 gap-x-4 gap-y-6">
                 {/* HIỂN THỊ 6 SẢN PHẨM TỪ API */}
                 {apiProducts.slice(0, 6).map((item, index) => (
-                  <Link to={`/product/${item.product_id}`} key={index} 
+                  <Link to={`/product/${item.product_id}`} key={index}
                         className="flex flex-col items-center justify-center text-center cursor-pointer hover:opacity-75 transition-opacity">
-                    <img 
-                      src={`${item.image_url}`} 
-                      alt={item.product_name} 
-                      className="w-16 h-16 object-contain mb-2" 
+                    <img
+                      src={`${item.image_url}`}
+                      alt={item.product_name}
+                      className="w-16 h-16 object-contain mb-2"
                     />
                     <p className="text-[10px] font-semibold text-gray-800 line-clamp-2">{item.product_name}</p>
                   </Link>
@@ -266,7 +266,7 @@ export default function Navbar({ isTransparent = true }) {
 
   return (
     <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${shouldBeWhite ? "bg-white shadow-md" : "bg-transparent"}`} onMouseLeave={() => { setActiveMenu(null); setMouseEnter(false); }}>
-      <nav className={`w-full ${shouldBeWhite ? "text-black" : "text-white"}`}> 
+      <nav className={`w-full ${shouldBeWhite ? "text-black" : "text-white"}`}>
         <div className="flex items-center justify-between px-8 py-3 max-w-screen-2xl mx-auto">
           <div className="flex items-center space-x-8">
             <Link to="/" style={{ color: shouldBeWhite ? "black" : "white", textDecoration: "none", transition: "color 0.3s ease", fontSize: "22px", fontWeight: "700" }}>SAMSUNG</Link>

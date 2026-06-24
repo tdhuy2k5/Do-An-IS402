@@ -28,5 +28,5 @@ return Application::configure(basePath: dirname(__DIR__))
         MetricsServiceProvider::class,
     ])
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+
     })->create();

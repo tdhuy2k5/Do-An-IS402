@@ -21,7 +21,7 @@ function DashBoard() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Lấy thông tin user từ API
+
     const fetchUser = async () => {
       try {
         const response = await api.get("/auth/user");
@@ -62,10 +62,10 @@ function DashBoard() {
 
   return (
     <div className="min-h-screen bg-gray-50 w-screen flex flex-col">
-      {/* Navbar */}
+      { }
       <Navbar isTransparent={false} />
 
-      {/* Sub Header - Tabs */}
+      { }
       <div className="bg-white border-b border-gray-200 pt-16">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-center gap-4">
           {tabs.map((tab) => (
@@ -73,8 +73,8 @@ function DashBoard() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`text-sm px-3 py-2 transition-colors ${
-                activeTab === tab.id 
-                  ? "text-blue-600 font-medium" 
+                activeTab === tab.id
+                  ? "text-blue-600 font-medium"
                   : "text-gray-600 hover:text-black"
               }`}
             >
@@ -87,7 +87,7 @@ function DashBoard() {
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
+
           {/* Left Column - Profile */}
           <div className="lg:col-span-1">
             {/* Profile Card */}
@@ -99,7 +99,7 @@ function DashBoard() {
               <p className="text-sm text-gray-500 mt-1">{user?.email || "email@example.com"}</p>
             </div>
 
-            {/* Services Card */}
+            { }
             <div className="bg-white rounded-2xl p-6 mt-6 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
@@ -107,12 +107,12 @@ function DashBoard() {
                 </div>
                 <span className="font-semibold text-gray-900">Services</span>
               </div>
-              
+
               <p className="text-xs text-gray-500 mb-4">Apps using Samsung ID</p>
-              
+
               <div className="flex gap-2 mb-4">
                 {services.map((service, index) => (
-                  <div 
+                  <div
                     key={index}
                     className={`w-10 h-10 ${service.color} rounded-xl flex items-center justify-center text-white text-lg`}
                   >
@@ -173,7 +173,7 @@ function DashBoard() {
                 </div>
                 <span className="font-semibold text-gray-900">Devices</span>
               </div>
-              
+
               <div className="flex justify-around text-center">
                 <div>
                   <p className="text-3xl font-bold text-gray-900">0</p>
@@ -184,7 +184,7 @@ function DashBoard() {
                   <p className="text-xs text-gray-500">Logged in</p>
                 </div>
               </div>
-              
+
               <p className="text-xs text-gray-400 text-center mt-4">No active devices</p>
             </div>
           </div>
@@ -204,7 +204,7 @@ function DashBoard() {
               </p>
             </div>
 
-            {/* Location Card */}
+            { }
             <div className="bg-white rounded-2xl p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
@@ -233,10 +233,10 @@ function DashBoard() {
         </div>
       </main>
 
-      {/* Footer */}
+      { }
       <Footer />
 
-      {/* Side Icons */}
+      { }
       <div className="fixed right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3">
         <button className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-gray-500 hover:text-gray-700">
           📱

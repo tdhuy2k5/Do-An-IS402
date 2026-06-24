@@ -7,7 +7,7 @@ import { getCart, removeFromCart, updateCartQuantity, clearCart } from "../lib/c
 import api from "../lib/api";
 import { buildImageUrl } from "../lib/url";
 
-// FAQ Component
+
 const FAQSection = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState(null);
@@ -94,13 +94,13 @@ const FAQSection = () => {
   );
 };
 
-// Cart Item Component
+
 const CartItem = ({ item, onRemove, onUpdateQuantity, isUpdating }) => {
-  // Parse prices to numbers (API returns strings)
+
   const salePrice = parseFloat(item.sale_price) || 0;
   const basePrice = parseFloat(item.base_price) || 0;
   const additionalPrice = parseFloat(item.additional_price) || 0;
-  
+
   const price = (salePrice || basePrice) + additionalPrice;
   const originalPrice = basePrice + additionalPrice;
   const hasDiscount = salePrice && salePrice < basePrice;
@@ -110,13 +110,13 @@ const BASE_URL = 'http://localhost:8000';
   return (
     <div className="border-b border-gray-200 py-6">
       <div className="flex gap-4">
-        {/* Product Image */}
+        { }
         <div className="w-24 h-24 flex-shrink-0 bg-gray-50 rounded-lg flex items-center justify-center">
           <img
             src={buildImageUrl(item.image_url)}
             alt={item.product_name}
             className="max-w-full max-h-full object-contain"
-            
+
           />
         </div>
 
@@ -135,11 +135,11 @@ const BASE_URL = 'http://localhost:8000';
             </div>
           </div>
 
-          {/* Quantity Controls */}
+          { }
           <div className="flex items-center justify-between mt-4">
             <div className="flex items-center gap-3">
-              {/* Quantity Selector */}
-              <div 
+              { }
+              <div
                 className="flex items-center rounded-full overflow-hidden"
                 style={{ border: '1px solid #d1d5db' }}
               >
@@ -147,8 +147,8 @@ const BASE_URL = 'http://localhost:8000';
                   onClick={() => item.quantity > 1 && onUpdateQuantity(item.cart_item_id, item.quantity - 1)}
                   disabled={isUpdating || item.quantity <= 1}
                   className="w-9 h-9 flex items-center justify-center transition"
-                  style={{ 
-                    backgroundColor: 'white', 
+                  style={{
+                    backgroundColor: 'white',
                     border: 'none',
                     cursor: item.quantity <= 1 || isUpdating ? 'not-allowed' : 'pointer',
                     opacity: item.quantity <= 1 || isUpdating ? 0.4 : 1,
@@ -159,7 +159,7 @@ const BASE_URL = 'http://localhost:8000';
                 >
                   −
                 </button>
-                <span 
+                <span
                   className="text-center font-medium text-sm"
                   style={{ minWidth: '40px', color: '#111827' }}
                 >
@@ -169,8 +169,8 @@ const BASE_URL = 'http://localhost:8000';
                   onClick={() => onUpdateQuantity(item.cart_item_id, item.quantity + 1)}
                   disabled={isUpdating || item.quantity >= 99}
                   className="w-9 h-9 flex items-center justify-center transition"
-                  style={{ 
-                    backgroundColor: 'white', 
+                  style={{
+                    backgroundColor: 'white',
                     border: 'none',
                     cursor: isUpdating || item.quantity >= 99 ? 'not-allowed' : 'pointer',
                     opacity: isUpdating || item.quantity >= 99 ? 0.4 : 1,
@@ -220,10 +220,10 @@ const BASE_URL = 'http://localhost:8000';
   );
 };
 
-// Order Summary Component
+
 const OrderSummary = ({ subtotal, discount, promoCode, onApplyPromo, promoInput, setPromoInput, isApplyingPromo, user }) => {
   const total = subtotal - discount;
-  const rewardPoints = Math.floor(total * 2); // 2 points per dollar
+  const rewardPoints = Math.floor(total * 2);
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-24">
@@ -289,7 +289,7 @@ const OrderSummary = ({ subtotal, discount, promoCode, onApplyPromo, promoInput,
         </div>
       </div>
 
-      {/* Total */}
+      { }
       <div className="border-t border-gray-200 pt-4 mb-4">
         <div className="flex justify-between">
           <span className="text-lg font-bold">Estimated Total</span>
@@ -298,7 +298,7 @@ const OrderSummary = ({ subtotal, discount, promoCode, onApplyPromo, promoInput,
         <p className="text-xs text-gray-500 mt-1">or starting from $7.3/mo for 24 months</p>
       </div>
 
-      {/* Checkout Button */}
+      { }
       <Link to="/checkout">
         <button
           className="w-full py-3 rounded-full font-medium mb-3"
@@ -308,7 +308,7 @@ const OrderSummary = ({ subtotal, discount, promoCode, onApplyPromo, promoInput,
         </button>
       </Link>
 
-      {/* Savings */}
+      { }
       {discount > 0 && (
         <div className="border-t border-gray-200 pt-4 mt-4">
           <div className="flex justify-between items-center cursor-pointer">
@@ -344,7 +344,7 @@ const OrderSummary = ({ subtotal, discount, promoCode, onApplyPromo, promoInput,
         </div>
       )}
 
-      {/* VIP Banner */}
+      { }
       <div className="mt-4 bg-gray-900 text-white rounded-lg p-4 text-center">
         <p className="text-sm">
           Enjoy our most exclusive benefits when you enroll in{" "}
@@ -370,7 +370,7 @@ const Cart = () => {
   const [isApplyingPromo, setIsApplyingPromo] = useState(false);
 
   const isCartEmpty = cartItems.length === 0;
-  // Fetch cart data
+
   const fetchCart = async () => {
     try {
       const data = await getCart();
@@ -384,7 +384,7 @@ const Cart = () => {
       }
     } catch (error) {
       console.error("Error fetching cart:", error);
-      // Cart is empty or error - clear items
+
       setCartItems([]);
       setTotalPrice(0);
     } finally {
@@ -396,7 +396,7 @@ const Cart = () => {
     fetchCart();
   }, []);
 
-  // Remove item
+
   const handleRemoveItem = async (cartItemId) => {
     console.log("Removing item:", cartItemId);
     setUpdatingItem(cartItemId);
@@ -412,7 +412,7 @@ const Cart = () => {
     }
   };
 
-  // Update quantity
+
   const handleUpdateQuantity = async (cartItemId, newQuantity) => {
     if (newQuantity < 1) return;
     console.log("Updating quantity:", cartItemId, newQuantity);
@@ -429,7 +429,7 @@ const Cart = () => {
     }
   };
 
-  // Apply promo code
+
   const handleApplyPromo = async () => {
     if (!promoInput.trim()) return;
     setIsApplyingPromo(true);
@@ -460,7 +460,7 @@ const Cart = () => {
     }
   };
 
-  // Clear all items from cart
+
   const [isClearing, setIsClearing] = useState(false);
   const handleClearCart = async () => {
     if (!window.confirm("Are you sure you want to remove all items from your cart?")) return;
@@ -483,7 +483,7 @@ const Cart = () => {
       <Navbar isTransparent={false} />
 
       <main className="flex-grow w-full flex flex-col items-center mt-16 pb-20">
-        {/* Header */}
+        { }
         <div className="w-full pb-3 mb-8 border-b border-gray-300">
           <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-8">
             <h1 className="text-4xl font-extrabold">Cart</h1>
@@ -516,7 +516,7 @@ const Cart = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Cart Items */}
+              { }
               <div className="lg:col-span-2">
                 {cartItems.map((item) => (
                   <CartItem
@@ -551,11 +551,11 @@ const Cart = () => {
           <div className="max-w-3xl mx-auto flex flex-col items-center text-center py-10 flex-grow -mt-12">
             <div className="mt-10 mb-8">
               <h2 className="text-3xl font-bold mb-4">Your cart is empty</h2>
-              
+
                 <p className="text-base text-gray-600">
                   Hi {user?.full_name || user?.email}! You haven't added any items to your cart yet.
                 </p>
-        
+
             </div>
             <Link to="/shop">
               <p className="text-sm text-blue-600 hover:underline cursor-pointer">Continue Shopping</p>

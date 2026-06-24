@@ -8,7 +8,7 @@ resource "azurerm_log_analytics_workspace" "main" {
   tags = local.common_tags
 }
 
-# Diagnostics for AKS
+
 resource "azurerm_monitor_diagnostic_setting" "aks" {
   name                       = "${var.project_name}-aks-diag"
   target_resource_id         = azurerm_kubernetes_cluster.main.id
@@ -27,7 +27,7 @@ resource "azurerm_monitor_diagnostic_setting" "aks" {
   }
 }
 
-# Diagnostics for MySQL - Send audit logs to Log Analytics
+
 resource "azurerm_monitor_diagnostic_setting" "mysql" {
   name                       = "${var.project_name}-mysql-diag"
   target_resource_id         = azurerm_mysql_flexible_server.main.id

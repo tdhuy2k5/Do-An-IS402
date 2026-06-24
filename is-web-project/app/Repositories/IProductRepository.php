@@ -24,28 +24,28 @@ interface IProductRepository
         ?float $max_price = null,
         int $last_id = 0,
         int $limit = 20,
-        string $sort = 'desc' // 'asc' or 'desc'
+        string $sort = 'desc'
     );
 
     public function searchTV(
         ?string $slug = null,
         ?string $keyword = null,
-        ?array $resolution = null,      // e.g. ['4K UHD', '8K UHD']
-        ?array $technology = null,      // e.g. ['OLED', 'QLED']
-        ?array $processor = null,       // e.g. ['α9 Gen6 AI Processor', 'Neural Quantum Processor 4K']
-        ?array $screenSize = null,      // e.g. ['55-inch', '65-inch']
+        ?array $resolution = null,
+        ?array $technology = null,
+        ?array $processor = null,
+        ?array $screenSize = null,
         ?float $min_price = null,
         ?float $max_price = null,
         int $last_id = 0,
         int $limit = 20,
-        string $sort = 'desc'           // 'asc' or 'desc'
+        string $sort = 'desc'
     );
 
     public function searchComputing(
         ?string $slug = null,
         ?string $keyword = null,
-        ?array $battery = null,         // e.g. ['76Wh', '63Wh']
-        ?array $graphics = null,        // CHANGED: was 'graphic' → now 'graphics'
+        ?array $battery = null,
+        ?array $graphics = null,
         ?array $ram = null,
         ?array $storage = null,
         ?array $processor = null,

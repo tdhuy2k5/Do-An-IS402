@@ -27,7 +27,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $casts = [
         'email_verified' => 'boolean',
-        'gender' => 'string', // ENUM cast to string
+        'gender' => 'string',
     ];
 
     public function roles()
@@ -65,39 +65,31 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(RefreshToken::class, 'user_id');
     }
 
-    /**
-     * Get the password for the user.
-     */
+
     public function getAuthPassword()
     {
         return $this->password_hash;
     }
 
-    /**
-     * Get the identifier that will be stored in the JWT subject claim.
-     */
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    /**
-     * Return a key-value array, containing any custom claims to be added to the JWT.
-     */
+
     public function getJWTCustomClaims()
     {
-        // Fetch user's roles (array of role_ids or role_desc, depending on what you need)
-        $roles = $this->roles->pluck('role_id')->toArray();  // e.g., ['admin', 'user']
+
+        $roles = $this->roles->pluck('role_id')->toArray();
 
         return [
-            'roles' => $roles,  // Custom claim: array of roles
-            // Add other claims if needed, e.g., 'permissions' => ['read', 'write']
+            'roles' => $roles,
+
         ];
     }
 
-    /**
-     * Check if user has any of the given roles.
-     */
+
     public function hasAnyRole(array $roles)
     {
         return $this->roles()->whereIn('roles.role_id', $roles)->exists();

@@ -16,7 +16,7 @@ class RefreshTokenRepository
             16
         );
         $user->refreshTokens()->create([
-            'token' => $refreshToken, // 16-character Base64URL
+            'token' => $refreshToken,
             'expires_at' => now()->addDay(7),
             'revoked' => false,
             'user_id' => $user->user_id,

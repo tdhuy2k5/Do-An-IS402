@@ -36,22 +36,22 @@ class CartController extends Controller
 
     public function addItem(Request $request)
     {
-        // Validate the request
+
         $validated = $request->validate([
             'product_id' => 'required',
             'variant_id' => 'required',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // Get the authenticated user
+
         $user = $request->user();
 
-        // Find or create the cart for the user
+
         $cart = Cart::firstOrCreate(
             ['user_id' => $user->getKey()],
             ['created_at' => now(), 'updated_at' => now()]
         );
-        // Check if the item (product_id and variant_id) already exists in the cart
+
         $cartItem = CartItem::where([
             'cart_id' => $cart->cart_id,
             'product_id' => $validated['product_id'],
@@ -59,12 +59,12 @@ class CartController extends Controller
         ])->first();
 
         if ($cartItem) {
-            // Update quantity if item exists
+
             $cartItem->update([
                 'quantity' => $cartItem->quantity + $validated['quantity'],
             ]);
         } else {
-            // Create new cart item
+
             CartItem::create([
                 'cart_id' => $cart->cart_id,
                 'product_id' => $validated['product_id'],
@@ -74,7 +74,7 @@ class CartController extends Controller
             ]);
         }
 
-        // API response
+
         return response()->json([
             'message' => 'Item added to cart',
             'product_id' => $validated['product_id'],
@@ -85,7 +85,7 @@ class CartController extends Controller
 
     public function removeFromCart(Request $request)
     {
-        // Try to get cart_item_id from route parameter or request input
+
         $cart_item_id = $request->route('cart_item_id') ?? $request->input('cart_item_id');
 
         if (empty($cart_item_id)) {
@@ -147,7 +147,7 @@ class CartController extends Controller
             ], 404);
         }
 
-        // Update the cart item quantity
+
         $cartItem->update([
             'quantity' => $validated['quantity'],
         ]);

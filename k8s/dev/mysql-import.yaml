@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: mysql-import
 spec:
-  ttlSecondsAfterFinished: 600 # keep Job 10 min after finish
+  ttlSecondsAfterFinished: 600
   backoffLimit: 3
 
   template:

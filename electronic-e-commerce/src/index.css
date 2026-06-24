@@ -1,30 +1,30 @@
-/* Tối giản lại index.css để React tự do dàn trang */
+
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  /* Để màu nền mặc định là trắng */
+
   background-color: #ffffff;
   color: #000000;
 }
 
 body {
   margin: 0;
-  /* XÓA display: flex và place-items: center ở đây */
+
   width: 100%;
   min-height: 100vh;
 }
 
 #root {
-  /* Đảm bảo div root (nơi chứa React) luôn chiếm hết chiều rộng */
+
   width: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* Giữ lại một chút CSS cho các thẻ cơ bản nếu cần */
+
 a {
   font-weight: 500;
   color: #646cff;

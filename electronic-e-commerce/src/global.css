@@ -10,7 +10,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbar for sub-navigation */
+
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

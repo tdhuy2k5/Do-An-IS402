@@ -15,13 +15,13 @@ class CheckRefreshToken
     {
         if ($request->header('Authorization')) {
             try {
-                $user = JWTAuth::parseToken()->authenticate(false); // Pass false to avoid exceptions
+                $user = JWTAuth::parseToken()->authenticate(false);
 
                 if ($user) {
                     Auth::setUser($user);
-                    $user->load('roles'); // Load roles relationship
+                    $user->load('roles');
 
-                    // Instead of blocking, return a friendly message indicating they're already logged in
+
                     return response()->json([
                         'success' => true,
                         'message' => 'You are already logged in.',
@@ -30,7 +30,7 @@ class CheckRefreshToken
                     ], 200);
                 }
             } catch (JWTException $e) {
-                // Token is invalid or expired, continue with the request
+
             }
         }
 

@@ -20,7 +20,7 @@ resource "azurerm_subnet" "database" {
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = [var.db_subnet_cidr]
 
-  # Required for MySQL Flexible Server VNet Integration
+
   delegation {
     name = "mysql-delegation"
     service_delegation {
@@ -80,13 +80,13 @@ resource "azurerm_subnet_network_security_group_association" "aks" {
   network_security_group_id = azurerm_network_security_group.aks.id
 }
 
-# NSG for Database Subnet (Replaces your old Firewall Rules)
+
 resource "azurerm_network_security_group" "database" {
   name                = "${var.project_name}-nsg-db-${var.environment}"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
 
-  # Only allow MySQL port 3306 from the AKS Subnet
+
   security_rule {
     name                       = "AllowAKS"
     priority                   = 100

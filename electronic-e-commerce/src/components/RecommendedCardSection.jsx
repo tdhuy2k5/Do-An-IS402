@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import api from "../lib/api";
 
-// Component RecommendedCard - Đã sửa lỗi ảnh bị chìm
+
 export function RecommendedCard({
   productId,
   imageSrc = "https://via.placeholder.com/300x300",
@@ -12,9 +12,9 @@ export function RecommendedCard({
 
   return (
     <Link to={`/product/${productId}`} className="group flex-shrink-0 w-[295px] flex flex-col cursor-pointer">
-      {/* Image Container - Đã sửa bg-gray-50 và border để ảnh nổi bật hơn */}
+      { }
       <div
-        className="w-[295px] h-[350px] flex justify-center items-center bg-gray-50 rounded-lg mb-4 
+        className="w-[295px] h-[350px] flex justify-center items-center bg-gray-50 rounded-lg mb-4
                    group-hover:bg-white transition-all overflow-hidden shadow-md border border-gray-100 relative"
       >
         <img
@@ -35,9 +35,9 @@ export function RecommendedCard({
 
         <div className="mt-auto">
           <div className="flex items-baseline gap-2 flex-wrap">
-            
+
           </div>
-          
+
         </div>
       </div>
     </Link>
@@ -57,7 +57,7 @@ export default function RecommendedCardSection() {
       try {
         const response = await api.get("/products/recommended?limit=12");
         const data = response.data || [];
-        
+
 
         setProducts(data);
       } catch (error) {

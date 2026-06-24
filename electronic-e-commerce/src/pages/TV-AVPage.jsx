@@ -13,9 +13,9 @@ const TVAVPage = () => {
     const [hasMore, setHasMore] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
 
-    // 1. Cấu hình BASE_URL đồng bộ với Backend
+
     const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
-    
+
     const [filters, setFilters] = useState({
         keyword: '',
         resolution: [],
@@ -23,17 +23,17 @@ const TVAVPage = () => {
         screenSize: [],
         sort: 'desc',
         last_id: 0,
-        limit: 12 // Giảm xuống 12 để chia hết cho grid 3 và 4
+        limit: 12
     });
 
     const fetchProducts = useCallback(async (isRefresh = true) => {
         if (!child_slug) return;
         setLoading(true);
         setErrorMsg(null);
-        
+
         try {
             const currentLastId = isRefresh ? 0 : filters.last_id;
-            
+
             const params = {
                 ...filters,
                 resolution: filters.resolution.join(','),
@@ -43,7 +43,7 @@ const TVAVPage = () => {
             };
 
             const response = await axios.get(`${BASE_URL}/tv-av/${child_slug}`, { params });
-            
+
             if (Array.isArray(response.data)) {
                 const data = response.data;
                 if (isRefresh) setProducts(data);
@@ -90,17 +90,17 @@ const TVAVPage = () => {
             <Navbar isTransparent={false} />
 
             <div className="flex-grow w-full px-4 md:px-10 py-8 flex flex-col md:flex-row gap-8 mt-14">
-                
-                {/* SIDEBAR FILTERS */}
+
+                { }
                 <aside className="w-full md:w-72 flex-shrink-0 space-y-8 bg-gray-50 p-6 rounded-2xl h-fit relative top-26 shadow-sm">
                     <h3 className="font-bold text-xl justify-center border-b pb-3 text-black flex items-center gap-2">
                          Bộ lọc TV & AV
                     </h3>
-                    
+
                     {/* Sắp xếp */}
                     <div>
                         <h4 className="text-black font-bold mb-3 text-xs uppercase tracking-widest">Sắp xếp theo giá</h4>
-                        <select 
+                        <select
                             value={filters.sort}
                             onChange={(e) => setFilters(prev => ({ ...prev, sort: e.target.value }))}
                             className="w-full border-none rounded-xl p-3 text-sm outline-none bg-white shadow-sm font-medium"
@@ -110,15 +110,15 @@ const TVAVPage = () => {
                         </select>
                     </div>
 
-                    {/* Lọc Độ phân giải */}
+                    { }
                     <div>
                         <h4 className="text-black font-bold mb-3 text-xs uppercase tracking-widest">Độ phân giải</h4>
                         <div className="space-y-2">
                             {['4K UHD', '8K UHD', 'Crystal UHD'].map(item => (
                                 <label key={item} className="flex items-center gap-3 cursor-pointer group p-1">
-                                    <input type="checkbox" className="w-5 h-5 rounded-md accent-blue-600" 
-                                        checked={filters.resolution.includes(item)} 
-                                        onChange={() => toggleArrayFilter('resolution', item)} 
+                                    <input type="checkbox" className="w-5 h-5 rounded-md accent-blue-600"
+                                        checked={filters.resolution.includes(item)}
+                                        onChange={() => toggleArrayFilter('resolution', item)}
                                     />
                                     <span className="text-sm font-medium text-gray-600 group-hover:text-blue-600 transition-colors">{item}</span>
                                 </label>
@@ -126,15 +126,15 @@ const TVAVPage = () => {
                         </div>
                     </div>
 
-                    {/* Lọc Công nghệ */}
+                    { }
                     <div>
                         <h4 className="text-black font-bold mb-3 text-xs uppercase tracking-widest">Công nghệ màn hình</h4>
                         <div className="space-y-2">
                             {['OLED', 'QLED', 'Neo QLED', 'Micro LED'].map(item => (
                                 <label key={item} className="flex items-center gap-3 cursor-pointer group p-1">
-                                    <input type="checkbox" className="w-5 h-5 rounded-md accent-blue-600" 
-                                        checked={filters.technology.includes(item)} 
-                                        onChange={() => toggleArrayFilter('technology', item)} 
+                                    <input type="checkbox" className="w-5 h-5 rounded-md accent-blue-600"
+                                        checked={filters.technology.includes(item)}
+                                        onChange={() => toggleArrayFilter('technology', item)}
                                     />
                                     <span className="text-sm font-medium text-gray-600 group-hover:text-blue-600 transition-colors">{item}</span>
                                 </label>
@@ -142,17 +142,17 @@ const TVAVPage = () => {
                         </div>
                     </div>
 
-                    {/* Lọc Kích thước */}
+                    { }
                     <div>
                         <h4 className="text-black font-bold mb-3 text-xs uppercase tracking-widest">Kích thước màn hình</h4>
                         <div className="grid grid-cols-2 gap-2">
                             {['55-inch', '65-inch', '75-inch', '85-inch', '98-inch'].map(item => (
-                                <button 
+                                <button
                                     key={item}
                                     onClick={() => toggleArrayFilter('screenSize', item)}
                                     className={`py-2 text-xs font-bold rounded-xl border transition-all ${
-                                        filters.screenSize.includes(item) 
-                                        ? 'bg-blue-600 border-blue-600 text-white shadow-md' 
+                                        filters.screenSize.includes(item)
+                                        ? 'bg-blue-600 border-blue-600 text-white shadow-md'
                                         : 'bg-white border-gray-200 text-gray-600 hover:border-blue-600'
                                     }`}
                                 >
@@ -162,15 +162,15 @@ const TVAVPage = () => {
                         </div>
                     </div>
 
-                    <button 
-                        onClick={() => fetchProducts(true)} 
+                    <button
+                        onClick={() => fetchProducts(true)}
                         className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-100"
                     >
                         Áp dụng bộ lọc
                     </button>
                 </aside>
 
-                {/* MAIN CONTENT */}
+                { }
                 <main className="flex-1">
                     <div className="mb-8">
                         <h1 className="text-4xl font-black text-gray-900 uppercase tracking-tighter">
@@ -188,20 +188,20 @@ const TVAVPage = () => {
                     {Array.isArray(products) && products.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             {products.map((product) => (
-                                <div 
-                                    key={product.product_id} 
+                                <div
+                                    key={product.product_id}
                                     onClick={() => navigate(`/product/${product.product_id}`)}
                                     className="cursor-pointer bg-white rounded-[32px] p-6 border border-gray-100 hover:shadow-2xl transition-all duration-500 group flex flex-col"
                                 >
                                     <div className="aspect-video w-full mb-6 relative rounded-2xl bg-gray-50 flex items-center justify-center overflow-hidden">
-                                        <img 
-                                            // 2. FIX: Nối BASE_URL vào ảnh
-                                            src={`${product.image_url}`} 
-                                            alt={product.product_name} 
-                                            className="w-4/5 h-4/5 object-contain group-hover:scale-110 transition-transform duration-700" 
+                                        <img
+
+                                            src={`${product.image_url}`}
+                                            alt={product.product_name}
+                                            className="w-4/5 h-4/5 object-contain group-hover:scale-110 transition-transform duration-700"
                                         />
                                     </div>
-                                    
+
                                     <div className="flex-grow">
                                         <h3 className="font-bold text-gray-900 text-lg mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
                                             {product.product_name}
@@ -226,7 +226,7 @@ const TVAVPage = () => {
                                         <button className="bg-black text-white py-3 rounded-2xl font-bold text-sm hover:opacity-80 transition-opacity">
                                             Mua ngay
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 navigate(`/product/${product.product_id}`);
@@ -246,7 +246,7 @@ const TVAVPage = () => {
                             </div>
                         )
                     )}
-                    
+
                     {loading && (
                         <div className="text-center py-20 flex flex-col items-center">
                             <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -256,8 +256,8 @@ const TVAVPage = () => {
 
                     {hasMore && products.length > 0 && !loading && (
                         <div className="mt-16 text-center pb-12">
-                            <button 
-                                onClick={() => fetchProducts(false)} 
+                            <button
+                                onClick={() => fetchProducts(false)}
                                 className="bg-white border-2 border-black text-black px-16 py-4 rounded-full font-black hover:bg-black hover:text-white transition-all transform active:scale-90 shadow-xl"
                             >
                                 KHÁM PHÁ THÊM TV

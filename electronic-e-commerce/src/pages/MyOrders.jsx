@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import api from "../lib/api";
 
-// Status Badge Component
+
 const StatusBadge = ({ status, type = "order" }) => {
   const getStatusStyle = () => {
     if (type === "payment") {
@@ -57,13 +57,13 @@ const OrderItemCard = ({ item }) => {
   return (
     <div className="flex gap-4 py-4 border-b border-gray-100 last:border-0">
       {/* Product Image */}
-      <div 
+      <div
         className="w-24 h-24 flex-shrink-0 rounded-xl flex items-center justify-center overflow-hidden"
         style={{ backgroundColor: "#f9fafb", border: "1px solid #e5e7eb" }}
       >
         {item.image_url ? (
-          <img 
-            src={item.image_url} 
+          <img
+            src={item.image_url}
             alt={item.product_name}
             className="w-full h-full object-contain p-2"
           />
@@ -71,7 +71,7 @@ const OrderItemCard = ({ item }) => {
           <Package style={{ width: "36px", height: "36px", color: "#9ca3af" }} />
         )}
       </div>
-      
+
       {/* Product Info */}
       <div className="flex-1 min-w-0">
         <h4 className="font-semibold text-gray-900 text-base">{item.product_name}</h4>
@@ -79,7 +79,7 @@ const OrderItemCard = ({ item }) => {
           <p className="text-sm text-gray-500 mt-0.5">SKU: {item.variant_sku}</p>
         )}
         <div className="flex items-center gap-4 mt-2">
-          <span 
+          <span
             className="text-sm px-3 py-1 rounded-full"
             style={{ backgroundColor: "#f3f4f6", color: "#374151" }}
           >
@@ -90,7 +90,7 @@ const OrderItemCard = ({ item }) => {
           </span>
         </div>
       </div>
-      
+
       {/* Price */}
       <div className="text-right flex flex-col justify-center">
         <p className="font-bold text-lg text-gray-900">${totalPrice.toFixed(2)}</p>
@@ -99,7 +99,7 @@ const OrderItemCard = ({ item }) => {
   );
 };
 
-// Order Card Component
+
 const OrderCard = ({ order, onCancel, isCancelling }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [items, setItems] = useState([]);
@@ -117,7 +117,7 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
 
   const canCancel = order.status?.toLowerCase() === "pending" && order.payment_status?.toLowerCase() === "pending";
 
-  // Fetch order items when expanded
+
   const handleToggle = async () => {
     if (!isExpanded && items.length === 0) {
       setIsLoadingItems(true);
@@ -136,21 +136,21 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
   };
 
   return (
-    <div 
+    <div
       className="bg-white rounded-2xl overflow-hidden mb-4 transition-shadow hover:shadow-lg"
       style={{ border: "1px solid #e5e7eb", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}
     >
-      {/* Order Header */}
-      <div 
+      { }
+      <div
         className="p-5 cursor-pointer transition"
         onClick={handleToggle}
         style={{ backgroundColor: isExpanded ? "#fafafa" : "white" }}
       >
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            {/* Order ID & Date */}
+            { }
             <div className="flex items-center gap-3 mb-3">
-              <div 
+              <div
                 className="w-10 h-10 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: "#eff6ff" }}
               >
@@ -164,15 +164,15 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
                 </div>
               </div>
             </div>
-            
-            {/* Status Badges */}
+
+            { }
             <div className="flex items-center gap-2 flex-wrap">
               <StatusBadge status={order.status} type="order" />
               <StatusBadge status={order.payment_status} type="payment" />
             </div>
           </div>
-          
-          {/* Price & Expand Icon */}
+
+          { }
           <div className="flex items-center gap-4">
             <div className="text-right">
               <p className="font-bold text-2xl text-gray-900">${parseFloat(order.total_amount || 0).toFixed(2)}</p>
@@ -182,7 +182,7 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
                 </p>
               )}
             </div>
-            <div 
+            <div
               className="w-10 h-10 rounded-full flex items-center justify-center transition"
               style={{ backgroundColor: isExpanded ? "#e5e7eb" : "#f3f4f6" }}
             >
@@ -196,22 +196,22 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
         </div>
       </div>
 
-      {/* Expanded Content */}
+      { }
       {isExpanded && (
         <div style={{ borderTop: "1px solid #e5e7eb" }}>
-          {/* Order Items */}
+          { }
           <div className="p-5">
             <div className="flex items-center gap-2 mb-4">
               <Package style={{ width: "18px", height: "18px", color: "#6b7280" }} />
               <h4 className="font-semibold text-gray-700">Order Items ({items.length})</h4>
             </div>
-            
+
             {isLoadingItems ? (
               <div className="flex items-center justify-center py-10">
                 <Loader2 className="w-8 h-8 animate-spin" style={{ color: "#3b82f6" }} />
               </div>
             ) : items.length > 0 ? (
-              <div 
+              <div
                 className="rounded-xl overflow-hidden"
                 style={{ backgroundColor: "#fafafa", border: "1px solid #f3f4f6" }}
               >
@@ -231,7 +231,7 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
 
           {/* Order Summary */}
           <div className="px-5 pb-5">
-            <div 
+            <div
               className="rounded-xl p-5"
               style={{ backgroundColor: "#f9fafb", border: "1px solid #f3f4f6" }}
             >
@@ -239,7 +239,7 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
                 <CreditCard style={{ width: "18px", height: "18px", color: "#6b7280" }} />
                 <h4 className="font-semibold text-gray-700">Payment Summary</h4>
               </div>
-              
+
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal</span>
@@ -257,7 +257,7 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
                   <span className="text-gray-600">Shipping</span>
                   <span className="font-medium">${parseFloat(order.shipping_fee || 10).toFixed(2)}</span>
                 </div>
-                <div 
+                <div
                   className="flex justify-between pt-3 mt-3"
                   style={{ borderTop: "1px solid #e5e7eb" }}
                 >
@@ -271,7 +271,7 @@ const OrderCard = ({ order, onCancel, isCancelling }) => {
           </div>
 
           {/* Actions */}
-          <div 
+          <div
             className="px-5 pb-5 flex gap-3"
           >
             <Link to={`/order/${order.order_id}`} className="flex-1">
@@ -374,40 +374,40 @@ const MyOrders = () => {
 
       <main className="flex-grow w-full mt-16 pb-20">
         {/* Header */}
-        <div 
+        <div
           className="w-full py-10"
-          style={{ 
+          style={{
             background: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)",
           }}
         >
           <div className="max-w-4xl mx-auto px-4">
             <h1 className="text-3xl font-bold text-white mb-2">My Orders</h1>
             <p className="text-blue-100">Track and manage all your orders in one place</p>
-            
+
             {/* Stats Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-              <div 
+              <div
                 className="rounded-xl p-4"
                 style={{ backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}
               >
                 <p className="text-blue-100 text-sm">Total Orders</p>
                 <p className="text-3xl font-bold text-white">{stats.total}</p>
               </div>
-              <div 
+              <div
                 className="rounded-xl p-4"
                 style={{ backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}
               >
                 <p className="text-blue-100 text-sm">Pending</p>
                 <p className="text-3xl font-bold text-yellow-300">{stats.pending}</p>
               </div>
-              <div 
+              <div
                 className="rounded-xl p-4"
                 style={{ backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}
               >
                 <p className="text-blue-100 text-sm">Paid</p>
                 <p className="text-3xl font-bold text-green-300">{stats.paid}</p>
               </div>
-              <div 
+              <div
                 className="rounded-xl p-4"
                 style={{ backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}
               >
@@ -467,11 +467,11 @@ const MyOrders = () => {
 
           {/* Empty State */}
           {!isLoading && filteredOrders.length === 0 && (
-            <div 
+            <div
               className="text-center py-16 rounded-2xl"
               style={{ backgroundColor: "white", border: "1px solid #e5e7eb" }}
             >
-              <div 
+              <div
                 className="w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center"
                 style={{ backgroundColor: "#f3f4f6" }}
               >

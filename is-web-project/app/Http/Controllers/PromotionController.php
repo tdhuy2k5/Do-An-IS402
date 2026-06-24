@@ -9,7 +9,7 @@ class PromotionController extends Controller
 {
     public function checkPromotionExist(Request $request)
     {
-        // $code comes from route param; ensure it's present
+
         $code = $request->query('code');
         if (empty($code) || ! is_string($code)) {
             return response()->json([

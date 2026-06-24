@@ -7,13 +7,13 @@ terraform {
     }
   }
 
-  # Uncomment to use remote backend (Azure Storage)
-  # backend "azurerm" {
-  #   resource_group_name  = "rg-terraform"
-  #   storage_account_name = "tfstate"
-  #   container_name       = "state"
-  #   key                  = "esapp.tfstate"
-  # }
+
+
+
+
+
+
+
 }
 
 provider "azurerm" {
@@ -24,7 +24,7 @@ provider "azurerm" {
   }
 }
 
-# Reference existing resource group
+
 data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }

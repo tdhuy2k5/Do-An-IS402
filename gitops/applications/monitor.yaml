@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
-    targetRevision: 66.3.1 # you can upgrade later, but keep stable version
+    targetRevision: 66.3.1
     helm:
       releaseName: monitor
 
@@ -33,7 +33,7 @@ spec:
         prometheusOperator:
           enabled: true
 
-        # IMPORTANT: allow your ServiceMonitors to be discovered
+
         prometheus:
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false

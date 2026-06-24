@@ -18,24 +18,24 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Kiểm tra đăng nhập
+
     const accessToken = localStorage.getItem("access_token");
     if (!accessToken) {
       navigate("/login");
       return;
     }
 
-    // Lấy thông tin user
+
     const fetchUser = async () => {
       try {
         const response = await api.get("/auth/user");
-        // API trả về { success: true, data: {...user} }
+
         const userData = response.data.data || response.data;
         setUser(userData);
-        // Cập nhật localStorage với data mới nhất
+
         localStorage.setItem("user", JSON.stringify(userData));
       } catch {
-        // Nếu lỗi, thử lấy từ localStorage
+
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
           setUser(JSON.parse(storedUser));
@@ -74,7 +74,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen w-screen bg-gray-100 flex flex-col">
-      {/* Header */}
+      { }
       <nav className="p-4 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
           <ul className="flex justify-between items-center">
@@ -93,12 +93,12 @@ export default function Profile() {
         </div>
       </nav>
 
-      {/* Main Content */}
+      { }
       <main className="flex-grow flex justify-center py-10 px-4">
         <div className="w-full max-w-2xl">
-          {/* Profile Card */}
+          { }
           <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
-            {/* Avatar & Name */}
+            { }
             <div className="flex flex-col items-center mb-8">
               <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-4">
                 <User className="w-10 h-10 text-gray-500" />
@@ -109,7 +109,7 @@ export default function Profile() {
               <p className="text-sm text-gray-500">{profileData.email}</p>
             </div>
 
-            {/* Email & Google Connection */}
+            { }
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="flex items-center gap-3 p-3 border-b border-gray-100">
                 <Mail className="w-5 h-5 text-gray-400" />
@@ -135,7 +135,7 @@ export default function Profile() {
 
             {/* Manage Samsung Account Button */}
             <div className="flex justify-center">
-              <button 
+              <button
                 className="px-6 py-3 rounded-full hover:opacity-90 transition text-sm font-medium"
                 style={{ backgroundColor: '#3b82f6', color: 'white' }}
               >
@@ -144,7 +144,7 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* Personal Information Card */}
+          { }
           <div className="bg-white rounded-2xl shadow-sm p-8">
             <h2 className="text-lg font-medium text-gray-700 mb-6 text-center">
               Thông tin cá nhân
@@ -160,7 +160,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Birthday */}
+              { }
               <div className="flex items-center gap-3 py-4 border-b border-gray-100">
                 <Calendar className="w-5 h-5 text-gray-400" />
                 <div>
@@ -171,7 +171,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Phone */}
+              { }
               <div className="flex items-center gap-3 py-4 border-b border-gray-100">
                 <Phone className="w-5 h-5 text-gray-400" />
                 <div>
@@ -180,7 +180,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Nickname */}
+              { }
               <div className="flex items-center gap-3 py-4 border-b border-gray-100">
                 <Shield className="w-5 h-5 text-gray-400" />
                 <div>
@@ -191,7 +191,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Alternate Phone */}
+              { }
               <div className="flex items-center gap-3 py-4 border-b border-gray-100">
                 <Phone className="w-5 h-5 text-gray-400" />
                 <div>
@@ -202,7 +202,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Occupation */}
+              { }
               <div className="flex items-center gap-3 py-4 border-b border-gray-100">
                 <Shield className="w-5 h-5 text-gray-400" />
                 <div>
@@ -213,7 +213,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Language */}
+              { }
               <div className="flex items-center gap-3 py-4 border-b border-gray-100">
                 <Globe className="w-5 h-5 text-gray-400" />
                 <div>
@@ -224,7 +224,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Country */}
+              { }
               <div className="flex items-center gap-3 py-4 border-b border-gray-100">
                 <MapPin className="w-5 h-5 text-gray-400" />
                 <div className="flex-1">
@@ -246,7 +246,7 @@ export default function Profile() {
 
             {/* Edit Button */}
             <div className="flex justify-center mt-8">
-              <button 
+              <button
                 className="px-6 py-3 rounded-full hover:opacity-90 transition text-sm font-medium"
                 style={{ backgroundColor: '#3b82f6', color: 'white' }}
               >
@@ -257,7 +257,7 @@ export default function Profile() {
         </div>
       </main>
 
-      {/* Footer */}
+      { }
       <footer className="w-full bg-gray-100 py-4 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">

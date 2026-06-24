@@ -20,14 +20,14 @@ function Home() {
             try {
                 const params = { limit: 4 };
                 const [resMobile, resTv, resComp] = await Promise.all([
-                    axios.get(`${BASE_URL}/mobile/galaxy-smartphone`, { params }), 
-                    axios.get(`${BASE_URL}/tv-av/premium-flagship-tvs`, { params }), 
+                    axios.get(`${BASE_URL}/mobile/galaxy-smartphone`, { params }),
+                    axios.get(`${BASE_URL}/tv-av/premium-flagship-tvs`, { params }),
                     axios.get(`${BASE_URL}/computing-displays/galaxy-book-laptop`, { params })
                 ]);
                 setMobiles(Array.isArray(resMobile.data) ? resMobile.data : []);
                 setTvs(Array.isArray(resTv.data) ? resTv.data : []);
                 setComputing(Array.isArray(resComp.data) ? resComp.data : []);
-                
+
             } catch (error) {
                 console.error("Lỗi fetch dữ liệu:", error);
             } finally {
@@ -40,15 +40,15 @@ function Home() {
     return (
         <div className="flex flex-col min-h-screen bg-white">
             <Navbar isTransparent={true} />
-            
+
             <main className="flex-grow overflow-x-hidden">
-                {/* Ảnh Hero - Kiểm tra xem file này tên là hero-main.jpg hay hero-main.webp */}
-                <HeroSection 
-                    bgImage={`${IMAGE_PATH}/hero-main.jpg`} 
-                    title="Galaxy Z Fold7" 
+                { }
+                <HeroSection
+                    bgImage={`${IMAGE_PATH}/hero-main.jpg`}
+                    title="Galaxy Z Fold7"
                     subTitle="Galaxy AI ✨"
                 />
-                
+
                 {loading ? (
                     <div className="py-32 flex flex-col items-center">
                         <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -62,7 +62,7 @@ function Home() {
                           subTitle=""
                         />
                         <CardSection sectionTitle="Mobile Galaxy" data={mobiles} />
-                
+
                         <CardSection sectionTitle="Smart TV & Audio" data={tvs} />
 
                         <CardSection sectionTitle="Computing & Displays" data={computing} />

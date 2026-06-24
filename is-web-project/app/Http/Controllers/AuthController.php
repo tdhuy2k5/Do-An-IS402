@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Repositories\RefreshTokenRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash; // Adjust to your User model namespace
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
@@ -15,9 +15,7 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    /**
-     * Register a new user.
-     */
+
     private $refreshTokenRepository;
 
     public function __construct(RefreshTokenRepository $refreshTokenRepository)
@@ -138,9 +136,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Authenticate a user and return a token.
-     */
+
     public function login(Request $request)
     {
         return response()->json([
@@ -164,13 +160,13 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // Get the credentials from the request
+
         $credentials = $request->only('email', 'password');
 
-        // Try to find the user by email
+
         $user = User::where('email', $credentials['email'])->first();
 
-        // Check if user exists first
+
         if (! $user) {
             return response()->json([
                 'success' => false,
@@ -178,7 +174,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Check email verified
+
         if ($user->email_verified == false) {
             return response()->json([
                 'success' => false,
@@ -186,16 +182,16 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Check password
+
         if (! Hash::check($credentials['password'], $user->password_hash)) {
-            // Password doesn't match
+
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid credentials',
             ], 401);
         }
 
-        // If credentials are correct, generate a token
+
         try {
             if (! $token = JWTAuth::fromUser($user)) {
                 return response()->json([
@@ -211,10 +207,10 @@ class AuthController extends Controller
         }
         $refreshToken = $this->refreshTokenRepository->generateRefreshTokenForUser($user);
 
-        // Load user's roles
+
         $user->load('roles');
 
-        // Return the success response with the token and user data
+
         return response()->json([
             'success' => true,
             'access_token' => $token,

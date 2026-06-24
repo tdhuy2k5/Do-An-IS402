@@ -10,9 +10,9 @@ class Role extends Model
 
     protected $primaryKey = 'role_id';
 
-    public $incrementing = false; // Non-auto-incrementing primary key
+    public $incrementing = false;
 
-    protected $keyType = 'string'; // VARCHAR(50) primary key
+    protected $keyType = 'string';
 
     protected $fillable = ['role_id', 'role_desc'];
 

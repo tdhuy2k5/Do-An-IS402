@@ -24,11 +24,11 @@ return new class extends Migration
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
 
-        // Add CHECK constraint for rating (MySQL 8+ supports CHECK)
+
         try {
             DB::statement('ALTER TABLE reviews ADD CONSTRAINT chk_reviews_rating CHECK (rating >= 1 AND rating <= 5)');
         } catch (\Throwable $e) {
-            // Some MySQL versions ignore CHECK or may throw — ignore safely.
+
         }
     }
 

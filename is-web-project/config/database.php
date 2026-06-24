@@ -4,18 +4,10 @@ use Illuminate\Support\Str;
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Default Database Connection
-    |--------------------------------------------------------------------------
-    */
+
     'default' => env('DB_CONNECTION', 'mysql'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Database Connections
-    |--------------------------------------------------------------------------
-    */
+
     'connections' => [
 
         'sqlite' => [
@@ -60,21 +52,13 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Migration Table
-    |--------------------------------------------------------------------------
-    */
+
     'migrations' => [
         'table' => 'migrations',
         'update_date_on_publish' => true,
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Redis Configuration
-    |--------------------------------------------------------------------------
-    */
+
     'redis' => [
 
         'client' => env('REDIS_CLIENT', 'phpredis'),
@@ -91,13 +75,15 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'database' => env('REDIS_DB', 0),
 
-            // Azure Cache for Redis: port 6380 is TLS-only.
-            // `scheme` must be set explicitly — the `ssl` array alone
-            // does not make phpredis upgrade the connection.
-            'scheme' => 'tls',
+
+
+
+            'scheme' => env('REDIS_SCHEME', 'tls'),
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false,
+                'min_proto_version' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
+                'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
             ],
         ],
 
@@ -107,10 +93,12 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'database' => env('REDIS_CACHE_DB', 1),
 
-            'scheme' => 'tls',
+            'scheme' => env('REDIS_SCHEME', 'tls'),
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false,
+                'min_proto_version' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
+                'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
             ],
         ],
     ],

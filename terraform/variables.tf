@@ -25,7 +25,7 @@ variable "environment" {
   }
 }
 
-# Networking
+
 variable "vnet_cidr" {
   description = "CIDR block for virtual network"
   type        = string
@@ -44,7 +44,7 @@ variable "db_subnet_cidr" {
   default     = "10.0.2.0/24"
 }
 
-# AKS
+
 variable "aks_kubernetes_version" {
   description = "Kubernetes version"
   type        = string
@@ -74,7 +74,7 @@ variable "google_client_secret" {
   sensitive = true
 }
 
-# Database
+
 variable "mysql_version" {
   description = "MySQL version"
   type        = string
@@ -105,14 +105,14 @@ variable "mysql_allocated_storage" {
   default     = 20
 }
 
-# ACR
+
 variable "acr_sku" {
   description = "ACR tier"
   type        = string
   default     = "Basic"
 }
 
-# Key Vault
+
 variable "keyvault_sku" {
   description = "Key Vault SKU"
   type        = string

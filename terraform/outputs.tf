@@ -1,4 +1,4 @@
-# Azure Container Registry
+
 
 output "acr_name" {
   description = "Azure Container Registry name"

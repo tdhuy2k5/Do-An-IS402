@@ -1,9 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./global.css";
-/* =======================
-   Lazy-loaded pages
-======================= */
+
 import AuthenticatedRoute from "./pages/AuthenticatedRoute.jsx";
 import AuthRoute from "./pages/AuthRoute.jsx";
 const Home = lazy(() => import("./pages/Home.jsx"));
@@ -30,9 +28,7 @@ const TVAVPage = lazy(() => import("./pages/TV-AVPage.jsx"));
 const ComputingPage = lazy(() => import("./pages/ComputingPage.jsx"));
 const GoogleCallback = lazy(() => import("./pages/GoogleCallback.jsx"));
 
-/* =======================
-   App Component
-======================= */
+
 
 function App() {
 
@@ -45,7 +41,7 @@ function App() {
           </div>
         }
       >
-        
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route element={<AuthRoute />}>
@@ -53,8 +49,8 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/auth/callback" element={<GoogleCallback />} />
           </Route>
-          
-          
+
+
           <Route element={<AuthenticatedRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/profile" element={<Profile />} />

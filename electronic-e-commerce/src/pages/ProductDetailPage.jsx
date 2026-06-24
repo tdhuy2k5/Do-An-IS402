@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { addToCart } from "../lib/cartService"; // Sử dụng hàm từ service bạn đã cung cấp
+import { addToCart } from "../lib/cartService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { buildApiUrl, buildImageUrl } from '../lib/url';
@@ -16,11 +16,11 @@ const ProductDetailPage = () => {
     const [mainImage, setMainImage] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
-    // Thêm trạng thái để xử lý khi đang gửi dữ liệu lên server
+
+
     const [isAdding, setIsAdding] = useState(false);
 
-    
+
 
     useEffect(() => {
         if (!product_id) return;
@@ -32,7 +32,7 @@ const ProductDetailPage = () => {
                 if (response.data.success) {
                     const data = response.data.product_variants;
                     const imgs = response.data.images;
-                    
+
                     const parsedVariants = data.map(v => ({
                         ...v,
                         attributes: typeof v.attributes === 'string' ? JSON.parse(v.attributes) : v.attributes,
@@ -42,11 +42,11 @@ const ProductDetailPage = () => {
 
                     setVariants(parsedVariants);
                     setImages(imgs);
-                    
+
                     if (parsedVariants.length > 0) {
                         setSelectedVariant(parsedVariants[0]);
                     }
-                    
+
                     const primary = imgs.find(img => img.is_primary) || imgs[0];
                     setMainImage(primary?.image_url || '');
                 }
@@ -60,17 +60,17 @@ const ProductDetailPage = () => {
         fetchProductDetail();
     }, [product_id]);
 
-    // ============================================
-    // LOGIC THỰC THI THÊM VÀO GIỎ HÀNG
-    // ============================================
+
+
+
     const handleCartAction = async (shouldRedirectToCart = false) => {
-        // Kiểm tra xem người dùng đã chọn cấu hình chưa
+
         if (!selectedVariant) {
             alert("Vui lòng chọn cấu hình sản phẩm.");
             return;
         }
 
-        // Kiểm tra đăng nhập qua access_token (vì route Laravel của bạn nằm trong middleware 'auth:api')
+
         const token = localStorage.getItem("access_token");
         if (!token) {
             alert("Vui lòng đăng nhập để thực hiện tính năng này.");
@@ -80,18 +80,18 @@ const ProductDetailPage = () => {
 
         try {
             setIsAdding(true);
-            
-            // Theo CartController.php, API cần: product_id, variant_id, quantity
+
+
             const result = await addToCart(
-                selectedVariant.product_id, 
-                selectedVariant.variant_id, 
-                1 // Số lượng mặc định là 1
+                selectedVariant.product_id,
+                selectedVariant.variant_id,
+                1
             );
 
-            // Laravel trả về JSON message nếu thành công
+
             if (result.message === "Item added to cart") {
                 if (shouldRedirectToCart) {
-                    navigate('/cart'); // Chuyển sang trang giỏ hàng bạn đã có
+                    navigate('/cart');
                 } else {
                     alert("Đã thêm sản phẩm vào giỏ hàng thành công!");
                 }
@@ -119,33 +119,33 @@ const ProductDetailPage = () => {
     return (
         <div className="bg-white min-h-screen">
             <Navbar isTransparent = {false}/>
-            
+
             <main className="max-w-[1440px] mx-auto px-4 md:px-10 py-24">
                 <div className="flex flex-col lg:flex-row gap-12">
-                    
-                    {/* GALLERY ẢNH */}
+
+                    { }
                     <div className="w-full lg:w-1/2 space-y-4">
                         <div className="aspect-square bg-gray-50 rounded-3xl overflow-hidden flex items-center justify-center p-10 border border-gray-100">
-                            <img 
-                                src={buildImageUrl(mainImage)} 
-                                alt={`${mainImage}`} 
-                                className="max-h-full object-contain transition-transform duration-700 hover:scale-110" 
+                            <img
+                                src={buildImageUrl(mainImage)}
+                                alt={`${mainImage}`}
+                                className="max-h-full object-contain transition-transform duration-700 hover:scale-110"
                             />
                         </div>
 
                         <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
                             {images.map((img, idx) => (
-                                <button 
-                                    key={idx} 
+                                <button
+                                    key={idx}
                                     onClick={() => setMainImage(img.image_url)}
                                     className={`w-20 h-20 flex-shrink-0 rounded-xl border-2 p-1 transition-all ${
                                         mainImage === img.image_url ? 'border-black' : 'border-gray-100'
                                     }`}
                                 >
-                                    <img 
-                                        src={buildImageUrl(img.image_url)} 
-                                        className="w-full h-full object-contain" 
-                                        alt={`Thumbnail ${idx}`} 
+                                    <img
+                                        src={buildImageUrl(img.image_url)}
+                                        className="w-full h-full object-contain"
+                                        alt={`Thumbnail ${idx}`}
                                     />
                                 </button>
                             ))}
@@ -177,8 +177,8 @@ const ProductDetailPage = () => {
                                         key={v.variant_id}
                                         onClick={() => setSelectedVariant(v)}
                                         className={`p-4 rounded-2xl border-2 text-left transition-all ${
-                                            selectedVariant?.variant_id === v.variant_id 
-                                            ? 'border-black bg-black text-white shadow-xl' 
+                                            selectedVariant?.variant_id === v.variant_id
+                                            ? 'border-black bg-black text-white shadow-xl'
                                             : 'border-gray-100 hover:border-gray-300'
                                         }`}
                                     >
@@ -195,15 +195,15 @@ const ProductDetailPage = () => {
 
                         {/* NÚT BẤM TÍCH HỢP LOGIC BACKEND */}
                         <div className="mt-auto flex flex-col gap-3">
-                            <button 
+                            <button
                                 onClick={() => handleCartAction(true)}
                                 disabled={isAdding}
                                 className="w-full bg-black text-white py-5 rounded-2xl font-black text-lg hover:opacity-90 disabled:bg-gray-400"
                             >
                                 {isAdding ? "ĐANG XỬ LÝ..." : "MUA NGAY"}
                             </button>
-                            
-                            <button 
+
+                            <button
                                 onClick={() => handleCartAction(false)}
                                 disabled={isAdding}
                                 className="w-full border-2 border-black text-black py-5 rounded-2xl font-black text-lg hover:bg-black hover:text-white transition-all disabled:border-gray-400 disabled:text-gray-400"

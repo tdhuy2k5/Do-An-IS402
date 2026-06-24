@@ -14,7 +14,7 @@ $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $projectRoot
 
-# Resolve a CA bundle path for MySQL TLS.
+
 $candidates = @(
     'C:\Program Files\Git\usr\ssl\certs\ca-bundle.crt',
     'C:\Program Files\Git\mingw64\ssl\certs\ca-bundle.crt',
@@ -27,7 +27,7 @@ if (-not $sslCa) {
     throw "No CA bundle file found. Update candidates in scripts/run-product-etl.ps1."
 }
 
-# Pull DB password securely from Key Vault.
+
 $dbPassword = az keyvault secret show --vault-name $VaultName --name DB-PASSWORD --query value -o tsv
 if (-not $dbPassword) {
     throw "Could not read DB-PASSWORD from Key Vault '$VaultName'. Ensure 'az login' and access permissions are valid."

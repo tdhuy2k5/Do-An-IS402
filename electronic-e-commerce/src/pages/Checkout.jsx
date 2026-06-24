@@ -6,9 +6,9 @@ import Footer from "../components/Footer";
 import { getCart, clearCart } from "../lib/cartService";
 import api from "../lib/api";
 
-// Order Summary Sidebar
+
 const OrderSummary = ({ cartItems, subtotal, discount, promoCode, promoInput, setPromoInput, onApplyPromo, isApplyingPromo, user, onPlaceOrder, isSubmitting }) => {
-  const shipping = 10; // $10 shipping fee
+  const shipping = 10;
   const total = Math.max(0, subtotal - discount + shipping);
   const rewardPoints = Math.floor(total * (user?.point_per_dollar || 1));
 
@@ -27,7 +27,7 @@ const OrderSummary = ({ cartItems, subtotal, discount, promoCode, promoInput, se
             <div key={item.cart_item_id} className="flex gap-3 mb-3">
               <div className="w-16 h-16 bg-gray-100 rounded flex items-center justify-center flex-shrink-0">
                 <img
-                  src={item.image_url || "https://via.placeholder.com/64"}
+                  src={item.image_url || "https:
                   alt={item.product_name}
                   className="max-w-full max-h-full object-contain"
                 />
@@ -102,7 +102,7 @@ const OrderSummary = ({ cartItems, subtotal, discount, promoCode, promoInput, se
         </div>
       </div>
 
-      {/* Total */}
+      { }
       <div className="border-t border-gray-200 pt-4">
         <div className="flex justify-between">
           <span className="text-lg font-bold">Estimated Total</span>
@@ -110,7 +110,7 @@ const OrderSummary = ({ cartItems, subtotal, discount, promoCode, promoInput, se
         </div>
       </div>
 
-      {/* Samsung Rewards */}
+      { }
       {user && (
         <div className="border-t border-gray-200 pt-4 mt-4">
           <div className="flex items-start gap-3">
@@ -234,7 +234,7 @@ const Checkout = () => {
       const response = await api.get(`/auth/check-coupon?code=${promoInput}`);
       if (response.data.exists && response.data.promotion) {
         const promo = response.data.promotion;
-        
+
         // Check if already applied
         if (promoCodes.includes(promo.promotion_code)) {
           alert("This promo code is already applied");
@@ -243,7 +243,7 @@ const Checkout = () => {
 
         setPromoCode(promo);
         setPromoCodes(prev => [...prev, promo.promotion_code]);
-        
+
         let discountAmount = 0;
         if (promo.discount_type === "percentage") {
           discountAmount = (subtotal * parseFloat(promo.discount_value)) / 100;
@@ -266,7 +266,7 @@ const Checkout = () => {
   // Validate form
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.receiver_name.trim()) newErrors.receiver_name = "Name is required";
     if (!formData.receiver_phone.trim()) newErrors.receiver_phone = "Phone number is required";
     if (!formData.city.trim()) newErrors.city = "City is required";
@@ -293,11 +293,11 @@ const Checkout = () => {
       };
 
       const response = await api.post("/auth/create-order", orderData);
-      
+
       if (response.data.order_id) {
         // Clear cart after successful order
         await clearCart();
-        
+
         // Navigate to order confirmation
         navigate(`/order-success?order_id=${response.data.order_id}`);
       }
@@ -493,7 +493,7 @@ const Checkout = () => {
                 </p>
               </div>
 
-              {/* Order Notes */}
+              { }
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
                   <FileText className="w-5 h-5" />
@@ -511,7 +511,7 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* Right - Order Summary */}
+            { }
             <div className="lg:col-span-1">
               <OrderSummary
                 cartItems={cartItems}
@@ -527,7 +527,7 @@ const Checkout = () => {
                 isSubmitting={isSubmitting}
               />
 
-              {/* Info Cards */}
+              { }
               <div className="mt-4 space-y-3">
                 <div className="bg-gray-900 text-white rounded-lg p-4 text-center">
                   <p className="text-sm">

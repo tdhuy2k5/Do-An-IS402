@@ -5,8 +5,9 @@ metadata:
   labels:
     {{- include "esapp.labels" . | nindent 4 }}
 spec:
-  # No replicas field here: dynamically scaled by HPA
-  
+  revisionHistoryLimit: 3
+
+
   selector:
     matchLabels:
       {{- include "esapp.selectorLabels" . | nindent 6 }}
@@ -45,9 +46,9 @@ spec:
             volumeAttributes:
               secretProviderClass: {{ include "esapp.fullname" . }}-kv-provider
 
-  # =======================================================================
-  # PROGRESSIVE DELIVERY (CANARY STRATEGY)
-  # =======================================================================
+
+
+
   strategy:
     canary:
       steps:

@@ -7,11 +7,11 @@ resource "azurerm_mysql_flexible_server" "main" {
   sku_name               = var.mysql_sku_name
   version                = var.mysql_version
 
-  
+
   delegated_subnet_id = azurerm_subnet.database.id
   private_dns_zone_id = azurerm_private_dns_zone.mysql.id
 
-  # Ensure the DNS zone link is fully created before deploying the server
+
   depends_on = [azurerm_private_dns_zone_virtual_network_link.mysql]
 
   lifecycle {
@@ -25,7 +25,7 @@ resource "azurerm_mysql_flexible_server" "main" {
   tags = local.common_tags
 }
 
-# Database for the app
+
 resource "azurerm_mysql_flexible_database" "app" {
   name                = "esapp"
   resource_group_name = data.azurerm_resource_group.main.name
@@ -34,10 +34,10 @@ resource "azurerm_mysql_flexible_database" "app" {
   collation           = "utf8mb4_unicode_ci"
 }
 
-# Enable Audit Log for security and compliance
+
 resource "azurerm_mysql_flexible_server_configuration" "audit_log" {
   name                = "audit_log_events"
   resource_group_name = data.azurerm_resource_group.main.name
   server_name         = azurerm_mysql_flexible_server.main.name
-  value               = "CONNECTION,DDL,DML_NONSELECT,DML_SELECT" # ✅ đúng enum Azure
+  value               = "CONNECTION,DDL,DML_NONSELECT,DML_SELECT"
 }

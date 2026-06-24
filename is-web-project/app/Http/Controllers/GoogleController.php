@@ -29,12 +29,12 @@ class GoogleController extends Controller
                 'redirectUri' => env('GOOGLE_REDIRECT_URI'),
             ]);
 
-            // Exchange authorization code for access token
+
             $token = $provider->getAccessToken('authorization_code', [
                 'code' => $validated['code'],
             ]);
 
-            // Get user information from Google
+
             $gg_user = $provider->getResourceOwner($token)->toArray();
 
             if (empty($gg_user['email'])) {
@@ -44,7 +44,7 @@ class GoogleController extends Controller
                 ], 400);
             }
 
-            // Create or get existing user
+
             $user = User::firstOrCreate([
                 'email' => $gg_user['email'],
             ], [
@@ -52,16 +52,16 @@ class GoogleController extends Controller
                 'full_name' => $gg_user['name'] ?? $gg_user['email'],
             ]);
 
-            // Ensure user has member role
+
             if (! $user->roles()->count()) {
                 $user->roles()->attach('member');
             }
 
-            // Generate JWT token
+
             $jwtToken = JWTAuth::fromUser($user);
             $refreshToken = $this->refreshTokenRepository->generateRefreshTokenForUser($user);
 
-            // Load user's roles
+
             $user->load('roles');
 
             return response()->json([

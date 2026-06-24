@@ -8,6 +8,7 @@ metadata:
     reloader.stakater.com/auto: "true"
 
 spec:
+  revisionHistoryLimit: 3
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
@@ -53,7 +54,7 @@ spec:
               containerPort: 5173
               protocol: TCP
 
-          # ✅ FIXED CONFIGMAP MAPPING (this is the important part)
+
           envFrom:
             - configMapRef:
                 name: {{ include "esappfe.fullname" . }}-config

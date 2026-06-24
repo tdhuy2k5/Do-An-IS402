@@ -13,7 +13,7 @@ const Search = () => {
   const searchRef = useRef(null);
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseFloat(amount) || '');
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseFloat(amount) || ''Ctrl + Shift + XCtrl + Shift + XCtrl + Shift + X);
   };
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Search = () => {
           onChange={(e) => setKeyword(e.target.value)}
           onFocus={() => keyword.length > 1 && setShowDropdown(true)}
         />
-        {loading ? <Loader2 size={16} className="animate-spin text-gray-400" /> : 
+        {loading ? <Loader2 size={16} className="animate-spin text-gray-400" /> :
          keyword && <X size={18} className="cursor-pointer text-gray-400 hover:text-black" onClick={() => setKeyword("")} />}
       </div>
 
@@ -69,7 +69,7 @@ const Search = () => {
             <>
               <div className="max-h-[400px] overflow-y-auto">
                 {results.map((item) => (
-                  <div 
+                  <div
                     key={item.product_id}
                     onClick={() => { navigate(`/product/${item.product_id}`); setShowDropdown(false); }}
                     className="flex items-start gap-4 p-4 hover:bg-blue-50 cursor-pointer border-b border-gray-50 last:border-none"
@@ -82,7 +82,7 @@ const Search = () => {
                   </div>
                 ))}
               </div>
-              <div 
+              <div
                 className="p-3 text-center text-xs font-black text-white bg-black hover:bg-gray-800 cursor-pointer transition-all uppercase"
                 onClick={() => {
                     // ĐÃ SỬA: Điều hướng sang resultsearch
